@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    background: #544;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;   
+    background:rgb(220,240,240);
+}
+
+input{
+    display: block;
+}
+
+
+.loginForm{
+    margin: 0 auto;
+    text-align: center;
+    color: black;
+    width: 40%;
+}
+
+.loginElements{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+
+.loginForm  .loginElements{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.labelsForm{
+    float: left;
+    text-align: left;
+    margin-right: 100px;
+    margin-bottom: 0.2em;
+    color: wheat;
+}
+
+.headerCinema{
+    padding: 3em;
+    padding-top: 2em;
+    font-size: 2em;
+    text-align: center;
+    margin:0 auto;
+    color:rgb(225,240,240);
+}
+
+.submitLogin{
+    background-color:rgb(240, 255, 255);
+    border: none;
+    color: rgb(20,40,50);
+    padding: 20px;
+    text-align: center;
+    display: inline-block;
+    width: 10em;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 10%;
+}
+
+.submitLogin:hover{
+    background-color: rgb(220,240,240);
+}
+
+.footerText{
+    text-align: center;
+    position: absolute;
+    bottom: 1px;
+    margin: 0 auto;
+}

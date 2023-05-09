@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    background-color: bisque;
+}
+
+input{
+    display: block;
+}
+
+button{
+    border-radius: 50%;
+}
+
+div > div {
+    color:blue;
+}
