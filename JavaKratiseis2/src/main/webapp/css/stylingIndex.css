@@ -1,0 +1,70 @@
+body {
+    background-color: #050A0C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #543C8C;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.user-already-exists{
+    color: red;
+    padding: 1em;
+    margin-bottom: 15px;
+}
+
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #543C8C;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register-link {
+    margin-top: 15px;
+    color: #543C8C;
+}
+
+.register-link a {
+    color: #543C8C;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+#error-message {
+    color: red;
+    font-size: 14px;
+    margin: 5px;
+
+}
+
