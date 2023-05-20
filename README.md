@@ -1,2 +1,2 @@
 # JavaKratiseis2Personal
-Java Servlets Web app
+Web app
