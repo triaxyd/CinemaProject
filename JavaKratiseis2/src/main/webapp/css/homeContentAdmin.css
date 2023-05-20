@@ -1,0 +1,185 @@
+body {
+    background-color: #100505;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5em;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4em;
+}
+
+.button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.button:hover {
+    box-shadow: 0 16px 32px rgba(255, 255, 255, 0.2);
+}
+
+
+/* CSS for Movie List */
+.display-movies-container ul,
+.display-cinemas-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.display-movies-container li,
+.display-cinemas-container li{
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.display-movies-container li::before,
+.display-cinemas-container li::before{
+    content: "• ";
+    color: #FF0000;
+}
+
+
+.show-form {
+    display: none;
+    margin-top: 50em;
+    padding: 3em;
+    background-color: rgba(50, 30, 30);
+    border: 1px solid #AAA;
+    border-radius: 2px;
+}
+
+.show-form.active {
+    margin-top: 50em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    text-align: center;
+}
+
+.form-info{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.form-container {
+    margin-top: 2em;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form input[type="submit"] {
+    margin-top: 3em;
+    border-radius: 2px;
+    border: #050A0C;
+    width: 60%;
+    background: #ffefef;
+}
+
+.form input[type="submit"]:hover{
+    background-color: #fff;
+}
+
+.form input {
+    width: 75%;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.logout-button {
+    z-index: 999;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.logout-button:hover {
+    box-shadow: 0 16px 32px rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 999;
+}
+
+
+.user-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 999;
+}
+
+.user-info .welcome,
+.user-info .user-id{
+    display: block;
+    margin: 10px 0;
+}
+
+.message-insert,
+.message-assign,
+.message-delete{
+    color: #A05050;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
