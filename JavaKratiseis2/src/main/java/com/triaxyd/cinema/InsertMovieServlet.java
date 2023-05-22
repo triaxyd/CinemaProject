@@ -25,7 +25,7 @@ public class InsertMovieServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        String title = request.getParameter("title");
+        String title = request.getParameter("title").toUpperCase();
         String content = request.getParameter("content");
         String sLength = request.getParameter("length");
         String type = request.getParameter("type");
@@ -33,12 +33,13 @@ public class InsertMovieServlet extends HttpServlet {
         String director  = request.getParameter("director");
         String content_admin_ID = request.getParameter("content_admin_id");
 
-        int id = generateMovieID(title,content_admin_ID);
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        int id = cinemaDAO.generateID(title,content_admin_ID);
 
         int content_admin_id = Integer.parseInt(content_admin_ID);
         int length = Integer.parseInt(sLength);
 
-        Users user = ((ContentAdmins)session.getAttribute("user"));
+        Users user = (ContentAdmins)session.getAttribute("user");
         Movies movie = ((ContentAdmins) user).insertMovie(id,title,content,length,type,summary,director,content_admin_id);
         String destPage="/jsp/homeContentAdmin.jsp";
         if(movie!=null){
@@ -50,29 +51,5 @@ public class InsertMovieServlet extends HttpServlet {
         dispatcher.forward(request,response);
     }
 
-    public static int generateMovieID(String title, String content_admin_ID) {
-        String combination = (title.toUpperCase().trim() + "" + content_admin_ID).trim();
-        byte[] hashBytes = getSHA256Hash(combination);
-        return bytesToInt(hashBytes);
-    }
-
-    private static byte[] getSHA256Hash(String combination) {
-        byte[] digested = new byte[0];
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return digest.digest(combination.getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            //error
-        }
-        return digested;
-    }
-
-    private static int bytesToInt(byte[] bytes) {
-        int result = 0;
-        for (byte b : bytes) {
-            result = (result << 8) | (b & 0xFF);
-        }
-        return Math.abs(result);
-    }
 
 }

@@ -20,6 +20,32 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 4em;
+    margin: 5em;
+}
+
+
+#movies,
+#cinemas,
+#provoles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    background: #160808;
+}
+
+
+h2{
+    font-size: 2em;
+    padding: 0em 2em 2em 2em;
+    text-align: center;
+    text-shadow: 5px 5px 5px #522;
+}
+
+hr{
+    width: 100%;
+    margin: 5em;
 }
 
 .button {
@@ -39,30 +65,80 @@ body {
 }
 
 
-/* CSS for Movie List */
 .display-movies-container ul,
-.display-cinemas-container ul {
+.display-cinemas-container ul,
+.display-provoles-container ul{
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .display-movies-container li,
-.display-cinemas-container li{
+.display-cinemas-container li,
+.display-provoles-container li{
+    color: #942;
+    text-transform: uppercase;
     margin-bottom: 10px;
     font-size: 18px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
 }
 
-.display-movies-container li::before,
-.display-cinemas-container li::before{
-    content: "• ";
-    color: #FF0000;
+
+
+.display-movies-container .movie-box,
+.display-cinemas-container .cinema-box,
+.display-provoles-container .provoli-box{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+
+.display-movies-container .movie-info,
+.display-cinemas-container .cinema-info,
+.display-provoles-container .provoli-info{
+    margin-top: 10px;
+    width:100%;
+}
+
+.display-movies-container .movie-id,
+.display-movies-container .movie-title,
+.display-movies-container .movie-content-admin,
+.display-cinemas-container .cinema-name,
+.display-cinemas-container .cinema-id,
+.display-cinemas-container .cinema-seats,
+.display-cinemas-container .cinema-3d,
+.display-provoles-container .provoli-movie-id,
+.display-provoles-container .provoli-movie-name,
+.display-provoles-container .provoli-cinema-id,
+.display-provoles-container .provoli-id,
+.display-provoles-container .provoli-content-admin{
+    font-weight: bold;
+    margin-right: 10px;
+}
+.display-movies-container .movie-title,
+.display-cinemas-container .cinema-name,
+.display-provoles-container .provoli-id{
+    color: #ffffff;
+    font-size: 1.2em;
+    font-style: italic;
+    text-decoration: underline;
 }
 
 
 .show-form {
     display: none;
-    margin-top: 50em;
+    margin: 10em;
     padding: 3em;
     background-color: rgba(50, 30, 30);
     border: 1px solid #AAA;
@@ -70,7 +146,7 @@ body {
 }
 
 .show-form.active {
-    margin-top: 50em;
+    margin: 10em;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,8 +1,11 @@
 package com.triaxyd.cinema;
 
 import com.triaxyd.database.DatabaseConnector;
-import jakarta.servlet.RequestDispatcher;
 
+import javax.xml.crypto.Data;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,14 +15,44 @@ import java.util.List;
 
 public class CinemaDAO {
 
-    public boolean checkMovie(int id, String title, int content_admin_id){
+
+    public int generateID(String x, String y) {
+        String combination = (x.toUpperCase().trim() + "" + y.toUpperCase()).trim();
+        byte[] hashBytes = getSHA256Hash(combination);
+        return bytesToInt(hashBytes);
+    }
+    public int generateID(String x, String y,String z) {
+        String combination = (x.toUpperCase().trim() + "" + y.toUpperCase() +"" + z.toUpperCase()).trim();
+        byte[] hashBytes = getSHA256Hash(combination);
+        return bytesToInt(hashBytes);
+    }
+    private byte[] getSHA256Hash(String combination) {
+        byte[] digested = new byte[0];
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return digest.digest(combination.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {
+            //error
+        }
+        return digested;
+    }
+    private int bytesToInt(byte[] bytes) {
+        int result = 0;
+        for (byte b : bytes) {
+            result = (result << 8) | (b & 0xFF);
+        }
+        return Math.abs((result));
+    }
+
+
+
+
+    public boolean checkMovieExists(int id){
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * FROM movies WHERE ID=? AND NAME=? AND CONTENT_ADMIN_ID=?";
+            String sql = "SELECT * FROM movies WHERE ID=?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,id);
-            ps.setString(2,title);
-            ps.setInt(3,content_admin_id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 //movie already exists
@@ -27,11 +60,66 @@ public class CinemaDAO {
             }
             return false;
         }catch(SQLException e){
-
+            e.printStackTrace();
         }
         return true;
     }
 
+    public boolean checkCinemaExists(int cinemaId){
+        try{
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT * FROM cinemas WHERE ID = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,cinemaId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                //cinema exists
+                return true;
+            }
+            return false;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean checkProvoliExists(String movieId,String cinemaId,int contentAdminId){
+        if ((checkMovieExists(Integer.parseInt(movieId)) && checkCinemaExists(Integer.parseInt(cinemaId)))) return false;
+        String movieName = null;
+        for(Movies movie : getMovies()){
+            if(movie.getMovieID()==Integer.parseInt(movieId)){
+                movieName = movie.getMovieTitle();
+            }
+        }
+        try{
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ? AND CONTENT_ADMIN_ID = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,Integer.parseInt(movieId));
+            ps.setString(2,movieName);
+            ps.setInt(2,Integer.parseInt(cinemaId));
+            ps.setInt(3,contentAdminId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+
+    public Movies getMovie(int movieId){
+        for (Movies m : getMovies()){
+            if(m.getMovieID()==movieId){
+                return m;
+            }
+        }
+        return null;
+    }
 
     public static List<Movies> getMovies(){
         List<Movies> movies = new ArrayList<>();
@@ -42,14 +130,14 @@ public class CinemaDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Movies movie = new Movies();
-                movie.setFilmId(rs.getInt("ID"));
-                movie.setFilmTitle(rs.getString("NAME"));
-                movie.setFilmContent(rs.getString("CONTENT"));
-                movie.setFilmLength(rs.getInt("LENGTH"));
-                movie.setFilmType(rs.getString("TYPE"));
-                movie.setFilmSummary(rs.getString("SUMMARY"));
-                movie.setFilmDirector(rs.getString("DIRECTOR"));
-                movie.setFilmContentAdminID(rs.getInt("CONTENT_ADMIN_ID"));
+                movie.setMovieID(rs.getInt("ID"));
+                movie.setMovieTitle(rs.getString("NAME"));
+                movie.setMovieContent(rs.getString("CONTENT"));
+                movie.setMovieLength(rs.getInt("LENGTH"));
+                movie.setMovieType(rs.getString("TYPE"));
+                movie.setMovieSummary(rs.getString("SUMMARY"));
+                movie.setMovieDirector(rs.getString("DIRECTOR"));
+                movie.setMovieContentAdminID(rs.getInt("CONTENT_ADMIN_ID"));
                 movies.add(movie);
             }
             rs.close();
@@ -85,6 +173,32 @@ public class CinemaDAO {
 
         }
         return cinemas;
+    }
 
+
+    public static List<Provoles> getProvoles(){
+        List<Provoles> provoles= new ArrayList<Provoles>();
+        try{
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT * from provoles";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Provoles provoli = new Provoles();
+                provoli.setMoviesId(rs.getInt("MOVIES_ID"));
+                provoli.setMoviesName(rs.getString("MOVIES_NAME"));
+                provoli.setCinemaId(rs.getInt("CINEMAS_ID"));
+                provoli.setId(rs.getInt("ID"));
+                provoli.setContentAdminId(rs.getInt("CONTENT_ADMIN_ID"));
+
+                provoles.add(provoli);
+            }
+            rs.close();
+            ps.close();
+            connection.close();
+        }catch(SQLException e){
+
+        }
+        return provoles;
     }
 }

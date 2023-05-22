@@ -6,52 +6,41 @@ import java.util.List;
 
 
 public class Provoles implements Serializable {
-    private static final long serialVersionUID = -756982741976214996L; //fix serialize/deserialize error
-    private List<Reservations> reservations;
-    private int provoliId,provoliNumberOfReservations,provoliSeatsLeft;
-    private String provoliFilm,provoliCinema,provoliStartDate,provoliEndDate;
-    private boolean provoliIsAvailable;
+    //private static final long serialVersionUID = -756982741976214996L; //fix serialize/deserialize error
+    //private List<Reservations> reservations;
+    //provoliNumberOfReservations,provoliSeatsLeft , provoliFilm,provoliCinema,provoliStartDate,provoliEndDate ,provoliIsAvailable
+
+    private int moviesId,cinemaId,contentAdminId,id;
+
+    private String moviesName;
+
+    public Provoles(){}
 
     public Provoles(Cinemas cinema, Movies film){
+        /*
         reservations = new ArrayList<>();
         provoliIsAvailable = true;
-        provoliFilm= film.getFilmTitle();
+        provoliFilm= film.getMovieTitle();
         provoliCinema= cinema.getCinemaName();
         //provoliSeatsLeft = cinema.getCinemaSeats();
+
+         */
     }
 
-    public void setProvoliId(int provoliId) { this.provoliId = provoliId;}
-    public void setProvoliStartDate(String provoliStartDate) { this.provoliStartDate = provoliStartDate;}
-    public void setProvoliEndDate(String provoliEndDate){
-        this.provoliEndDate = provoliEndDate;
-    }
-    public void setProvoliIsAvailable(boolean provoliIsAvailable){
-        this.provoliIsAvailable = provoliIsAvailable;
-    }
-    public void setProvoliNumberOfReservations(int provoliNumberOfReservations){this.provoliNumberOfReservations = provoliNumberOfReservations;}
-    public void setProvoliNumberOfSeatsLeft(int numberOfSeatsLeft) { this.provoliSeatsLeft = numberOfSeatsLeft;}
 
-    public int getProvoliId() { return provoliId;}
-    public int getProvoliNumberOfReservations(){ return provoliNumberOfReservations;}
-    public int getProvoliNumberOFSeatsLeft(){ return provoliSeatsLeft;}
-    public String getProvoliStartDate(){ return provoliStartDate;}
-    public String getProvoliEndDate(){ return provoliEndDate;}
-    public String getProvoliFilm(){
-        return provoliFilm;
-    }
-    public String getProvoliCinema(){
-        return provoliCinema;
-    }
-    public boolean getProvoliIsAvailable(){return provoliIsAvailable;}
+    public void setMoviesId(int moviesId){this.moviesId=moviesId;}
+    public void setCinemaId(int cinemaId){this.cinemaId=cinemaId;}
+    public void setContentAdminId(int contentAdminId){this.contentAdminId = contentAdminId;}
+    public void setId(int id){this.id=id;}
+    public void setMoviesName(String moviesName){this.moviesName=moviesName;}
 
-    //public List<Reservations> getReservations(){return reservations;}
+    public int getMoviesId(){return this.id;}
+    public int getCinemaId(){return this.cinemaId;}
+    public int getContentAdminId(){return this.contentAdminId;}
+    public int getId(){return this.id;}
+    public String getMoviesName(){return this.moviesName;}
 
-    public void addReservation(Reservations reservation){
-        reservations.add(reservation);
-        if(getProvoliNumberOFSeatsLeft()<1){
-            provoliIsAvailable = false;
-        }
-    }
+
 
 
 

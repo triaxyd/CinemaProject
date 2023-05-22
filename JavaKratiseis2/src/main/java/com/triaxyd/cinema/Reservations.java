@@ -12,8 +12,8 @@ public class Reservations  implements Serializable {
         this.user = user;
         this.provoli = provoli;
         this.seats = seats;
-        provoli.setProvoliNumberOfSeatsLeft(provoli.getProvoliNumberOFSeatsLeft()-seats);
-        provoli.setProvoliNumberOfReservations(provoli.getProvoliNumberOfReservations() + seats);
+        //provoli.setProvoliNumberOfSeatsLeft(provoli.getProvoliNumberOFSeatsLeft()-seats);
+        //provoli.setProvoliNumberOfReservations(provoli.getProvoliNumberOfReservations() + seats);
     }
 
     public Users getUser(){

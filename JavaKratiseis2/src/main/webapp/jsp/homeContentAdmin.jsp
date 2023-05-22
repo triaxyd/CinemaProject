@@ -5,12 +5,12 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.triaxyd.cinema.CinemaDAO" %>
 <%@ page import="com.triaxyd.cinema.Cinemas" %>
+<%@ page import="com.triaxyd.cinema.Provoles" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>CIN3MAS CONTENT ADMIN</title>
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/homeContentAdmin.css">
-
 </head>
 <body>
 <%
@@ -38,11 +38,11 @@
     }
     List<Movies> moviesList = CinemaDAO.getMovies();
     List<Cinemas> cinemasList = CinemaDAO.getCinemas();
+    List<Provoles> provolesList = CinemaDAO.getProvoles();
 %>
 <input class="logout-button" type="button" value="LOGOUT" onclick="location.href='${pageContext.request.contextPath}/LogOut';">
 <div class="user-info">
-    <div class="welcome">WELCOME <%=userName%></div>
-    <div class="user-id">YOUR ID: <%=userId%></div>
+    <div class="welcome"><%=userId+"."%><%=userName%></div>
 </div>
 <div class="container">
     <div class="button-container">
@@ -50,32 +50,64 @@
         <button id="assign" class="button">ASSIGN MOVIE TO CINEMA</button>
         <button id="delete" class="button">DELETE MOVIE</button>
     </div>
+    <hr>
 
     <section id="movies">
-        <h2>Movies</h2>
+        <h2>MOVIES</h2>
         <div class="display-movies-container">
             <ul>
                 <% for (Movies movie : moviesList) { %>
-                <li><%= movie.getFilmId()+"."+movie.getFilmTitle() %></li>
+                <li class="movie-box">
+                    <div class="movie-info">
+                        <span class="movie-title"><%= movie.getMovieTitle() %></span><br>
+                        <span class="movie-id">ID: </span><span><%= movie.getMovieID()%></span><br>
+                        <span class="movie-content-admin">ADDED BY C_A: </span><span><%= movie.getMovieContentAdminID() %></span>
+                    </div>
+                </li>
                 <% } %>
             </ul>
         </div>
     </section>
+    <hr>
 
     <section id="cinemas">
-        <h2>Cinemas</h2>
+        <h2>CINEMAS</h2>
         <div class="display-cinemas-container">
             <ul>
                 <% for (Cinemas cinema : cinemasList) { %>
-                <li><%= cinema.getCinemaId()+"."+cinema.getCinemaName() +" - " + cinema.getCinemaSeats() + " - " + cinema.getCinemaIs3d() %></li>
+                <li class="cinema-box">
+                    <div class="cinema-info">
+                        <span class="cinema-name"><%= cinema.getCinemaName() %></span><br>
+                        <span class="cinema-id">ID:</span><span><%= cinema.getCinemaId()%></span><br>
+                        <span class="cinema-seats">SEATS:</span><span><%= cinema.getCinemaSeats()%></span><br>
+                        <span class="cinema-3d">3D:</span><span><%= cinema.getCinemaIs3d() %></span>
+                    </div>
+                </li>
                 <% } %>
             </ul>
         </div>
     </section>
+    <hr>
 
     <section id="provoles">
-
+        <h2>PROVOLES</h2>
+        <div class="display-provoles-container">
+            <ul>
+                <% for (Provoles provoli : provolesList ) { %>
+                <li class="provoli-box">
+                    <div class="provoli-info">
+                        <span class="provoli-id"><%= provoli.getId()%></span><br>
+                        <span class="provoli-movie-id">MOVIE ID: </span><span><%= provoli.getMoviesId()%></span><br>
+                        <span class="provoli-movie-name">MOVIE: </span><span><%= provoli.getMoviesName()%></span><br>
+                        <span class="provoli-cinema-id">CINEMA: </span><span><%= provoli.getCinemaId()%></span><br>
+                        <span class="provoli-content-admin">ADDED BY C_A:  </span><span><%= provoli.getContentAdminId() %></span>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+        </div>
     </section>
+    <hr>
 
     <div class="show-form" id="show-form-insert">
         <div class="form-info"></div>
@@ -97,9 +129,10 @@
     <div class="show-form" id="show-form-assign">
         <div class="form-info"></div>
         <div class="form-container">
-            <form id="assignMovie" class="form" action="#" method="post">
+            <form id="assignMovie" class="form" action="${pageContext.request.contextPath}/AssignMovieToCinema" method="post">
                 <div class="message-assign">${messageassign}</div>
-                <input type="text" placeholder="Movie ID">
+                <input type="text" name="movie-id" id="movie-id" placeholder="Movie ID">
+                <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID">
                 <input type="submit" id="submitAssign" value="ASSIGN">
             </form>
         </div>
@@ -111,8 +144,10 @@
             <form id="deleteMovie" class="form" action="#" method="post">
                 <div class="message-delete">${messagedelete}</div>
                 <input type="text" placeholder="Movie ID">
-                <input type="text" placeholder="Cinema ID">
                 <input type="text" placeholder="Movie Title">
+                <input type="text" placeholder="Cinema ID">
+                <input type = "text" placeholder="Provoli ID">
+                <input type="text" placeholder="Content Admin ID">
                 <input type="submit" id="submitDelete" value="DELETE">
             </form>
         </div>
@@ -121,6 +156,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="<%= request.getContextPath() %>/js/homeContentAdmin.js"></script>
+
 </body>
 </html>
 
