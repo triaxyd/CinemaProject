@@ -121,6 +121,44 @@ section h2 {
     padding: 20px;
 }
 
+.welcome{
+    font-size: 1.5em;
+}
+
+
+.display-movies-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.display-movies-container li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.display-movies-container .provoli-movie-name {
+    font-size: 24px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.display-movies-container .provoli-info {
+    display: none;
+    flex-direction: column;
+    color: #B88;
+    margin-left: 20px;
+}
+
+.display-movies-container .provoli-info span {
+    margin-bottom: 5px;
+}
+
+.display-movies-container .provoli-info.active {
+    display: flex;
+}
+
 
 
 

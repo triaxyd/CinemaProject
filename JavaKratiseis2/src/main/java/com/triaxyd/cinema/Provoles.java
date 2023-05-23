@@ -34,7 +34,7 @@ public class Provoles implements Serializable {
     public void setId(int id){this.id=id;}
     public void setMoviesName(String moviesName){this.moviesName=moviesName;}
 
-    public int getMoviesId(){return this.id;}
+    public int getMoviesId(){return this.moviesId;}
     public int getCinemaId(){return this.cinemaId;}
     public int getContentAdminId(){return this.contentAdminId;}
     public int getId(){return this.id;}

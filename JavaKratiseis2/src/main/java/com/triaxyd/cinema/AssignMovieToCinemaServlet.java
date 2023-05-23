@@ -17,16 +17,23 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         String movieId = request.getParameter("movie-id");
         String cinemaId = request.getParameter("cinema-id");
 
         HttpSession session = request.getSession(false);
         Users user = (ContentAdmins)session.getAttribute("user");
         Provoles provoli = ((ContentAdmins) user).assignMovieToCinema(movieId,cinemaId);
-        if (provoli!=null){
+
+        String destPage = "/jsp/homeContentAdmin.jsp";
+        if (provoli!=null && session.getAttribute("user")!=null){
             //provoli added
+            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
+            dispatcher.forward(request,response);
         }else{
             //provoli couldn't be inserted
+            response.sendRedirect(request.getContextPath()+destPage);
         }
     }
 }

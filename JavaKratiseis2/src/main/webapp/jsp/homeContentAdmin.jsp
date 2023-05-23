@@ -112,14 +112,14 @@
     <div class="show-form" id="show-form-insert">
         <div class="form-info"></div>
         <div class="form-container">
-            <form id="insertMovie" class="form" action="${pageContext.request.contextPath}/InsertMovie" method="post">
-                <div class="message-insert">${messageinsert}</div>
-                <input type="text" name="title" id="title" placeholder="Movie Title">
-                <input type="text" name="content" id="content" placeholder="Content">
-                <input type="text" name="length" id="length" placeholder="Length (minutes)">
-                <input type="text" name="type" id="type" placeholder="Type">
-                <input type="text" name="summary" id="summary" placeholder="Summary">
-                <input type="text" name="director" id="director" placeholder="Director">
+            <form id="insertMovie" name="insertMovie" class="form" action="${pageContext.request.contextPath}/InsertMovie" method="post">
+                <div class="message-insert" id="message-insert">${messageinsert}</div>
+                <input type="text" name="title" id="title" placeholder="Movie Title" maxlength="45" >
+                <input type="text" name="content" id="content" placeholder="Content" maxlength="45">
+                <input type="text" name="length" id="length" placeholder="Length (minutes)" maxlength="3">
+                <input type="text" name="type" id="type" placeholder="Type" maxlength="45">
+                <input type="text" name="summary" id="summary" placeholder="Summary" maxlength="255">
+                <input type="text" name="director" id="director" placeholder="Director" maxlength="45">
                 <input type="hidden" name="content_admin_id" id="content_admin_id" value="<%=String.valueOf(user.getId())%>">
                 <input type="submit" id="submitInsert" value="INSERT">
             </form>
@@ -129,10 +129,10 @@
     <div class="show-form" id="show-form-assign">
         <div class="form-info"></div>
         <div class="form-container">
-            <form id="assignMovie" class="form" action="${pageContext.request.contextPath}/AssignMovieToCinema" method="post">
-                <div class="message-assign">${messageassign}</div>
-                <input type="text" name="movie-id" id="movie-id" placeholder="Movie ID">
-                <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID">
+            <form id="assignMovie" name="assignMovie" class="form" action="${pageContext.request.contextPath}/AssignMovieToCinema" method="post">
+                <div class="message-assign"></div>
+                <input type="text" name="movie-id" id="movie-id" placeholder="Movie ID" maxlength="10">
+                <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID" maxlength="10">
                 <input type="submit" id="submitAssign" value="ASSIGN">
             </form>
         </div>
@@ -141,13 +141,13 @@
     <div class="show-form" id="show-form-delete">
         <div class="form-info"></div>
         <div class="form-container">
-            <form id="deleteMovie" class="form" action="#" method="post">
+            <form id="deleteMovie" name="deleteMovie" class="form" action="#" method="post">
                 <div class="message-delete">${messagedelete}</div>
-                <input type="text" placeholder="Movie ID">
-                <input type="text" placeholder="Movie Title">
-                <input type="text" placeholder="Cinema ID">
-                <input type = "text" placeholder="Provoli ID">
-                <input type="text" placeholder="Content Admin ID">
+                <input type="text" placeholder="Movie ID" maxlength="10">
+                <input type="text" placeholder="Movie Title" maxlength="45">
+                <input type="text" placeholder="Cinema ID" maxlength="10">
+                <input type = "text" placeholder="Provoli ID" maxlength="10">
+                <input type="text" placeholder="Content Admin ID" maxlength="100">
                 <input type="submit" id="submitDelete" value="DELETE">
             </form>
         </div>

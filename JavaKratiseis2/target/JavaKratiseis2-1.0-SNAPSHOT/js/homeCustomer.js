@@ -10,3 +10,19 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+
+function toggleMovieInfo(element) {
+    var movieInfo = element.parentElement.querySelector(".provoli-info");
+    //var movieInfoElements = document.getElementsByClassName("provoli-info");
+
+    /*
+    for (var i = 0; i < movieInfoElements.length; i++) {
+        if (movieInfoElements[i] !== movieInfo) {
+            movieInfoElements[i].classList.remove("active");
+        }
+    }
+
+     */
+    movieInfo.classList.toggle("active");
+}

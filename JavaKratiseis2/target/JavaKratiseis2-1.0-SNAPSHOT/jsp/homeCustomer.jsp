@@ -9,6 +9,8 @@
 <%@ page import="com.triaxyd.cinema.Movies" %>
 <%@ page import="java.util.List" %>
 <%@ page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane" %>
+<%@ page import="com.triaxyd.cinema.Provoles" %>
+<%@ page import="java.util.ArrayList" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -44,7 +46,7 @@
             if (cookie.getName().equals("JSESSIONID")) scookie = cookie.getValue();
         }
     }
-    List<Movies> moviesList = CinemaDAO.getMovies();
+    List<Provoles> provolesList = CinemaDAO.getProvoles();
 %>
 <header>
     <input type="hidden" name="sessionid" value="<%=session.getId()%>">
@@ -59,7 +61,7 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
-    <div>WELCOME TO CIN3MAS, <%=userName%></div>
+    <div class="welcome">WELCOME TO CIN3MAS, <%=userName%></div>
     <nav class="logout">
         <ul>
             <li>
@@ -74,11 +76,31 @@
     <h2>Movies</h2>
     <div class="display-movies-container">
         <ul>
-
+            <% for (Provoles provoli : provolesList) { %>
+            <li class="provoli-box">
+                <span class="provoli-movie-name" onclick="toggleMovieInfo(this)"><%= provoli.getMoviesName() %></span>
+                <div class="provoli-info">
+                    <span class="provoli-id">ID: <%= provoli.getId() %></span><br>
+                    <span class="provoli-cinema-id">CINEMA: <%= provoli.getCinemaId() %></span><br>
+                    <% CinemaDAO cinemaDAO = new CinemaDAO();%>
+                    <% Movies movie = cinemaDAO.getMovie(provoli.getMoviesId()); %>
+                    <% if(movie!=null) { %>
+                        <span class="provoli-movie-content">Content: <%= movie.getMovieContent() %></span><br>
+                        <span class="provoli-movie-length">Duration: <%= movie.getMovieLength() %></span><br>
+                        <span class="provoli-movie-type">Type: <%= movie.getMovieType() %></span><br>
+                        <span class="provoli-movie-summary">Summary: <%= movie.getMovieSummary() %></span><br>
+                        <span class="provoli-movie-director">Director: <%= movie.getMovieDirector() %></span><br>
+                    <% } else { %>
+                        <span class="provoli-movie-content">Movie details are not available </span><br>
+                    <% } %>
+                </div>
+            </li>
+            <% } %>
         </ul>
-
     </div>
 </section>
+
+
 
 <section id="you">
     <h2>You</h2>
