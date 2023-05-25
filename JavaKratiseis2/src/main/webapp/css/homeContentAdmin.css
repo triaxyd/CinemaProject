@@ -49,7 +49,7 @@ hr{
 }
 
 .button {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     border: none;
     color: #fff;
     font-size: 24px;
@@ -80,7 +80,7 @@ hr{
 .display-movies-container li,
 .display-cinemas-container li,
 .display-provoles-container li{
-    color: #942;
+    color: #ffebcd;
     text-transform: uppercase;
     margin-bottom: 10px;
     font-size: 18px;
@@ -124,14 +124,17 @@ hr{
 .display-provoles-container .provoli-id,
 .display-provoles-container .provoli-content-admin{
     margin-right: 10px;
+    font-family: math;
 }
 .display-movies-container .movie-title,
 .display-cinemas-container .cinema-name,
-.display-provoles-container .provoli-id{
+.display-provoles-container .provoli-name{
     color: #ffffff;
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: bold;
-    font-family: "Roboto", sans-serif;
+    font-family: initial;
+    text-decoration: underline;
+    margin: 1em;
 }
 
 
@@ -139,9 +142,7 @@ hr{
     display: none;
     margin: 10em;
     padding: 3em;
-    background-color: rgba(50, 30, 30);
-    border: 1px solid #AAA;
-    border-radius: 2px;
+    background-color: #DAC9B5;
 }
 
 .show-form.active {
@@ -156,6 +157,7 @@ hr{
 .form-info{
     text-align: center;
     font-size: 1.5em;
+    color: #301010;
 }
 
 .form-container {
@@ -174,12 +176,13 @@ hr{
     margin-top: 3em;
     border-radius: 2px;
     border: #050A0C;
-    width: 60%;
-    background: #ffefef;
+    width: 50%;
+    background: #100505;
+    color: #fff;
 }
 
 .form input[type="submit"]:hover{
-    background-color: #fff;
+    background-color: #201010;
 }
 
 .form input {
@@ -228,14 +231,13 @@ hr{
     margin: 10px 0;
 }
 
-.message-insert,
-.message-assign,
-.message-delete{
-    color: #A05050;
-    align-items: center;
+
+.action-message{
+    color: #fff;
+    font-size: 2em;
     text-align: center;
-    text-transform: uppercase;
 }
+
 
 
 

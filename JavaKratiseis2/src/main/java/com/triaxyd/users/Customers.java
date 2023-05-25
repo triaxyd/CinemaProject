@@ -19,28 +19,13 @@ public class Customers extends Users {
 
     private String name;
     private int id;
-    private List<Reservations> reservationsUser;
+    //private List<Reservations> reservationsUser;
 
     public Customers() {
-        reservationsUser = new ArrayList<>();
+        //reservationsUser = new ArrayList<>();
         this.setRole("Customer");
     }
 
-    /*
-    public Customers(String username, String password, String email , Date create_time, String role) {
-        reservationsUser = new ArrayList<>();
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setEmail(email);
-        this.setCreationDate(create_time);
-        this.setRole(role);
-    }
-
-     */
-
-    public List<Reservations> getReservationsUser(){
-        return reservationsUser;
-    }
 
     public void setName(String name){this.name=name;}
     public void setId(int id){this.id=id;}
@@ -48,21 +33,8 @@ public class Customers extends Users {
     public int getId(){return this.id;}
 
 
-    public void login() {
-        System.out.println("--- Welcome, " + getUsername().toUpperCase() + " ---");
-        this.setLoggedIn(true);
-    }
 
-    public void logout() {
-        System.out.println("Customer " + getUsername().toUpperCase() + " logged out.");
-        this.setLoggedIn(false);
-    }
-
-    public void showUserMenu() {
-
-    }
-
-    public void nowPlayingFilms(List<Provoles> provoles) {
+    public void nowPlayingFilms() {
 
     }
 

@@ -1,61 +1,138 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+
+    var insertMovieButton = document.getElementById('insert');
+    var assignMovieButton = document.getElementById('assign');
+    var deleteProvoliButton = document.getElementById('delete-provoli');
+
     var formInsert = document.getElementById('insertMovie');
     var formAssign = document.getElementById('assignMovie');
-    var formDelete = document.getElementById('deleteMovie');
+    var formDeleteProvoli = document.getElementById('deleteProvoli');
 
-    var submitButtonInsert = document.getElementById('submitInsert');
+    var inputsInsert = document.querySelectorAll('#insertMovie input');
+    var inputsAssign = document.querySelectorAll('#assignMovie input');
+    var inputsDeleteProvoli = document.querySelectorAll('#deleteProvoli input');
 
 
-    submitButtonInsert.addEventListener('click', function(event){
+
+    insertMovieButton.addEventListener('click',function(){
+        inputsInsert.forEach(input =>{
+            input.style.border="none";
+        })
+    });
+
+    assignMovieButton.addEventListener('click',function(){
+        inputsAssign.forEach(input =>{
+            input.style.border="none";
+        })
+    });
+
+    deleteProvoliButton.addEventListener('click',function(){
+        inputsDeleteProvoli.forEach(input =>{
+            input.style.border="none";
+        })
+    });
+
+
+
+    document.getElementById('submitInsert').addEventListener('click', function(event){
         event.preventDefault();
         checkInsertForm();
     });
 
+    document.getElementById('submitAssign').addEventListener('click', function(event){
+        event.preventDefault();
+        checkAssignForm();
+    });
+
+    document.getElementById('submitDeleteProvoli').addEventListener('click', function(event){
+        event.preventDefault();
+        checkDeleteProvoliForm();
+    });
+
+
+
+
     function checkInsertForm(){
-        var title =  document.getElementById('title');
-        var content = document.getElementById('content');
-        var length = document.getElementById('length');
-        var type = document.getElementById('type');
-        var summary = document.getElementById('summary');
-        var director = document.getElementById('director');
+        //var errorMessage = document.getElementById('message-insert');
+        var bSubmit = true;
+        inputsInsert.forEach( input => {
 
-        var errorMessage = document.getElementById('message-insert');
-
-        if(title.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        }
-        if(content.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        }
-
-        if(length.value < 1 || length.value > 999){
-            errorMessage.textContent = 'All fields are required';
-        }
-
-        if(type.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        }
-
-        if(summary.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        }
-
-        if(director.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        }
-
-        if (title.value.trim() === '' || content.value.trim() === ''
-            || (length < 1 || length > 999) || type.value.trim() ==='' || summary.value.trim() === ''
-            || director.value.trim()===''){
-            errorMessage.textContent = 'All fields are required';
-        } else {
-            errorMessage.textContent = '';
-            var form = document.getElementById('insertMovie');
-            form.submit();
+            input.addEventListener('focus', function() {
+                this.style.border = 'none';
+            });
+            if(input.value.trim()===''){
+                input.style.border = "2px solid red";
+                bSubmit = false;
+            }else{
+                input.style.border = "none";
+            }
+            if (input.id==='length'){
+                if(!(/^[0-9]+$/.test(input.value))){
+                    input.style.border = "2px solid red";
+                    bSubmit = false;
+                }
+            }
+        })
+        if(bSubmit){
+            formInsert.submit();
         }
     }
+
+
+    function checkAssignForm(){
+        var bSubmit = true;
+        inputsAssign.forEach( input => {
+
+            input.addEventListener('focus', function() {
+                this.style.border = 'none';
+            });
+            if(input.value.trim()===''){
+                input.style.border = "2px solid red";
+                bSubmit = false;
+            }else{
+                input.style.border = "none";
+            }
+            if (!(input.id==='submitAssign')){
+                if(!(/^[0-9]+$/.test(input.value))){
+                    input.style.border = "2px solid red";
+                    bSubmit = false;
+                }
+            }
+        })
+        if(bSubmit){
+            formAssign.submit();
+        }
+    }
+
+
+    function checkDeleteProvoliForm(){
+        var bSubmit = true;
+        inputsDeleteProvoli.forEach( input => {
+            input.addEventListener('focus', function() {
+                this.style.border = 'none';
+            });
+            if(input.value.trim()===''){
+                input.style.border = "2px solid red";
+                bSubmit = false;
+            }else{
+                input.style.border = "none";
+            }
+            if (!(input.id==='submitDeleteProvoli')){
+                if(!(/^[0-9]+$/.test(input.value))){
+                    input.style.border = "2px solid red";
+                    bSubmit = false;
+                }
+            }
+        })
+        if(bSubmit){
+            formDeleteProvoli.submit();
+        }
+    }
+
 });
+
+
 
 
 $("#insert").click(function() {
@@ -63,7 +140,7 @@ $("#insert").click(function() {
     $("#show-form-insert").addClass("active");
     $(".form-info").text("INSERT NEW MOVIE");
     $("html, body").animate({ scrollTop: $("#show-form-insert").offset().top }, "slow");
-    $("#message-insert").fadeOut(1000);
+    $("#message-insert").fadeOut(10000);
 });
 
 $("#assign").click(function() {
@@ -71,16 +148,16 @@ $("#assign").click(function() {
     $("#show-form-assign").addClass("active");
     $(".form-info").text("ASSIGN MOVIE TO CINEMA");
     $("html, body").animate({ scrollTop: $("#show-form-assign").offset().top }, "slow");
-    $("#message-assign").fadeOut(1000);
+    $("#message-assign").fadeOut(10000);
 
 });
 
-$("#delete").click(function() {
+$("#delete-provoli").click(function() {
     $(".show-form").removeClass("active");
-    $("#show-form-delete").addClass("active");
-    $(".form-info").text("DELETE MOVIE");
-    $("html, body").animate({ scrollTop: $("#show-form-delete").offset().top }, "slow");
-    $("#message-delete").fadeOut(1000);
+    $("#show-form-delete-provoli").addClass("active");
+    $(".form-info").text("DELETE PROVOLI");
+    $("html, body").animate({ scrollTop: $("#show-form-delete-provoli").offset().top }, "slow");
+    $("#message-delete").fadeOut(10000);
 });
 
 

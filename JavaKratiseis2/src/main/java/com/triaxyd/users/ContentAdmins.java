@@ -1,14 +1,12 @@
 package com.triaxyd.users;
 
 import com.triaxyd.cinema.CinemaDAO;
-import com.triaxyd.cinema.Cinemas;
 import com.triaxyd.cinema.Movies;
 import com.triaxyd.cinema.Provoles;
 import com.triaxyd.database.DatabaseConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ContentAdmins extends Users {
@@ -18,14 +16,6 @@ public class ContentAdmins extends Users {
         this.setRole("ContentAdmin");
     }
 
-    /*
-    public ContentAdmins(String name,String username, String password){
-        this.setRole("ContentAdmin");
-        this.setUsername(username);
-        this.setPassword(password);
-    }
-     */
-
     public void setName(String name){this.name=name;}
     public void setId(int id){this.id=id;}
     public String getName(){return name;}
@@ -33,9 +23,6 @@ public class ContentAdmins extends Users {
     public void login(){}
     public void logout(){}
 
-    public void showUserMenu(){
-
-    }
 
     public Movies insertMovie(int id,String title,String content,int length,String type,String summary,String director,int content_admin_id){
         CinemaDAO cinemaDAO = new CinemaDAO();
@@ -74,8 +61,18 @@ public class ContentAdmins extends Users {
     public Provoles assignMovieToCinema(String movieId, String cinemaId) {
         Provoles provoli = new Provoles();
         CinemaDAO cinemaDAO = new CinemaDAO();
+        try {
+            int checkmovieIdInt = Integer.parseInt(movieId);
+            int checkCinemaIdInt = Integer.parseInt(cinemaId);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+        if (!cinemaDAO.checkMovieExists(Integer.parseInt(movieId))) return null;
+        if (!cinemaDAO.checkCinemaExists(Integer.parseInt(cinemaId))) return null;
         if(cinemaDAO.checkProvoliExists(movieId,cinemaId,this.id)){
             //provoli exists
+            return null;
         }else{
             int provoliId = cinemaDAO.generateID(movieId,cinemaId,String.valueOf(this.getId()));
             String movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
@@ -101,8 +98,34 @@ public class ContentAdmins extends Users {
 
 
 
-    public void deleteMovie(){
+    public String deleteProvoli(String provoliId, int content_admin_id){
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        try{
+            int intProvoliId = Integer.parseInt(provoliId);
 
+            Provoles provoli = cinemaDAO.getProvoli(intProvoliId);
+            if(provoli==null) return "PROVOLI WITH ID " + provoliId + " NOT FOUND";
+
+            if(!(provoli.getContentAdminId()==content_admin_id)) return "UNAUTHORIZED TO DELETE MOVIE";
+
+
+            try{
+                Connection connection = DatabaseConnector.connect();
+                String sqlProvoli = "DELETE FROM provoles WHERE ID = ?";
+                PreparedStatement ps = connection.prepareStatement(sqlProvoli);
+                ps.setInt(1,provoli.getId());
+
+                ps.executeUpdate();
+
+                return "PROVOLI FOR -"+ provoli.getMoviesName() + "- DELETED";
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }catch(NumberFormatException e){
+            return "WRONG INPUT";
+        }
+        return "";
     }
 
 

@@ -19,7 +19,14 @@
         <servlet-name>InsertMovie</servlet-name>
         <url-pattern>/InsertMovie</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>AssignMovieToCinema</servlet-name>
+        <url-pattern>/AssignMovieToCinema</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProvoli</servlet-name>
+        <url-pattern>/DeleteProvoli</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

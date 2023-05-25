@@ -44,11 +44,12 @@
 <div class="user-info">
     <div class="welcome"><%=userId+"."%><%=userName%></div>
 </div>
+<div class="action-message">${actionmade}</div>
 <div class="container">
     <div class="button-container">
         <button id="insert" class="button">INSERT NEW MOVIE</button>
         <button id="assign" class="button">ASSIGN MOVIE TO CINEMA</button>
-        <button id="delete" class="button">DELETE MOVIE</button>
+        <button id="delete-provoli" class="button">DELETE PROVOLI</button>
     </div>
     <hr>
 
@@ -61,7 +62,7 @@
                     <div class="movie-info">
                         <span class="movie-title"><%= movie.getMovieTitle() %></span><br>
                         <span class="movie-id">ID: </span><span><%= movie.getMovieID()%></span><br>
-                        <span class="movie-content-admin">ADDED BY C_A: </span><span><%= movie.getMovieContentAdminID() %></span>
+                        <span class="movie-content-admin">ADDED BY: </span><span><%= movie.getMovieContentAdminID() %></span>
                     </div>
                 </li>
                 <% } %>
@@ -96,11 +97,10 @@
                 <% for (Provoles provoli : provolesList ) { %>
                 <li class="provoli-box">
                     <div class="provoli-info">
-                        <span class="provoli-id"><%= provoli.getId()%></span><br>
+                        <span class="provoli-name"><%= provoli.getMoviesName() + " - " + provoli.getCinemaId()%></span><br>
+                        <span class="provoli-id">ID: </span><span><%= provoli.getId()%></span><br>
                         <span class="provoli-movie-id">MOVIE ID: </span><span><%= provoli.getMoviesId()%></span><br>
-                        <span class="provoli-movie-name">MOVIE: </span><span><%= provoli.getMoviesName()%></span><br>
-                        <span class="provoli-cinema-id">CINEMA: </span><span><%= provoli.getCinemaId()%></span><br>
-                        <span class="provoli-content-admin">ADDED BY C_A:  </span><span><%= provoli.getContentAdminId() %></span>
+                        <span class="provoli-content-admin">ADDED BY:  </span><span><%= provoli.getContentAdminId() %></span>
                     </div>
                 </li>
                 <% } %>
@@ -113,7 +113,6 @@
         <div class="form-info"></div>
         <div class="form-container">
             <form id="insertMovie" name="insertMovie" class="form" action="${pageContext.request.contextPath}/InsertMovie" method="post">
-                <div class="message-insert" id="message-insert">${messageinsert}</div>
                 <input type="text" name="title" id="title" placeholder="Movie Title" maxlength="45" >
                 <input type="text" name="content" id="content" placeholder="Content" maxlength="45">
                 <input type="text" name="length" id="length" placeholder="Length (minutes)" maxlength="3">
@@ -130,28 +129,24 @@
         <div class="form-info"></div>
         <div class="form-container">
             <form id="assignMovie" name="assignMovie" class="form" action="${pageContext.request.contextPath}/AssignMovieToCinema" method="post">
-                <div class="message-assign"></div>
                 <input type="text" name="movie-id" id="movie-id" placeholder="Movie ID" maxlength="10">
-                <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID" maxlength="10">
+                <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID" maxlength="2">
                 <input type="submit" id="submitAssign" value="ASSIGN">
             </form>
         </div>
     </div>
 
-    <div class="show-form" id="show-form-delete">
+    <div class="show-form" id="show-form-delete-provoli">
         <div class="form-info"></div>
         <div class="form-container">
-            <form id="deleteMovie" name="deleteMovie" class="form" action="#" method="post">
-                <div class="message-delete">${messagedelete}</div>
-                <input type="text" placeholder="Movie ID" maxlength="10">
-                <input type="text" placeholder="Movie Title" maxlength="45">
-                <input type="text" placeholder="Cinema ID" maxlength="10">
-                <input type = "text" placeholder="Provoli ID" maxlength="10">
-                <input type="text" placeholder="Content Admin ID" maxlength="100">
-                <input type="submit" id="submitDelete" value="DELETE">
+            <form id="deleteProvoli" name="deleteProvoli" class="form" action="${pageContext.request.contextPath}/DeleteProvoli" method="post">
+                <input type="text" name="provoli-id-delete" id="provoli-id-delete" placeholder="Provoli ID" maxlength="10" >
+                <input type="hidden" name="content_admin_id_delete" id="content_admin_id_delete" value="<%=String.valueOf(user.getId())%>">
+                <input type="submit" id="submitDeleteProvoli" value="DELETE">
             </form>
         </div>
     </div>
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>

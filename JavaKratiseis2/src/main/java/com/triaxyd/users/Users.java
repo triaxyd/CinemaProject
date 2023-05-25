@@ -9,7 +9,6 @@ public abstract class Users {
     private String username,password,email,role,salt;
 
     private Date create_time;
-    private boolean loggedIn = false;
 
     public Users(){}
 
@@ -20,7 +19,6 @@ public abstract class Users {
     public void setCreationDate(Date creationDate){this.create_time = creationDate;}
     public void setSalt(String salt){this.salt = salt;}
 
-    public void setLoggedIn(boolean loggedIn) { this.loggedIn = true;}
 
 
     public String getUsername(){
@@ -39,13 +37,6 @@ public abstract class Users {
     public int getId(){return this.getId();}
     public String getName(){return this.getName();}
 
-    public boolean isLoggedIn() { return this.loggedIn;}
-
-    public abstract void showUserMenu();
-
-    public abstract void login();
-
-    public abstract void logout();
 
 }
 

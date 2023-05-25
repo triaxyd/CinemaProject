@@ -8,8 +8,8 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "AssignMovieToCinema", value = "/AssignMovieToCinema")
-public class AssignMovieToCinemaServlet extends HttpServlet {
+@WebServlet(name = "DeleteProvoli", value = "/DeleteProvoli")
+public class DeleteProvoliServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -17,7 +17,6 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String destPage = "/jsp/homeContentAdmin.jsp";
         HttpSession session = request.getSession(false);
         if(session.getAttribute("user")==null){
@@ -26,21 +25,14 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
             return;
         }
 
-        String movieId = request.getParameter("movie-id");
-        String cinemaId = request.getParameter("cinema-id");
+        String provoliId = request.getParameter("provoli-id-delete");
+        int content_admin_id = Integer.parseInt(request.getParameter ("content_admin_id_delete"));
 
-        Users user = (ContentAdmins)session.getAttribute("user");
-        Provoles provoli = ((ContentAdmins) user).assignMovieToCinema(movieId,cinemaId);
+        Users user = (Users)session.getAttribute("user");
 
-        String message;
-        if (provoli!=null){
-            //provoli added
-            message = "PROVOLI FOR " + provoli.getMoviesName() +" at CINEMA " + provoli.getCinemaId()  + " ADDED";
-        }else{
-            //provoli couldn't be inserted
-            message = "COULDN'T ADD PROVOLI";
-        }
-        request.setAttribute("actionmade",message);
+        String deleted = ((ContentAdmins)user).deleteProvoli(provoliId,content_admin_id);
+
+        request.setAttribute("actionmade",deleted);
         RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
         dispatcher.forward(request,response);
     }

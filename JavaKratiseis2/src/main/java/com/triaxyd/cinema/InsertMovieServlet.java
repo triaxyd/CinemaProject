@@ -24,7 +24,14 @@ public class InsertMovieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String destPage="/jsp/homeContentAdmin.jsp";
         HttpSession session = request.getSession(false);
+        if(session.getAttribute("user")==null){
+            destPage = "/index.jsp";
+            response.sendRedirect(request.getContextPath()+destPage);
+            return;
+        }
         String title = request.getParameter("title").toUpperCase();
         String content = request.getParameter("content");
         String sLength = request.getParameter("length");
@@ -41,11 +48,11 @@ public class InsertMovieServlet extends HttpServlet {
 
         Users user = (ContentAdmins)session.getAttribute("user");
         Movies movie = ((ContentAdmins) user).insertMovie(id,title,content,length,type,summary,director,content_admin_id);
-        String destPage="/jsp/homeContentAdmin.jsp";
+
         if(movie!=null){
-            request.setAttribute("messageinsert","Movie "+ title + " added");
+            request.setAttribute("actionmade","MOVIE "+ title + " ADDED");
         }else{
-            request.setAttribute("messageinsert","Movie " +title + " already exists");
+            request.setAttribute("actionmade","MOVIE " +title + " ALREADY EXISTS");
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
         dispatcher.forward(request,response);

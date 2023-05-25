@@ -22,7 +22,8 @@ public class UsersSignUpServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String message = "";
-        if (checkUserExists(username)) {
+        UserDAO userDAO = new UserDAO();
+        if (userDAO.checkUserExists(username)) {
             //User already exists
             message = "User " + username +" already exists";
         } else {
@@ -33,23 +34,13 @@ public class UsersSignUpServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 Date createTime = Date.valueOf(LocalDate.now());
-                String role = checkUserRole(password);
+                String role = "Customer";
                 String salt = BCrypt.gensalt(12);
                 String hashedPassword = BCrypt.hashpw(password, salt);
 
-                //add to user table
-                if(createUser(connection, username, email, hashedPassword, createTime, role, salt)){
+                userDAO.createUser(connection, username, email, hashedPassword, createTime, role, salt);
 
-                }else{
-                    //something went wrong
-                }
-
-                //create the role and add to role table(customer,admin,contentadmin)
-                if(createRole(connection,username,name,role)){
-
-                }else{
-                    //something went wrong
-                }
+                userDAO.createRole(connection,username,name,role);
 
                 message = "user with username " + username + " created";
 
@@ -67,88 +58,7 @@ public class UsersSignUpServlet extends HttpServlet {
         }
     }
 
-    private boolean checkUserExists(String username) {
-        PreparedStatement ps;
-        ResultSet rs;
-        String query = "SELECT * FROM user WHERE username= ?";
-
-        try {
-            Connection connection = DatabaseConnector.connect();
-            ps = connection.prepareStatement(query);
-            ps.setString(1, username);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            //Error
-        }
-        return false;
-    }
-
-    private String checkUserRole(String password) {
-        if (password.equals("ImAdmin123")) {
-            return "Admin";
-        } else if (password.equals("ImContentAdmin123")){
-            return "ContentAdmin";
-        }else{
-            return "Customer";
-        }
-    }
 
 
-    private boolean createUser(Connection connection, String username, String email, String hashedPassword, Date createTime, String role, String salt) {
-        try {
-            String sql = "INSERT INTO user VALUES (?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, hashedPassword);
-            preparedStatement.setDate(4, createTime);
-            preparedStatement.setString(5, role);
-            preparedStatement.setString(6, salt);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                preparedStatement.close();
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private boolean createRole(Connection connection, String username, String name, String role) {
-        String table_name;
-
-        if (role.equals("Admin")) {
-            table_name = "admins";
-        } else if (role.equals("ContentAdmin")) {
-            table_name = "content_admin";
-        } else {
-            table_name = "customers";
-        }
-
-        try {
-            String sql = "INSERT INTO " + table_name + " VALUES (?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, 0);
-            statement.setString(2, name);
-            statement.setString(3, username);
-            int rowsAffectedCustomer = statement.executeUpdate();
-            if (rowsAffectedCustomer > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
