@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <servlet-mapping>
+        <servlet-name>UsersSignUp</servlet-name>
+        <url-pattern>/UsersSignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsersLogin</servlet-name>
+        <url-pattern>/UsersLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogOut</servlet-name>
+        <url-pattern>/LogOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertMovie</servlet-name>
+        <url-pattern>/InsertMovie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssignMovieToCinema</servlet-name>
+        <url-pattern>/AssignMovieToCinema</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProvoli</servlet-name>
+        <url-pattern>/DeleteProvoli</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+
+</web-app>
