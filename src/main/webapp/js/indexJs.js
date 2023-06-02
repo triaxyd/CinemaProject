@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
     var loginButton = document.querySelector('button[type="submit"]');
 
+
+
+
     loginButton.addEventListener('click', function(event){
         event.preventDefault();
         checkLoginForm();
@@ -25,4 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
             form.submit();
         }
     }
+
+
+
 });

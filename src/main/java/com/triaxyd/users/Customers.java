@@ -33,16 +33,11 @@ public class Customers extends Users {
     public int getId(){return this.id;}
 
 
-
-    public void nowPlayingFilms() {
-
-    }
-
-    public void makeReservation(List<Provoles> provoles, Users user) {
+    public void makeReservation(String provoliId) {
 
     }
 
-    public void viewReservations(Users user) {
+    public void viewReservations() {
     }
 
 }

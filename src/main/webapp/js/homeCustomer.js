@@ -1,3 +1,6 @@
+var originalUrl = window.location.href.split('?')[0];
+window.history.replaceState({}, document.title, originalUrl);
+
 document.addEventListener("DOMContentLoaded", function() {
     const menuLinks = document.querySelectorAll("header nav ul li  a");
 
@@ -12,17 +15,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function toggleMovieInfo(element) {
-    var movieInfo = element.parentElement.querySelector(".provoli-info");
-    //var movieInfoElements = document.getElementsByClassName("provoli-info");
+$(document).ready(function() {
+    $('.provoli-movie-name').click(function() {
+        var movieId = $(this).attr('id').replace('provoli-movie-', '');
+        var cinemasBox = $('#provoli-cinemas-' + movieId);
+        $('.provoles-cinemas-box').not(cinemasBox).hide();
+        cinemasBox.toggle();
+    });
+});
 
-    /*
-    for (var i = 0; i < movieInfoElements.length; i++) {
-        if (movieInfoElements[i] !== movieInfo) {
-            movieInfoElements[i].classList.remove("active");
-        }
-    }
 
-     */
-    movieInfo.classList.toggle("active");
-}

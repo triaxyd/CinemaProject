@@ -83,19 +83,18 @@ public class CinemaDAO {
         return false;
     }
 
-    public boolean checkProvoliExists(String movieId,String cinemaId,int contentAdminId){
+    public boolean checkProvoliExists(String movieId,String cinemaId){
         String movieName = null;
         CinemaDAO cinemaDAO = new CinemaDAO();
         movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
 
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ? AND CONTENT_ADMIN_ID = ?";
+            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,Integer.parseInt(movieId));
             ps.setString(2,movieName);
-            ps.setInt(2,Integer.parseInt(cinemaId));
-            ps.setInt(3,contentAdminId);
+            ps.setInt(3,Integer.parseInt(cinemaId));
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return true;
@@ -126,6 +125,8 @@ public class CinemaDAO {
         }
         return null;
     }
+
+
 
     public static List<Movies> getMovies(){
         List<Movies> movies = new ArrayList<>();

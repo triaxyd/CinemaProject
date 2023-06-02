@@ -39,12 +39,17 @@
     List<Movies> moviesList = CinemaDAO.getMovies();
     List<Cinemas> cinemasList = CinemaDAO.getCinemas();
     List<Provoles> provolesList = CinemaDAO.getProvoles();
+
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
 %>
 <input class="logout-button" type="button" value="LOGOUT" onclick="location.href='${pageContext.request.contextPath}/LogOut';">
 <div class="user-info">
-    <div class="welcome"><%=userId+"."%><%=userName%></div>
+    <div class="welcome-id">ID: <%=userId%></div>
+    <div class="welcome-username">USERNAME: <%=userName%></div>
 </div>
-<div class="action-message">${actionmade}</div>
+<div class="action-message">${param.actionmade}</div>
 <div class="container">
     <div class="button-container">
         <button id="insert" class="button">INSERT NEW MOVIE</button>

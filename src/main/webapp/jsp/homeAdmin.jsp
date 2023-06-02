@@ -32,6 +32,10 @@
             if (cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
         }
     }
+
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
 %>
 
 <div class="sidebar">
@@ -46,7 +50,7 @@
 <div class="content">
     <h1>Admin Page</h1>
 
-    <form id="search-user" method="post" action="${pageContext.request.contextPath}/SearchUser" class="hidden">
+    <form id="search-user" class="hidden" method="post" action="${pageContext.request.contextPath}/SearchUser" >
         <h2>Search User</h2>
         <label for="username-search">Username:</label>
         <input type="text" id="username-search" name="username-search" required>
@@ -55,14 +59,18 @@
 
 
 
-    <form id="add-user" class="hidden" method="post" action="#">
+    <form id="add-user" class="hidden" method="post" action="${pageContext.request.contextPath}/AddUser">
         <h2>Add a New User</h2>
-        <label for="username-add">Name:</label>
+        <label for="name-add">Name:</label>
+        <input type="text" id="name-add" name="name-add" required>
+        <label for="username-add">Username:</label>
         <input type="text" id="username-add" name="username-add" required>
         <label for="email-add">Email:</label>
-        <input type="email-add" id="email-add" name="email-add" required>
-        <label for="user-add-role">Role:</label>
-        <select id="user-add-role" name="user-add-role" required>
+        <input type="text" id="email-add" name="email-add" required>
+        <label for="password-add">Password: </label>
+        <input type="password" id="password-add" name="password-add" required>
+        <label for="role-add">Role:</label>
+        <select id="role-add" name="role-add" required>
             <option value="Customer" selected>Customer</option>
             <option value="ContentAdmin">ContentAdmin</option>
             <option value="Admin">Admin</option>
@@ -77,17 +85,45 @@
         <button type="submit">Delete User</button>
     </form>
 
-    <div id="result-container">
+    <div id="result-container-search">
         <% Users foundUser = (Users)request.getAttribute("searched-user"); %>
         <% if(foundUser!=null) { %>
             <h2>User Information</h2>
             <p>Username: <%= foundUser.getUsername() %></p>
+            <p>Name: <%=foundUser.getName()%></p>
             <p>Email: <%= foundUser.getEmail() %></p>
             <p>Role: <%= foundUser.getRole() %></p>
             <p>Registered at: <%=foundUser.getCreationDate()%></p>
+            <p>ID: <%=foundUser.getId()%></p>
+            <% request.removeAttribute("searched-user"); %>
+        <% } else { %>
+            <% String userNotFoundMessage = (String) request.getAttribute("user-not-found-message"); %>
+            <% if (userNotFoundMessage != null) { %>
+                <p><%= userNotFoundMessage %></p>
+            <% } %>
+            <% request.removeAttribute("user-not-found-message"); %>
         <% } %>
-        <% request.removeAttribute("searched-user"); %>
     </div>
+
+    <% String resultdelete = request.getParameter("resultdelete"); %>
+    <% String resultadd = request.getParameter("resultadd"); %>
+
+    <% if (resultdelete != null) { %>
+    <div id="result-container-delete">
+        <h2>Deleted User</h2>
+        ${param.resultdelete}
+    </div>
+    <% } %>
+
+    <% if (resultadd != null) { %>
+    <div id="result-container-add">
+        <h2>Added User</h2>
+        ${param.resultadd}
+    </div>
+    <% } %>
+
+
+
 </div>
 
 <script src="<%= request.getContextPath() %>/js/homeAdmin.js"></script>

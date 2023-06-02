@@ -59,7 +59,7 @@ public class ContentAdmins extends Users {
 
 
     public Provoles assignMovieToCinema(String movieId, String cinemaId) {
-        Provoles provoli = new Provoles();
+        Provoles provoli = null;
         CinemaDAO cinemaDAO = new CinemaDAO();
         try {
             int checkmovieIdInt = Integer.parseInt(movieId);
@@ -70,10 +70,11 @@ public class ContentAdmins extends Users {
 
         if (!cinemaDAO.checkMovieExists(Integer.parseInt(movieId))) return null;
         if (!cinemaDAO.checkCinemaExists(Integer.parseInt(cinemaId))) return null;
-        if(cinemaDAO.checkProvoliExists(movieId,cinemaId,this.id)){
+        if(cinemaDAO.checkProvoliExists(movieId,cinemaId)){
             //provoli exists
             return null;
         }else{
+            provoli = new Provoles();
             int provoliId = cinemaDAO.generateID(movieId,cinemaId,String.valueOf(this.getId()));
             String movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
             try{
@@ -87,11 +88,20 @@ public class ContentAdmins extends Users {
                 psAssign.setInt(5,this.getId());
 
                 psAssign.executeUpdate();
+
+                provoli.setMoviesId(Integer.parseInt(movieId));
+                provoli.setMoviesName(movieName);
+                provoli.setId(provoliId);
+                provoli.setCinemaId(Integer.parseInt(cinemaId));
+                provoli.setContentAdminId(this.id);
+
+
+                return provoli;
             }catch(SQLException e){
                 e.printStackTrace();
             }
         }
-        return provoli;
+        return null;
     }
 
 

@@ -28,28 +28,25 @@ public class UsersSignUpServlet extends HttpServlet {
             message = "User " + username +" already exists";
         } else {
             //user not found
-            try (Connection connection = DatabaseConnector.connect()) {
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            Date createTime = Date.valueOf(LocalDate.now());
+            String role = "Customer";
+            String salt = BCrypt.gensalt(12);
+            String hashedPassword = BCrypt.hashpw(password, salt);
 
-                String name = request.getParameter("name");
-                String email = request.getParameter("email");
-                String password = request.getParameter("password");
-                Date createTime = Date.valueOf(LocalDate.now());
-                String role = "Customer";
-                String salt = BCrypt.gensalt(12);
-                String hashedPassword = BCrypt.hashpw(password, salt);
+            userDAO.createUser(username, email, hashedPassword, createTime, role, salt);
 
-                userDAO.createUser(connection, username, email, hashedPassword, createTime, role, salt);
+            userDAO.createRole(username,name,role);
 
-                userDAO.createRole(connection,username,name,role);
-
-                message = "user with username " + username + " created";
+            message = "user with username " + username + " created";
 
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
         }
         request.setAttribute("message",message);
+        request.setAttribute("hiddenusername",username);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try{
             dispatcher.forward(request,response);

@@ -1,3 +1,9 @@
+
+var originalUrl = window.location.href.split('?')[0];
+window.history.replaceState({}, document.title, originalUrl);
+
+
+
 document.addEventListener("DOMContentLoaded", function(){
 
 

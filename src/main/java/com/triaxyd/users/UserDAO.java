@@ -104,8 +104,9 @@ public class UserDAO {
 
 
 
-    public boolean createUser(Connection connection, String username, String email, String hashedPassword, Date createTime, String role, String salt) {
+    public boolean createUser(String username, String email, String hashedPassword, Date createTime, String role, String salt) {
         try {
+            Connection connection = DatabaseConnector.connect();
             String sql = "INSERT INTO user VALUES (?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
@@ -122,16 +123,13 @@ public class UserDAO {
             } else {
                 return false;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 
-    public boolean createRole(Connection connection, String username, String name, String role) {
+    public boolean createRole(String username, String name, String role) {
         String table_name;
 
         if (role.equals("Admin")) {
@@ -143,6 +141,7 @@ public class UserDAO {
         }
 
         try {
+            Connection connection = DatabaseConnector.connect();
             String sql = "INSERT INTO " + table_name + " VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, 0);
@@ -155,9 +154,8 @@ public class UserDAO {
                 return false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 
@@ -205,9 +203,33 @@ public class UserDAO {
                 user.setPassword(rs.getString("password"));
                 user.setCreationDate(rs.getDate("create_time"));
                 user.setSalt(rs.getString("salt"));
-
-                return user;
+            }else{
+                return null;
             }
+
+
+            String sqlRole;
+            if(user.getRole().equals("ContentAdmin")) sqlRole = "SELECT * FROM content_admin WHERE user_username = ?";
+            else if(user.getRole().equals("Admin")) sqlRole = "SELECT * FROM admins WHERE user_username = ?";
+            else sqlRole = "SELECT * FROM customers WHERE user_username = ?";
+
+            PreparedStatement psRole = connection.prepareStatement(sqlRole);
+            psRole.setString(1,username);
+            ResultSet rsRole = psRole.executeQuery();
+
+            if(rsRole.next()){
+                if(user.getRole().equals("ContentAdmin")){
+                    ((ContentAdmins)user).setId(rsRole.getInt("ID"));
+                    ((ContentAdmins)user).setName(rsRole.getString("NAME"));
+                }else if(user.getRole().equals("Admin")){
+                    ((Admins)user).setId(rsRole.getInt("ID"));
+                    ((Admins)user).setName(rsRole.getString("NAME"));
+                }else{
+                    ((Customers)user).setId(rsRole.getInt("ID"));
+                    ((Customers)user).setName(rsRole.getString("NAME"));
+                }
+            }
+            return user;
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -218,21 +240,28 @@ public class UserDAO {
     public boolean deleteUser(Users user){
         try{
             Connection connection = DatabaseConnector.connect();
-            String sqlUser = "DELETE FROM user WHERE username = ?" ;
-            PreparedStatement psUser = connection.prepareStatement(sqlUser);
-            psUser.setString(1,user.getUsername());
-            psUser.executeUpdate();
+            connection.setAutoCommit(false);
 
             String sqlRole;
-            if(user.getRole().equals("Customer")) sqlRole = "DELETE FROM customers WHERE username = ? AND ID = ?";
-            else if(user.getRole().equals("ContentAdmin")) sqlRole = "DELETE FROM content_admin WHERE user_username= ? AND ID = ?";
+            if(user.getRole().equals("Customer")) sqlRole = "DELETE FROM customers WHERE user_username = ?";
+            else if(user.getRole().equals("ContentAdmin")) sqlRole = "DELETE FROM content_admin WHERE user_username= ?";
             else return false;
 
             PreparedStatement psRole = connection.prepareStatement(sqlRole);
             psRole.setString(1,user.getUsername());
-            psRole.setInt(2,user.getId());
 
             psRole.executeUpdate();
+
+
+            String sqlUser = "DELETE FROM user WHERE username = ?" ;
+            PreparedStatement psUser = connection.prepareStatement(sqlUser);
+            psUser.setString(1,user.getUsername());
+
+            psUser.executeUpdate();
+
+
+            connection.commit();
+            connection.setAutoCommit(true);
 
             return true;
 

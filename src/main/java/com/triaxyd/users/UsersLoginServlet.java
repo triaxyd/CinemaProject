@@ -29,14 +29,15 @@ public class UsersLoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user",user);
             session.setMaxInactiveInterval(30*60);
-            Cookie userName = new Cookie("username", user.getUsername());
-            Cookie userRole = new Cookie("userrole",user.getRole());
-            Cookie userId = new Cookie("userId",String.valueOf(user.getId()));
-            userName.setMaxAge(30*60);
-            userRole.setMaxAge(30*60);
-            response.addCookie(userName);
-            response.addCookie(userRole);
-            response.addCookie(userId);
+
+            //Cookie userName = new Cookie("username", user.getUsername());
+            //Cookie userRole = new Cookie("userrole",user.getRole());
+            //Cookie userId = new Cookie("userId",String.valueOf(user.getId()));
+            //userName.setMaxAge(30*60);
+            //userRole.setMaxAge(30*60);
+            //response.addCookie(userName);
+            //response.addCookie(userRole);
+            //response.addCookie(userId);
 
             if(user.getRole().equals("Admin")){
                 destPage="/jsp/homeAdmin.jsp";
