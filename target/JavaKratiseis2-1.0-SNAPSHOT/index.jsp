@@ -14,7 +14,7 @@
     <div class="user-already-exists">${message}</div>
     <h2>Login</h2>
     <form class="login-form" action="${pageContext.request.contextPath}/UsersLogin" method="POST" id="login-form">
-        <input type="text" placeholder="Username" name="username" id="username" maxlength="25">
+        <input type="text" placeholder="Username" name="username" id="username" value="${requestScope.hiddenusername}" maxlength="25">
         <input type="password" placeholder="Password" name="password" id="password" maxlength="25">
         <div id="error-message"></div>
         <button type="submit">Login</button>

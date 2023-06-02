@@ -11,6 +11,7 @@
 <%@ page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane" %>
 <%@ page import="com.triaxyd.cinema.Provoles" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.triaxyd.cinema.Cinemas" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -46,8 +47,17 @@
             if (cookie.getName().equals("JSESSIONID")) scookie = cookie.getValue();
         }
     }
+    List<Movies> moviesList = CinemaDAO.getMovies();
     List<Provoles> provolesList = CinemaDAO.getProvoles();
+    List<Cinemas> cinemasList = CinemaDAO.getCinemas();
+    CinemaDAO cinemaDAO = new CinemaDAO();
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
 %>
+
+
+
 <header>
     <input type="hidden" name="sessionid" value="<%=session.getId()%>">
     <input type="hidden" name="username" value="<%=userName%>">
@@ -56,8 +66,8 @@
     <nav>
         <ul>
             <li><a href="#movies">Movies</a></li>
-            <li><a href="#you">Events</a></li>
-            <li><a href="#offers">Offers</a></li>
+            <li><a href="#provoles">Provoles</a></li>
+            <li><a href="#you">You</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -71,52 +81,67 @@
     </nav>
 </header>
 
-
 <section id="movies">
     <h2>Movies</h2>
     <div class="display-movies-container">
-        <ul>
-            <% for (Provoles provoli : provolesList) { %>
-            <li class="provoli-box">
-                <span class="provoli-movie-name" onclick="toggleMovieInfo(this)"><%= provoli.getMoviesName() %></span>
-                <div class="provoli-info">
-                    <span class="provoli-id">ID: <%= provoli.getId() %></span><br>
-                    <span class="provoli-cinema-id">CINEMA: <%= provoli.getCinemaId() %></span><br>
-                    <% CinemaDAO cinemaDAO = new CinemaDAO();%>
-                    <% Movies movie = cinemaDAO.getMovie(provoli.getMoviesId()); %>
-                    <% if(movie!=null) { %>
-                        <span class="provoli-movie-content">Content: <%= movie.getMovieContent() %></span><br>
-                        <span class="provoli-movie-length">Duration: <%= movie.getMovieLength() %></span><br>
-                        <span class="provoli-movie-type">Type: <%= movie.getMovieType() %></span><br>
-                        <span class="provoli-movie-summary">Summary: <%= movie.getMovieSummary() %></span><br>
-                        <span class="provoli-movie-director">Director: <%= movie.getMovieDirector() %></span><br>
-                    <% } else { %>
-                        <span class="provoli-movie-content">Movie details are not available </span><br>
-                    <% } %>
-                </div>
-            </li>
+        <div class="movie-box">
+        <% int m =0; %>
+        <% for (Movies movie : moviesList) { %>
+
+            <div class="movie-info" id="movie-info-<%=++m%>">
+                <span class="movie-name"><%= movie.getMovieTitle()%></span>
+                <ul>
+                    <li>CONTENT: <%=movie.getMovieContent()%></li>
+                    <li>LENGTH: <%=movie.getMovieLength()%> minutes</li>
+                    <li>TYPE: <%=movie.getMovieType() %></li>
+                    <li>SUMMARY: <%=movie.getMovieSummary() %></li>
+                    <li>DIRECTOR: <%=movie.getMovieDirector() %></li>
+                </ul>
+            </div>
             <% } %>
-        </ul>
+        </div>
+        <div class="movie-navigation">
+            <%m =0;%>
+            <% for (Movies movie : moviesList) { %>
+            <a href="#movie-info-<%=++m%>"></a>
+            <% } %>
+        </div>
     </div>
 </section>
 
-
+<section id="provoles">
+    <h2>Provoles</h2>
+    <div class="display-provoles-movies-container">
+        <div class="provoles-movies-box">
+            <% int c=0; %>
+            <% for (Movies movie : moviesList) { %>
+            <div class="provoli-movie-name" id="provoli-movie-<%=movie.getMovieID()%>"><%=movie.getMovieTitle()%></div>
+            <div class="provoles-cinemas-box" id="provoli-cinemas-<%=movie.getMovieID()%>" style="display: none;">
+                <% for (Cinemas cinema : cinemasList) { %>
+                    <% if(cinemaDAO.checkProvoliExists(String.valueOf(movie.getMovieID()),String.valueOf(cinema.getCinemaId()))) { %>
+                        <div class="provoli-cinema-id">Cinema <%=cinema.getCinemaId()%></div>
+                    <% }else { %>
+                        <div class="provoli-cinema-id-not-available">Cinema <%=cinema.getCinemaId()%></div>
+                    <% } %>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</section>
 
 <section id="you">
     <h2>You</h2>
-    <!-- Event content goes here -->
+
 </section>
 
-<section id="offers">
-    <h2>Offers</h2>
-    <!-- Offer content goes here -->
-</section>
 
 <section id="contact">
     <h2>Contact</h2>
-    <!-- Contact content goes here -->
+
 </section>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="<%= request.getContextPath() %>/js/homeCustomer.js"></script>
 </body>
 </html>

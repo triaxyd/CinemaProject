@@ -27,6 +27,13 @@
         <servlet-name>DeleteProvoli</servlet-name>
         <url-pattern>/DeleteProvoli</url-pattern>
     </servlet-mapping>
+
+
+    <listener>
+        <listener-class>com.triaxyd.listener.SessionListener</listener-class>
+    </listener>
+
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
