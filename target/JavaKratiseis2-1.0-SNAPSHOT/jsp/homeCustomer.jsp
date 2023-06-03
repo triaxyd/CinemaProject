@@ -110,25 +110,31 @@
 </section>
 
 <section id="provoles">
+    <input type="hidden" id="movieId" name="movieId">
+    <input type="hidden" id="cinemaId" name="movieId">
     <h2>Provoles</h2>
     <div class="display-provoles-movies-container">
-        <div class="provoles-movies-box">
-            <% int c=0; %>
-            <% for (Movies movie : moviesList) { %>
+        <% for (Movies movie : moviesList) { %>
+        <div class="provoli-movie-box">
             <div class="provoli-movie-name" id="provoli-movie-<%=movie.getMovieID()%>"><%=movie.getMovieTitle()%></div>
-            <div class="provoles-cinemas-box" id="provoli-cinemas-<%=movie.getMovieID()%>" style="display: none;">
+            <div class="provoles-cinemas-box" id="provoli-cinemas-<%=movie.getMovieID()%>">
                 <% for (Cinemas cinema : cinemasList) { %>
-                    <% if(cinemaDAO.checkProvoliExists(String.valueOf(movie.getMovieID()),String.valueOf(cinema.getCinemaId()))) { %>
-                        <div class="provoli-cinema-id">Cinema <%=cinema.getCinemaId()%></div>
-                    <% }else { %>
+                    <% if (cinemaDAO.checkProvoliExists(String.valueOf(movie.getMovieID()), String.valueOf(cinema.getCinemaId()))) { %>
+                        <div class="provoli-cinema-id" id="provoli-cinema-<%=cinema.getCinemaId()%>">Cinema <%=cinema.getCinemaId()%></div>
+                    <% } else { %>
                         <div class="provoli-cinema-id-not-available">Cinema <%=cinema.getCinemaId()%></div>
                     <% } %>
                 <% } %>
             </div>
-            <% } %>
         </div>
+        <% } %>
+    </div>
+    <div class="reservation-form">
+        <div class="selected-movie" style="color: red"></div>
+        <div class="selected-cinema" style="color: red"></div>
     </div>
 </section>
+
 
 <section id="you">
     <h2>You</h2>
