@@ -118,48 +118,75 @@ section h2 {
     color:#fee;
 }
 
-.display-provoles-movies-container{
-    color: #fee;
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
+.display-provoles-movies-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+    padding-bottom: 20px;
 }
 
-.provoles-movies-box{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-items: center;
+.provoli-movie-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
+    padding:0.5rem;
 }
 
-.provoli-movie-name{
+.provoli-movie-name {
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff;
     padding: 1rem;
-    width:100%
+    background-color: #200404;
 }
 
-.provoli-movie-name:hover{
-    background: rgba(255,255,255,0.2);
+.provoli-movie-name:hover {
+    background: rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
+.provoli-movie-name.selected{
+    background: rgba(255, 255, 255, 0.2);
+}
+
 .provoles-cinemas-box {
+    display: none;
+    gap: 10px;
+    align-items: flex-start;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+}
+
+.provoles-cinemas-box.show {
     display: flex;
-    border: 1px solid #fff;
 }
 
 .provoli-cinema-id {
-    color:#fff;
+    background-color: #caa;
+    color: #000;
+    padding: 0.5rem;
+    cursor: pointer;
 }
 
-.provoli-cinema-id:hover{
-    background: rgba(255,255,255,0.2);
+.provoli-cinema-id.selected{
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.provoli-cinema-id:hover {
+    background: rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease;
 }
 
-.provoli-cinema-id-not-available{
-    color:#A05050;
-    background: #aaa;
+.provoli-cinema-id-not-available {
+    background-color: #222;
+    color: #777;
+    padding: 0.5rem;
+    cursor: not-allowed;
 }
 
 #provoles {
