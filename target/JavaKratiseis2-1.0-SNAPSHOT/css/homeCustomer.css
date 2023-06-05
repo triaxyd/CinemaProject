@@ -82,6 +82,13 @@ nav ul.logout {
     display: flex;
 }
 
+.logout input[type="button"]{
+    color: #fff;
+    border: none;
+    background: #200404;
+    padding: 0.5rem;
+}
+
 nav ul li.logout {
     margin-right: 10px;
 }
@@ -113,7 +120,7 @@ section h2 {
 
 
 #movies {
-    background-color: #200404;
+    background-color: #150303;
     padding: 2rem;
     color:#fee;
 }
@@ -196,7 +203,7 @@ section h2 {
 }
 
 #you {
-    background-color: #200404;
+    background-color: #150303;
     padding: 2rem;
 }
 
@@ -253,12 +260,12 @@ section h2 {
 }
 
 .movie-navigation a {
-    width:0.5rem;
-    height: 0.5rem;
+    width:0.6rem;
+    height: 0.6rem;
     border-radius: 50%;
     background-color: #fff;
     color: #fff;
-    opacity: 0.75;
+    opacity: 0.65;
     transition: opacity ease 250ms;
 }
 
@@ -303,6 +310,28 @@ section h2 {
 .display-movies-container .movie-info.active {
     display: flex;
 }
+
+
+.reservation-button{
+    left: 50%;
+    padding: 2rem;
+    text-align: center;
+}
+
+.reservation-button input[type="button"]{
+    color: #fff;
+    padding: 1rem;
+    border: none;
+    background: #502020;
+    border-radius: 2%;
+    cursor: pointer;
+}
+
+.reservation-button input[type="button"]:hover{
+    background: #301010;
+
+}
+
 
 
 

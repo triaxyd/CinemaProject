@@ -110,8 +110,8 @@
 </section>
 
 <section id="provoles">
-    <input type="hidden" id="movieId" name="movieId">
-    <input type="hidden" id="cinemaId" name="movieId">
+    <input type="hidden" id="movieId" name="movieId" value="">
+    <input type="hidden" id="cinemaId" name="cinemaId" value="">
     <h2>Provoles</h2>
     <div class="display-provoles-movies-container">
         <% for (Movies movie : moviesList) { %>
@@ -132,6 +132,9 @@
     <div class="reservation-form">
         <div class="selected-movie" style="color: red"></div>
         <div class="selected-cinema" style="color: red"></div>
+    </div>
+    <div class="reservation-button">
+        <input type="button" value="RESERVE SEATS">
     </div>
 </section>
 

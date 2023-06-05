@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    session = request.getSession(false);
+    session.invalidate();
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
