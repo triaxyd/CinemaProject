@@ -24,6 +24,7 @@ public abstract class Users {
     public String getUsername(){
         return this.username;
     }
+
     public String getPassword(){
         return this.password;
     }
@@ -34,6 +35,7 @@ public abstract class Users {
         return this.email;
     }
     public Date getCreationDate(){return this.create_time;}
+    public String getSalt(){return this.salt;}
     public int getId(){return this.getId();}
     public String getName(){return this.getName();}
 

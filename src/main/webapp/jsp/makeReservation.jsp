@@ -57,9 +57,23 @@
     <div class="selected-movie">MOVIE - <%=movieName%></div>
     <div class="selected-cinema">CINEMA - <%=cinemaId%></div>
 </div>
-<hr>
-<div class="provoli-remaining-seats">
-    <div class="remaining-seats">AVAILABLE SEATS: <%=provoli.getRemainingSeats()%></div>
+<div class="provoli-kratisi">
+    <div class="remaining-seats">AVAILABLE SEATS:<div id="seats"><%=provoli.getRemainingSeats()%></div> </div>
+    <form id="make-reservation" name="make-reservation" method="post" action="${pageContext.request.contextPath}/MakeReservation">
+        <input type="hidden" id="movieId" name="movieId" value=<%=movieId%>>
+        <input type="hidden" id="cinemaId" name="cinemaId" value=<%=cinemaId%>>
+        <input type="hidden" id="customerId" name="customerId" value=<%=user.getId()%>>
+        <input type="hidden" id="numOfSeats" name="numOfSeats" value="1">
+        <div class="select-seats">
+            <select id="select-seats-options" name="select-seats-options">
+                <%for(int i=0; i<10; i++) { %>
+                <option value=<%=i+1%>><%=i+1%></option>
+                <% } %>
+            </select>
+        </div>
+        <div id="no-seats-message" style="padding: 0.5rem; color: #a55"  hidden></div>
+        <input type="submit" id="submit-reservation" name="submit-reservation" value="Reserve Seats">
+    </form>
 </div>
 
 

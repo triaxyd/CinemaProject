@@ -26,4 +26,36 @@ $(document).ready(function() {
 
         setTimeout(updateTimer, 1000);
     }
+
+    var remainingSeats = document.getElementById('seats');
+
+
+    var numOfSeats = document.getElementById('numOfSeats');
+    var noSeats = document.getElementById('no-seats-message');
+
+    function checkRemainingSeats() {
+        var remainingSeatsInt = parseInt(remainingSeats.innerText.trim(), 10);
+        var selectedSeats = parseInt(numOfSeats.value, 10);
+
+        if (remainingSeatsInt - selectedSeats >= 0) {
+            noSeats.setAttribute('hidden','');
+            noSeats.innerText = "";
+        } else {
+            noSeats.removeAttribute('hidden');
+            noSeats.innerText = "PLEASE SELECT LESS SEATS";
+        }
+    }
+
+    var selectSeats = document.getElementById('select-seats-options');
+    selectSeats.addEventListener('change', function() {
+        numOfSeats.value = selectSeats.value;
+        checkRemainingSeats();
+    });
+    checkRemainingSeats();
+
+
+
+
+
+
 });

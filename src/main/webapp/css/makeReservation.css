@@ -1,5 +1,5 @@
 body{
-    background:#805050;
+    background:#604040;
     margin:0;
     color:#ffffff;
 }
@@ -9,9 +9,6 @@ header{
     margin-bottom:5rem;
 }
 
-hr{
-    width: 50%;
-}
 
 .timer{
     text-align:center;
@@ -27,6 +24,7 @@ hr{
     background: #222222;
     box-shadow: 0 3rem 3rem -0.75rem hsla(0,0%,0%,0.90);
     border-radius:20px;
+    padding: 1rem;
 }
 
 .provoli-id,
@@ -36,19 +34,57 @@ hr{
     text-align: center;
 }
 
-.provoli-remaining-seats {
-    color: white;
-    border: 1px;
-    text-align: center;
+
+
+.provoli-kratisi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 40%;
-    margin: 0 auto;
-    border-radius: 20px;
-    background: #333333;
-    display: block;
-    margin-top: 10rem;
+    margin: 5rem auto 0;
+    background: #222222;
     padding: 2rem;
+    border-radius: 15px;
 }
 
-.provoli-remaining-seats.remaining-seats{
-    color:blue;
+.remaining-seats {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color:#baa;
+    padding: 1rem;
+    display:flex;
 }
+
+.select-seats select {
+    width: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#submit-reservation {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #baa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#submit-reservation:hover {
+    background-color: #a99;
+}
+
+#submit-reservation:active {
+    background-color: #855;
+}
+
+form{
+    align-items: center;
+    text-align: center;
+}
+
+
