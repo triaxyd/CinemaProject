@@ -87,6 +87,7 @@ nav ul.logout {
     border: none;
     background: #200404;
     padding: 0.5rem;
+    cursor:pointer;
 }
 
 nav ul li.logout {
@@ -330,6 +331,13 @@ section h2 {
 .reservation-button input[type="button"]:hover{
     background: #301010;
 
+}
+
+
+.selected-movie,
+.selected-cinema{
+    text-align:center;
+    color:#aba9a9;
 }
 
 

@@ -35,7 +35,7 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
             String message;
             if (provoli!=null){
                 //provoli added
-                message = "PROVOLI FOR " + provoli.getMoviesName() +" at CINEMA " + provoli.getCinemaId()  + " ADDED";
+                message = "PROVOLI FOR " + provoli.getMovieName() +" at CINEMA " + provoli.getCinemaId()  + " ADDED";
             }else{
                 //provoli couldn't be inserted
                 message = "COULDN'T ADD PROVOLI";

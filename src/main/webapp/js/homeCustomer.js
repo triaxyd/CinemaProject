@@ -19,12 +19,16 @@ $(document).ready(function() {
     $('.provoli-movie-name').click(function() {
         var movieId = '';
         var cinemaId = '';
+        $('.selected-movie').hide();
+        $('.selected-cinema').hide();
 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             $('.provoles-cinemas-box').removeClass('show');
             $('.provoli-cinema-id').removeClass('selected');
         } else {
+            $('.selected-movie').show();
+            $('.selected-cinema').show();
             movieId = $(this).attr('id').replace('provoli-movie-', '');
             var cinemasBox = $('#provoli-cinemas-' + movieId);
             $('.provoles-cinemas-box').removeClass('show');
@@ -55,7 +59,7 @@ $(document).ready(function() {
 
     function updateSelectedCinema() {
         var cinemaId = $('#cinemaId').val();
-        $('.selected-cinema').text("Selected Cinema ID: " + cinemaId);
+        $('.selected-cinema').text("Selected Cinema: " + cinemaId);
     }
 
     $('.reservation-button input[type="button"]').click(function() {

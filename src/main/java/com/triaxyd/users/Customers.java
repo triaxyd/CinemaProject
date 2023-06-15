@@ -1,5 +1,6 @@
 package com.triaxyd.users;
 
+import com.triaxyd.cinema.CinemaDAO;
 import com.triaxyd.cinema.Provoles;
 import com.triaxyd.cinema.Reservations;
 
@@ -33,8 +34,21 @@ public class Customers extends Users {
     public int getId(){return this.id;}
 
 
-    public void makeReservation(String provoliId) {
-
+    public String makeReservation(String provoliId,int num_of_seats) {
+        String message;
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        Provoles provoli = cinemaDAO.getProvoli(Integer.parseInt(provoliId));
+        if (provoli.getRemainingSeats()==0){
+            //full theater
+            message = provoli.getMovieName() + "at " + provoli.getCinemaId() +" is full";
+        }else if(provoli.getRemainingSeats() < num_of_seats) {
+            //cant make reservation the theater is full
+            message = "Please select " + provoli.getRemainingSeats() + " or less seats";
+        }else{
+            Reservations reservation = new Reservations(provoli.getMovieId(),provoli.getCinemaId(),this.id,num_of_seats);
+            message = "Reservation for " + provoli.getMovieName() + " at " + provoli.getCinemaId();
+        }
+        return message;
     }
 
     public void viewReservations() {

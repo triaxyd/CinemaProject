@@ -1,8 +1,6 @@
 package com.triaxyd.cinema;
 
-import java.io.Serializable;
-
-public final class Cinemas  implements Serializable {
+public final class Cinemas{
     private String cinemaName;
     private String cinemaSeats;
     private int cinemaId;

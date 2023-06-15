@@ -2,7 +2,6 @@ package com.triaxyd.cinema;
 
 import com.triaxyd.database.DatabaseConnector;
 
-import javax.xml.crypto.Data;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -117,6 +116,14 @@ public class CinemaDAO {
         return null;
     }
 
+    public Cinemas getCinema(int cinemaId){
+        for(Cinemas c : getCinemas()){
+            if(c.getCinemaId()==cinemaId){
+                return c;
+            }
+        }
+        return null;
+    }
     public Provoles getProvoli(int provoliId){
         for(Provoles p : getProvoles()){
             if(p.getId()==provoliId){
@@ -125,6 +132,17 @@ public class CinemaDAO {
         }
         return null;
     }
+    public Provoles getProvoli(String movieId,String cinemaId){
+        for(Provoles p : getProvoles()){
+            if(Integer.parseInt(movieId)==p.getMovieId()){
+                if(Integer.parseInt(cinemaId)==p.getCinemaId()){
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
 
 
 
@@ -183,8 +201,49 @@ public class CinemaDAO {
     }
 
 
+
+    public static List<Reservations> getReservations(){
+        List<Reservations> reservations = new ArrayList<>();
+        try {
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT * from reservations";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Reservations reservation = new Reservations();
+                reservation.setProvoles_movies_id(rs.getInt("PROVOLES_MOVIES_ID"));
+                reservation.setProvoles_movies_name(rs.getString("PROVOLES_MOVIES_NAME"));
+                reservation.setProvoles_cinemas_id(rs.getInt("PROVOLES_CINEMAS_ID"));
+                reservation.setCustomers_id(rs.getInt("CUSTOMERS_ID"));
+                reservation.setNum_of_seats(rs.getInt("NUMBER_OF_SEATS"));
+
+                reservations.add(reservation);
+            }
+            rs.close();
+            ps.close();
+            connection.close();
+        }catch(SQLException e){
+
+        }
+        return reservations;
+    }
+
+    public int getReservationsForProvoli(int provoliId){
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        int sumReservations = 0;
+        for (Reservations r : getReservations()){
+            Provoles pr = cinemaDAO.getProvoli(String.valueOf(r.getProvoles_movies_id()),String.valueOf(r.getProvoles_cinemas_id()));
+            if(provoliId==pr.getId()) {
+                sumReservations += r.getNum_of_seats();
+            }
+        }
+        return sumReservations;
+    }
+
+
     public static List<Provoles> getProvoles(){
-        List<Provoles> provoles= new ArrayList<Provoles>();
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        List<Provoles> provoles= new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
             String sql = "SELECT * from provoles";
@@ -192,11 +251,14 @@ public class CinemaDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Provoles provoli = new Provoles();
-                provoli.setMoviesId(rs.getInt("MOVIES_ID"));
-                provoli.setMoviesName(rs.getString("MOVIES_NAME"));
+                provoli.setMovieId(rs.getInt("MOVIES_ID"));
+                provoli.setMovieName(rs.getString("MOVIES_NAME"));
                 provoli.setCinemaId(rs.getInt("CINEMAS_ID"));
                 provoli.setId(rs.getInt("ID"));
                 provoli.setContentAdminId(rs.getInt("CONTENT_ADMIN_ID"));
+
+                provoli.setTotalSeats();
+                provoli.setRemainingSeats(cinemaDAO.getReservationsForProvoli(provoli.getId()));
 
                 provoles.add(provoli);
             }
@@ -208,4 +270,10 @@ public class CinemaDAO {
         }
         return provoles;
     }
+
+
+
+
+
+
 }

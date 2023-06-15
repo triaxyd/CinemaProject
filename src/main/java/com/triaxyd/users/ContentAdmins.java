@@ -89,8 +89,8 @@ public class ContentAdmins extends Users {
 
                 psAssign.executeUpdate();
 
-                provoli.setMoviesId(Integer.parseInt(movieId));
-                provoli.setMoviesName(movieName);
+                provoli.setMovieId(Integer.parseInt(movieId));
+                provoli.setMovieName(movieName);
                 provoli.setId(provoliId);
                 provoli.setCinemaId(Integer.parseInt(cinemaId));
                 provoli.setContentAdminId(this.id);
@@ -127,7 +127,7 @@ public class ContentAdmins extends Users {
 
                 ps.executeUpdate();
 
-                return "PROVOLI FOR -"+ provoli.getMoviesName() + "- DELETED";
+                return "PROVOLI FOR -"+ provoli.getMovieName() + "- DELETED";
             } catch (SQLException e) {
                 e.printStackTrace();
             }
