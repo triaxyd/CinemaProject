@@ -130,8 +130,8 @@
         <% } %>
     </div>
     <div class="reservation-form">
-        <div class="selected-movie" style="color: red"></div>
-        <div class="selected-cinema" style="color: red"></div>
+        <div class="selected-movie"></div>
+        <div class="selected-cinema"></div>
     </div>
     <div class="reservation-button">
         <input type="button" value="RESERVE SEATS">

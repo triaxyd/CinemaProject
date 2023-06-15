@@ -102,9 +102,9 @@
                 <% for (Provoles provoli : provolesList ) { %>
                 <li class="provoli-box">
                     <div class="provoli-info">
-                        <span class="provoli-name"><%= provoli.getMoviesName() + " - " + provoli.getCinemaId()%></span><br>
+                        <span class="provoli-name"><%= provoli.getMovieName() + " - " + provoli.getCinemaId()%></span><br>
                         <span class="provoli-id">ID: </span><span><%= provoli.getId()%></span><br>
-                        <span class="provoli-movie-id">MOVIE ID: </span><span><%= provoli.getMoviesId()%></span><br>
+                        <span class="provoli-movie-id">MOVIE ID: </span><span><%= provoli.getMovieId()%></span><br>
                         <span class="provoli-content-admin">ADDED BY:  </span><span><%= provoli.getContentAdminId() %></span>
                     </div>
                 </li>
