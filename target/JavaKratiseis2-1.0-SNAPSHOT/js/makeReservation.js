@@ -27,9 +27,9 @@ $(document).ready(function() {
         setTimeout(updateTimer, 1000);
     }
 
+
+    var form = document.getElementById('make-reservation');
     var remainingSeats = document.getElementById('seats');
-
-
     var numOfSeats = document.getElementById('numOfSeats');
     var noSeats = document.getElementById('no-seats-message');
 
@@ -40,11 +40,15 @@ $(document).ready(function() {
         if (remainingSeatsInt - selectedSeats >= 0) {
             noSeats.setAttribute('hidden','');
             noSeats.innerText = "";
+
         } else {
             noSeats.removeAttribute('hidden');
             noSeats.innerText = "PLEASE SELECT LESS SEATS";
+            event.preventDefault();
         }
     }
+
+    form.addEventListener('submit', checkRemainingSeats);
 
     var selectSeats = document.getElementById('select-seats-options');
     selectSeats.addEventListener('change', function() {
@@ -52,10 +56,6 @@ $(document).ready(function() {
         checkRemainingSeats();
     });
     checkRemainingSeats();
-
-
-
-
 
 
 });
