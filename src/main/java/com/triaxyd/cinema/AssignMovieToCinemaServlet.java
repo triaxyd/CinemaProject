@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.Date;
 
 @WebServlet(name = "AssignMovieToCinema", value = "/AssignMovieToCinema")
@@ -51,6 +52,7 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
             String redirectURL = request.getContextPath()+destPage + "?actionmade=" + encodedMessage;
             response.sendRedirect(redirectURL);
         }catch (NullPointerException e) {
+            e.printStackTrace();
             destPage = "/index.jsp";
             response.sendRedirect(request.getContextPath() + destPage);
         }

@@ -28,6 +28,7 @@
         Don't have an account? <a href="jsp/signUp.jsp">Register</a>
     </div>
 </div>
+<script>window.history.forward();</script>
 <script src="<%= request.getContextPath() %>/js/indexJs.js"></script>
 </body>
 

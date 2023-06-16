@@ -70,6 +70,7 @@ public class ContentAdmins extends Users {
 
         if (!cinemaDAO.checkMovieExists(Integer.parseInt(movieId))) return null;
         if (!cinemaDAO.checkCinemaExists(Integer.parseInt(cinemaId))) return null;
+
         if(cinemaDAO.checkProvoliExists(movieId,cinemaId)){
             //provoli exists
             return null;
@@ -79,7 +80,7 @@ public class ContentAdmins extends Users {
             String movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
             try{
                 Connection connection = DatabaseConnector.connect();
-                String sql = "INSERT INTO provoles VALUES(?,?,?,?,?)";
+                String sql = "INSERT INTO provoles VALUES(?,?,?,?,?,?)";
                 PreparedStatement psAssign = connection.prepareStatement(sql);
                 psAssign.setInt(1,Integer.parseInt(movieId));
                 psAssign.setString(2,movieName);
@@ -87,14 +88,16 @@ public class ContentAdmins extends Users {
                 psAssign.setInt(4,provoliId);
                 psAssign.setInt(5,this.getId());
 
-                psAssign.executeUpdate();
 
                 provoli.setMovieId(Integer.parseInt(movieId));
                 provoli.setMovieName(movieName);
                 provoli.setId(provoliId);
                 provoli.setCinemaId(Integer.parseInt(cinemaId));
                 provoli.setContentAdminId(this.id);
+                int num_of_seats= provoli.setTotalSeats();
+                psAssign.setInt(6,num_of_seats);
 
+                psAssign.executeUpdate();
 
                 return provoli;
             }catch(SQLException e){

@@ -256,9 +256,8 @@ public class CinemaDAO {
                 provoli.setCinemaId(rs.getInt("CINEMAS_ID"));
                 provoli.setId(rs.getInt("ID"));
                 provoli.setContentAdminId(rs.getInt("CONTENT_ADMIN_ID"));
-
-                provoli.setTotalSeats();
-                provoli.setRemainingSeats(cinemaDAO.getReservationsForProvoli(provoli.getId()));
+                provoli.setNum_of_seats(rs.getInt("NUM_OF_SEATS"));
+                //provoli.setNum_of_seats(cinemaDAO.getReservationsForProvoli(provoli.getId()));
 
                 provoles.add(provoli);
             }

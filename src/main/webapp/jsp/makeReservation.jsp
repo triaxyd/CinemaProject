@@ -46,9 +46,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESERVATION</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/makeReservation.css">
+
 </head>
 <header>
     <div id="timer" class="timer"></div>
+    <input type="button" id="cancel-reservation" value="Cancel" name="cancel-reservation">
 </header>
 <body>
 
@@ -58,7 +60,7 @@
     <div class="selected-cinema">CINEMA - <%=cinemaId%></div>
 </div>
 <div class="provoli-kratisi">
-    <div class="remaining-seats">AVAILABLE SEATS:<div id="seats"><%=provoli.getRemainingSeats()%></div> </div>
+    <div class="remaining-seats">AVAILABLE SEATS: <div id="seats"> <%=provoli.getNum_of_seats()%> </div> </div>
     <form id="make-reservation" name="make-reservation" method="post" action="${pageContext.request.contextPath}/MakeReservation">
         <input type="hidden" id="movieId" name="movieId" value=<%=movieId%>>
         <input type="hidden" id="cinemaId" name="cinemaId" value=<%=cinemaId%>>
@@ -77,6 +79,15 @@
 </div>
 
 
+
+<script>
+    var cancelButton = document.getElementById('cancel-reservation');
+    cancelButton.onclick = function() {
+        var contextPath = '<%= request.getContextPath() %>';
+        var url = contextPath + "/jsp/homeCustomer.jsp";
+        window.location.replace(url);
+    };
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="<%= request.getContextPath() %>/js/makeReservation.js"></script>
 </body>

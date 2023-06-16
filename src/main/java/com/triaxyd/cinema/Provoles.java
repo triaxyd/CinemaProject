@@ -5,7 +5,7 @@ public class Provoles {
     //private List<Reservations> reservations;
     //provoliNumberOfReservations,provoliSeatsLeft , provoliFilm,provoliCinema,provoliStartDate,provoliEndDate ,provoliIsAvailable
 
-    private int movieId,cinemaId,contentAdminId,id,totalSeats,remainingSeats;
+    private int movieId,cinemaId,contentAdminId,id,num_of_seats;
 
     private String movieName;
     public Provoles(){}
@@ -30,13 +30,19 @@ public class Provoles {
     public void setContentAdminId(int contentAdminId){this.contentAdminId = contentAdminId;}
     public void setId(int id){this.id=id;}
     public void setMovieName(String movieName){this.movieName = movieName;}
-    public void setTotalSeats(){
+    public void setNum_of_seats(int num_of_seats){this.num_of_seats = num_of_seats;}
+
+    public int setTotalSeats(){
         CinemaDAO cinemaDAO = new CinemaDAO();
         Cinemas cinema = cinemaDAO.getCinema(cinemaId);
-        totalSeats = Integer.parseInt(cinema.getCinemaSeats());
+        num_of_seats = Integer.parseInt(cinema.getCinemaSeats());
+        return num_of_seats;
     }
+
+
+
     public void setRemainingSeats(int capturedSeats){
-        this.remainingSeats = totalSeats -= capturedSeats;
+        this.num_of_seats = this.num_of_seats - capturedSeats;
     }
 
     public int getMovieId(){return this.movieId;}
@@ -44,7 +50,7 @@ public class Provoles {
     public int getContentAdminId(){return this.contentAdminId;}
     public int getId(){return this.id;}
     public String getMovieName(){return this.movieName;}
-    public int getRemainingSeats(){return this.remainingSeats;}
+    public int getNum_of_seats(){return this.num_of_seats;}
 
 
 
