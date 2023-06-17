@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,11 @@ public class CinemaDAO {
     }
     public int generateID(String x, String y,String z) {
         String combination = (x.toUpperCase().trim() + "" + y.toUpperCase() +"" + z.toUpperCase()).trim();
+        byte[] hashBytes = getSHA256Hash(combination);
+        return bytesToInt(hashBytes);
+    }
+    public int generateID(String x, String y, LocalDate date, LocalTime startTime) {
+        String combination = (x.toUpperCase().trim() + "" + y.toUpperCase() + "" + date.toString() + "" + startTime.toString()).trim();
         byte[] hashBytes = getSHA256Hash(combination);
         return bytesToInt(hashBytes);
     }
@@ -83,18 +89,20 @@ public class CinemaDAO {
         return false;
     }
 
-    public boolean checkProvoliExists(String movieId,String cinemaId){
+    public boolean checkProvoliExists(int movieId,int cinemaId,LocalDate date, LocalTime time){
         String movieName = null;
         CinemaDAO cinemaDAO = new CinemaDAO();
-        movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
+        movieName = cinemaDAO.getMovie(movieId).getMovieTitle();
 
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ?";
+            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ? AND PROVOLI_DATE = ? AND PROVOLI_START_TIME = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1,Integer.parseInt(movieId));
+            ps.setInt(1,movieId);
             ps.setString(2,movieName);
-            ps.setInt(3,Integer.parseInt(cinemaId));
+            ps.setInt(3,cinemaId);
+            ps.setDate(4, java.sql.Date.valueOf(date));
+            ps.setTime(5, java.sql.Time.valueOf(time));
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return true;
@@ -133,10 +141,10 @@ public class CinemaDAO {
         }
         return null;
     }
-    public Provoles getProvoli(String movieId,String cinemaId){
+    public Provoles getProvoli(int movieId,int cinemaId){
         for(Provoles p : getProvoles()){
-            if(Integer.parseInt(movieId)==p.getMovieId()){
-                if(Integer.parseInt(cinemaId)==p.getCinemaId()){
+            if(movieId==p.getMovieId()){
+                if(cinemaId==p.getCinemaId()){
                     return p;
                 }
             }
@@ -233,7 +241,7 @@ public class CinemaDAO {
         CinemaDAO cinemaDAO = new CinemaDAO();
         int sumReservations = 0;
         for (Reservations r : getReservations()){
-            Provoles pr = cinemaDAO.getProvoli(String.valueOf(r.getProvoles_movies_id()),String.valueOf(r.getProvoles_cinemas_id()));
+            Provoles pr = cinemaDAO.getProvoli(r.getProvoles_movies_id(),r.getProvoles_cinemas_id());
             if(provoliId==pr.getId()) {
                 sumReservations += r.getNum_of_seats();
             }

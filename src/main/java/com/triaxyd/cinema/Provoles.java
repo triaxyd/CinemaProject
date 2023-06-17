@@ -62,6 +62,9 @@ public class Provoles {
     public int getId(){return this.id;}
     public String getMovieName(){return this.movieName;}
     public int getNum_of_seats(){return this.num_of_seats;}
+    public LocalDate getDate(){return this.date;}
+    public LocalTime getStartTime(){return this.startTime;}
+    public LocalTime getEndTime(){return this.endTime;}
 
 
 

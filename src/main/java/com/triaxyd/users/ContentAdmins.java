@@ -4,10 +4,12 @@ import com.triaxyd.cinema.CinemaDAO;
 import com.triaxyd.cinema.Movies;
 import com.triaxyd.cinema.Provoles;
 import com.triaxyd.database.DatabaseConnector;
-
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ContentAdmins extends Users {
     private String name;
@@ -58,52 +60,63 @@ public class ContentAdmins extends Users {
 
 
 
-    public Provoles assignMovieToCinema(String movieId, String cinemaId) {
+    public Provoles assignMovieToCinema(int movieId, int cinemaId, LocalDate date, LocalTime startTime) {
         Provoles provoli = null;
         CinemaDAO cinemaDAO = new CinemaDAO();
-        try {
-            int checkmovieIdInt = Integer.parseInt(movieId);
-            int checkCinemaIdInt = Integer.parseInt(cinemaId);
-        } catch (NumberFormatException e) {
-            return null;
-        }
 
-        if (!cinemaDAO.checkMovieExists(Integer.parseInt(movieId))) return null;
-        if (!cinemaDAO.checkCinemaExists(Integer.parseInt(cinemaId))) return null;
+        if (!cinemaDAO.checkMovieExists(movieId)) return null;
+        if (!cinemaDAO.checkCinemaExists(cinemaId)) return null;
 
-        if(cinemaDAO.checkProvoliExists(movieId,cinemaId)){
+        if(cinemaDAO.checkProvoliExists(movieId,cinemaId,date,startTime)){
             //provoli exists
             return null;
-        }else{
-            provoli = new Provoles();
-            int provoliId = cinemaDAO.generateID(movieId,cinemaId,String.valueOf(this.getId()));
-            String movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
-            try{
-                Connection connection = DatabaseConnector.connect();
-                String sql = "INSERT INTO provoles VALUES(?,?,?,?,?,?)";
-                PreparedStatement psAssign = connection.prepareStatement(sql);
-                psAssign.setInt(1,Integer.parseInt(movieId));
-                psAssign.setString(2,movieName);
-                psAssign.setInt(3,Integer.parseInt(cinemaId));
-                psAssign.setInt(4,provoliId);
-                psAssign.setInt(5,this.getId());
-
-
-                provoli.setMovieId(Integer.parseInt(movieId));
-                provoli.setMovieName(movieName);
-                provoli.setId(provoliId);
-                provoli.setCinemaId(Integer.parseInt(cinemaId));
-                provoli.setContentAdminId(this.id);
-                int num_of_seats= provoli.setTotalSeats();
-                psAssign.setInt(6,num_of_seats);
-
-                psAssign.executeUpdate();
-
-                return provoli;
-            }catch(SQLException e){
-                e.printStackTrace();
+        }
+        LocalTime endTime = startTime.plusMinutes(cinemaDAO.getMovie(movieId).getMovieLength());
+        for(Provoles p : CinemaDAO.getProvoles()){
+            if(p.getDate().equals(date) && p.getCinemaId()==cinemaId){
+                LocalTime existingStartTime = p.getStartTime();
+                LocalTime existingEndTime = p.getEndTime();
+                if (startTime.isBefore(existingEndTime) && existingStartTime.isBefore(endTime)) {
+                    return null;
+                }
             }
         }
+        provoli = new Provoles();
+        int provoliId = cinemaDAO.generateID(String.valueOf(movieId), String.valueOf(cinemaId), date, startTime);
+        String movieName = cinemaDAO.getMovie(movieId).getMovieTitle();
+        try{
+            provoli.setMovieId(movieId);
+            provoli.setMovieName(movieName);
+            provoli.setId(provoliId);
+            provoli.setCinemaId(cinemaId);
+            provoli.setContentAdminId(this.id);
+
+            int num_of_seats= provoli.setTotalSeats();
+
+            provoli.setDate(date);
+            provoli.setStartTime(startTime);
+            provoli.setEndTime(endTime);
+
+            Connection connection = DatabaseConnector.connect();
+            String sql = "INSERT INTO provoles VALUES(?,?,?,?,?,?,?,?,?)";
+            PreparedStatement psAssign = connection.prepareStatement(sql);
+            psAssign.setInt(1,movieId);
+            psAssign.setString(2,movieName);
+            psAssign.setInt(3,cinemaId);
+            psAssign.setInt(4,provoliId);
+            psAssign.setInt(5,this.getId());
+            psAssign.setInt(6,num_of_seats);
+            psAssign.setDate(7, java.sql.Date.valueOf(date));
+            psAssign.setTime(8, java.sql.Time.valueOf(startTime));
+            psAssign.setTime(9, java.sql.Time.valueOf(endTime));
+
+            psAssign.executeUpdate();
+
+            return provoli;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -111,12 +124,10 @@ public class ContentAdmins extends Users {
 
 
 
-    public String deleteProvoli(String provoliId, int content_admin_id){
+    public String deleteProvoli(int provoliId, int content_admin_id){
         CinemaDAO cinemaDAO = new CinemaDAO();
         try{
-            int intProvoliId = Integer.parseInt(provoliId);
-
-            Provoles provoli = cinemaDAO.getProvoli(intProvoliId);
+            Provoles provoli = cinemaDAO.getProvoli(provoliId);
             if(provoli==null) return "PROVOLI WITH ID " + provoliId + " NOT FOUND";
 
             if(!(provoli.getContentAdminId()==content_admin_id)) return "UNAUTHORIZED TO DELETE MOVIE";

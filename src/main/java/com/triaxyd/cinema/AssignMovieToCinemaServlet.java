@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @WebServlet(name = "AssignMovieToCinema", value = "/AssignMovieToCinema")
@@ -26,17 +28,30 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+destPage);
                 return;
             }
+            int movieId =0;
+            String movieIdStr = request.getParameter("movie-id");
+            try{
+                movieId = Integer.parseInt(movieIdStr);
+            }catch(NumberFormatException e){
+                String redirectURL = request.getContextPath()+destPage + "?actionmade=MOVIE NOT FOUND";
+                response.sendRedirect(redirectURL);
+                return;
+            }
 
-            String movieId = request.getParameter("movie-id");
-            String cinemaId = request.getParameter("cinema-id");
+            String cinemaIdStr = request.getParameter("cinema-id");
+            int cinemaId = Integer.parseInt(cinemaIdStr);
+            String provoliDateStr = request.getParameter("provoli-date");
+            LocalDate provoliDate = LocalDate.parse(provoliDateStr);
+            String provoliTimeStr = request.getParameter("provoli-time");
+            LocalTime provoliTime = LocalTime.parse(provoliTimeStr);
 
             Users user = (ContentAdmins)session.getAttribute("user");
-            Provoles provoli = ((ContentAdmins) user).assignMovieToCinema(movieId,cinemaId);
+            Provoles provoli = ((ContentAdmins) user).assignMovieToCinema(movieId,cinemaId,provoliDate,provoliTime);
 
             String message;
             if (provoli!=null){
                 //provoli added
-                message = "PROVOLI FOR " + provoli.getMovieName() +" at CINEMA " + provoli.getCinemaId()  + " ADDED";
+                message = "PROVOLI FOR " + provoli.getMovieName() +" - CINEMA:" + provoli.getCinemaId()  + " - DATE: " + provoli.getDate() + " - TIME: " +provoli.getStartTime();
             }else{
                 //provoli couldn't be inserted
                 message = "COULDN'T ADD PROVOLI";

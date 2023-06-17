@@ -26,16 +26,20 @@ public class MakeReservationServlet extends HttpServlet {
             CinemaDAO cinemaDAO = new CinemaDAO();
 
 
-            String movieId = request.getParameter("movieId");
-            String cinemaId = request.getParameter("cinemaId");
-            String customerId = request.getParameter("customerId");
-            String numOfSeats = request.getParameter("numOfSeats");
+            String movieIdStr = request.getParameter("movieId");
+            int movieId = Integer.parseInt(movieIdStr);
+            String cinemaIdStr = request.getParameter("cinemaId");
+            int cinemaId  = Integer.parseInt(cinemaIdStr);
+            String customerIdStr = request.getParameter("customerId");
+            int customerId = Integer.parseInt(customerIdStr);
+            String numOfSeatsStr = request.getParameter("numOfSeats");
+            int numOfSeats = Integer.parseInt(numOfSeatsStr);
 
-            if(movieId.isEmpty() || cinemaId.isEmpty() || customerId.isEmpty() || numOfSeats.isEmpty()){
+            if(movieIdStr.isEmpty() || cinemaIdStr.isEmpty() || customerIdStr.isEmpty() || numOfSeatsStr.isEmpty()){
                 message = "Something went wrong, try again";
             }
             Provoles provoli = cinemaDAO.getProvoli(movieId,cinemaId);
-            message = ((Customers)user).makeReservation(provoli.getId(),Integer.parseInt(numOfSeats));
+            message = ((Customers)user).makeReservation(provoli.getId(),numOfSeats);
 
             response.sendRedirect(request.getContextPath()+destPage+"?message=" +message);
         }catch(NullPointerException e){

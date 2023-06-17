@@ -25,7 +25,15 @@ public class DeleteProvoliServlet extends HttpServlet {
                 return;
             }
 
-            String provoliId = request.getParameter("provoli-id-delete");
+            int provoliId=0;
+            try{
+                provoliId = Integer.parseInt(request.getParameter("provoli-id-delete"));
+            }catch (NumberFormatException e){
+                String redirectURL = request.getContextPath()+destPage + "?actionmade=PROVOLI NOT FOUND";
+                response.sendRedirect(redirectURL);
+                return;
+            }
+
             int content_admin_id = Integer.parseInt(request.getParameter ("content_admin_id_delete"));
 
             Users user = (Users)session.getAttribute("user");
