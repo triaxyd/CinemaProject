@@ -1,17 +1,14 @@
 <%@ page import="com.triaxyd.users.Users" %>
 <%@ page import="com.triaxyd.users.Customers" %>
-<%@ page import="com.triaxyd.cinema.CinemaDAO"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="javax.xml.crypto.Data" %>
 <%@ page import="com.triaxyd.database.DatabaseConnector" %>
-<%@ page import="com.triaxyd.cinema.Movies" %>
 <%@ page import="java.util.List" %>
 <%@ page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane" %>
-<%@ page import="com.triaxyd.cinema.Provoles" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.triaxyd.cinema.Cinemas" %>
+<%@ page import="com.triaxyd.cinema.*" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -47,9 +44,11 @@
             if (cookie.getName().equals("JSESSIONID")) scookie = cookie.getValue();
         }
     }
+
     List<Movies> moviesList = CinemaDAO.getMovies();
     List<Provoles> provolesList = CinemaDAO.getProvoles();
     List<Cinemas> cinemasList = CinemaDAO.getCinemas();
+    List<Reservations> reservationsList = CinemaDAO.getReservations();
     CinemaDAO cinemaDAO = new CinemaDAO();
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
@@ -141,7 +140,37 @@
 
 <section id="you">
     <h2>You</h2>
-
+    <div class="reservations-for-user-container">
+        <table id="reservation-table">
+            <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Cinema</th>
+                <th>Seats</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% int count = 0; %>
+            <% for (Reservations r : reservationsList) { %>
+                <% if (r.getCustomers_id() == user.getId()) { %>
+                    <% count++;%>
+                    <tr>
+                        <td><%= r.getProvoles_movies_name() %></td>
+                        <td><%= r.getProvoles_cinemas_id() %></td>
+                        <td><%= r.getNum_of_seats() %></td>
+                    </tr>
+                <% } %>
+            <% } %>
+            <% if(count==0) { %>
+                <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 

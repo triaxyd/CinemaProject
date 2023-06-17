@@ -1,9 +1,15 @@
 package com.triaxyd.users;
 
+import com.triaxyd.cinema.Reservations;
+import com.triaxyd.cinema.CinemaDAO;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import static com.triaxyd.cinema.CinemaDAO.getReservations;
+
 
 public class Admins extends Users {
 
@@ -31,6 +37,9 @@ public class Admins extends Users {
         Users user = userDAO.getUser(username);
         if (user==null) return "username " + username + " not found";
         if(user.getRole().equals("Admin")) return "Cannot delete ADMIN";
+        for(Reservations reservations : getReservations()){
+            if(user.getId()==reservations.getCustomers_id())return"User has reservations";
+        }
         if(userDAO.deleteUser(user)){
             return username + " deleted";
         }else{

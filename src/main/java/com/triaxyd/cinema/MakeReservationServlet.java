@@ -13,26 +13,36 @@ public class MakeReservationServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if(session==null) return;
-
-        Users user = (Customers)session.getAttribute("user");
-        if(user==null)return;
-
-        CinemaDAO cinemaDAO = new CinemaDAO();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String destPage = "/jsp/homeCustomer.jsp";
         String message;
+        try{
+            HttpSession session = request.getSession(false);
+            if(session==null) return;
 
-        String movieId = request.getParameter("movieId");
-        String cinemaId = request.getParameter("cinemaId");
-        String customerId = request.getParameter("customerId");
-        String numOfSeats = request.getParameter("numOfSeats");
+            Users user = (Customers)session.getAttribute("user");
+            if(user==null)return;
 
-        if(movieId.isEmpty() || cinemaId.isEmpty() || customerId.isEmpty() || numOfSeats.isEmpty()){
-            message = "Something went wrong with the reservation, try again";
+            CinemaDAO cinemaDAO = new CinemaDAO();
+
+
+            String movieId = request.getParameter("movieId");
+            String cinemaId = request.getParameter("cinemaId");
+            String customerId = request.getParameter("customerId");
+            String numOfSeats = request.getParameter("numOfSeats");
+
+            if(movieId.isEmpty() || cinemaId.isEmpty() || customerId.isEmpty() || numOfSeats.isEmpty()){
+                message = "Something went wrong, try again";
+            }
+            Provoles provoli = cinemaDAO.getProvoli(movieId,cinemaId);
+            message = ((Customers)user).makeReservation(provoli.getId(),Integer.parseInt(numOfSeats));
+
+            response.sendRedirect(request.getContextPath()+destPage+"?message=" +message);
+        }catch(NullPointerException e){
+            message = "Something went wrong";
+            destPage ="/index.jsp";
+            response.sendRedirect(request.getContextPath()+destPage+"?message"+message);
         }
-        Provoles provoli = cinemaDAO.getProvoli(movieId,cinemaId);
-        message = ((Customers)user).makeReservation(provoli.getId(),Integer.parseInt(numOfSeats));
 
 
 

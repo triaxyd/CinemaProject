@@ -341,6 +341,35 @@ section h2 {
 }
 
 
+/*
+
+ */
+
+
+#reservation-table {
+    margin: 0 auto;
+    width: 75%;
+    padding: 1rem;
+    border-radius: 10px;
+    background: #503030;
+    box-shadow: 2rem 2rem 2rem -1rem hsla(0,0%,0%,0.25);
+}
+
+#reservation-table th,
+#reservation-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid;
+}
+
+#reservation-table th {
+    background-color: #ddd;
+}
+
+thead, tbody {
+    border-radius: 10px;
+    background: #baa;
+}
 
 
 

@@ -193,6 +193,17 @@ hr{
     border-radius: 5px;
 }
 
+#provoli-time {
+    width: 75%;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+
+
+
 .logout-button {
     z-index: 999;
     position: absolute;

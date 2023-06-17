@@ -79,15 +79,14 @@ public class Customers extends Users {
 
             }
 
-
-
-            message = "Reservation for " + provoli.getMovieName() + " at " + provoli.getCinemaId();
+            message = "Reservation for " + provoli.getMovieName() + " at " + provoli.getCinemaId() + " for " + num_of_seats;
         }
         return message;
     }
 
     public void viewReservations() {
 
+        String message;
     }
 
 }

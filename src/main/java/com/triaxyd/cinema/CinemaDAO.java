@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -257,6 +258,9 @@ public class CinemaDAO {
                 provoli.setId(rs.getInt("ID"));
                 provoli.setContentAdminId(rs.getInt("CONTENT_ADMIN_ID"));
                 provoli.setNum_of_seats(rs.getInt("NUM_OF_SEATS"));
+                provoli.setDate(rs.getDate("PROVOLI_DATE").toLocalDate());
+                provoli.setStartTime(rs.getTime("PROVOLI_START_TIME").toLocalTime());
+                provoli.setEndTime(rs.getTime("PROVOLI_END_TIME").toLocalTime());
                 //provoli.setNum_of_seats(cinemaDAO.getReservationsForProvoli(provoli.getId()));
 
                 provoles.add(provoli);
