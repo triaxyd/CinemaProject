@@ -98,20 +98,37 @@
     <section id="provoles">
         <h2>PROVOLES</h2>
         <div class="display-provoles-container">
-            <ul>
+            <table>
+                <thead>
+                <tr>
+                    <th>Provoli ID</th>
+                    <th>Movie ID</th>
+                    <th>Movie Name</th>
+                    <th>Cinema ID</th>
+                    <th>Added By</th>
+                    <th>Date</th>
+                    <th>Starts</th>
+                    <th>Ends</th>
+                </tr>
+                </thead>
+                <tbody>
                 <% for (Provoles provoli : provolesList ) { %>
-                <li class="provoli-box">
-                    <div class="provoli-info">
-                        <span class="provoli-name"><%= provoli.getMovieName() + " - " + provoli.getCinemaId()%></span><br>
-                        <span class="provoli-id">ID: </span><span><%= provoli.getId()%></span><br>
-                        <span class="provoli-movie-id">MOVIE ID: </span><span><%= provoli.getMovieId()%></span><br>
-                        <span class="provoli-content-admin">ADDED BY:  </span><span><%= provoli.getContentAdminId() %></span>
-                    </div>
-                </li>
+                <tr>
+                    <td><%= provoli.getId() %></td>
+                    <td><%= provoli.getMovieId() %></td>
+                    <td><%= provoli.getMovieName() %></td>
+                    <td><%= provoli.getCinemaId() %></td>
+                    <td><%= provoli.getContentAdminId() %></td>
+                    <td><%= provoli.getDate()%></td>
+                    <td><%= provoli.getStartTime()%></td>
+                    <td><%= provoli.getEndTime()%></td>
+                </tr>
                 <% } %>
-            </ul>
+                </tbody>
+            </table>
         </div>
     </section>
+
     <hr>
 
     <div class="show-form" id="show-form-insert">
@@ -139,10 +156,15 @@
                 <input type="date" name="provoli-date" id="provoli-date" min="<%= java.time.LocalDate.now() %>" value="<%= java.time.LocalDate.now() %>">
                 <select name="provoli-time" id="provoli-time">
                     <option value="18:00">18:00</option>
+                    <option value="18:30">18:30</option>
                     <option value="19:00">19:00</option>
+                    <option value="19.30">19.30</option>
                     <option value="20:00">20:00</option>
                     <option value="20:30">20:30</option>
                     <option value="21:00">21:00</option>
+                    <option value="21:30">21:30</option>
+                    <option value="22:00">22:00</option>
+                    <option value="22:30">22:30</option>
                 </select>
                 <input type="submit" id="submitAssign" value="ASSIGN">
             </form>

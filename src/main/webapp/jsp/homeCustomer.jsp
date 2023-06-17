@@ -9,6 +9,8 @@
 <%@ page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.triaxyd.cinema.*" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -113,21 +115,20 @@
     <input type="hidden" id="cinemaId" name="cinemaId" value="">
     <h2>Provoles</h2>
     <div class="display-provoles-movies-container">
-        <% for (Movies movie : moviesList) { %>
         <div class="provoli-movie-box">
-            <div class="provoli-movie-name" id="provoli-movie-<%=movie.getMovieID()%>"><%=movie.getMovieTitle()%></div>
-            <div class="provoles-cinemas-box" id="provoli-cinemas-<%=movie.getMovieID()%>">
-                <% for (Cinemas cinema : cinemasList) { %>
-                    <% if (cinemaDAO.checkProvoliExists(String.valueOf(movie.getMovieID()), String.valueOf(cinema.getCinemaId()))) { %>
-                        <div class="provoli-cinema-id" id="provoli-cinema-<%=cinema.getCinemaId()%>">Cinema <%=cinema.getCinemaId()%></div>
-                    <% } else { %>
-                        <div class="provoli-cinema-id-not-available">Cinema <%=cinema.getCinemaId()%></div>
-                    <% } %>
+            <select class="provoli-movie-select" id="provoli-movie-select">
+                <% for (Movies movie : moviesList) { %>
+                <option value="<%=movie.getMovieID()%>"><%=movie.getMovieTitle()%></option>
                 <% } %>
-            </div>
+            </select>
         </div>
-        <% } %>
     </div>
+
+
+
+
+
+
     <div class="reservation-form">
         <div class="selected-movie"></div>
         <div class="selected-cinema"></div>

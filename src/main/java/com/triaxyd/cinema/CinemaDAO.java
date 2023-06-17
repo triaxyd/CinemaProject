@@ -22,11 +22,6 @@ public class CinemaDAO {
         byte[] hashBytes = getSHA256Hash(combination);
         return bytesToInt(hashBytes);
     }
-    public int generateID(String x, String y,String z) {
-        String combination = (x.toUpperCase().trim() + "" + y.toUpperCase() +"" + z.toUpperCase()).trim();
-        byte[] hashBytes = getSHA256Hash(combination);
-        return bytesToInt(hashBytes);
-    }
     public int generateID(String x, String y, LocalDate date, LocalTime startTime) {
         String combination = (x.toUpperCase().trim() + "" + y.toUpperCase() + "" + date.toString() + "" + startTime.toString()).trim();
         byte[] hashBytes = getSHA256Hash(combination);
@@ -86,6 +81,32 @@ public class CinemaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return false;
+    }
+
+
+
+    public boolean checkProvoliExists(int movieId,int cinemaId){
+        String movieName = null;
+        CinemaDAO cinemaDAO = new CinemaDAO();
+        movieName = cinemaDAO.getMovie(movieId).getMovieTitle();
+
+        try{
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT * FROM provoles WHERE MOVIES_ID = ? AND MOVIES_NAME=? AND CINEMAS_ID = ? AND PROVOLI_DATE = ? AND PROVOLI_START_TIME = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,movieId);
+            ps.setString(2,movieName);
+            ps.setInt(3,cinemaId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -159,7 +180,7 @@ public class CinemaDAO {
         List<Movies> movies = new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from movies";
+            String sql = "SELECT * from movies order by NAME";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -225,6 +246,8 @@ public class CinemaDAO {
                 reservation.setProvoles_cinemas_id(rs.getInt("PROVOLES_CINEMAS_ID"));
                 reservation.setCustomers_id(rs.getInt("CUSTOMERS_ID"));
                 reservation.setNum_of_seats(rs.getInt("NUMBER_OF_SEATS"));
+                reservation.setDate(rs.getDate("PROVOLES_DATE").toLocalDate());
+                reservation.setTime(rs.getTime("PROVOLES_TIME").toLocalTime());
 
                 reservations.add(reservation);
             }
@@ -251,11 +274,10 @@ public class CinemaDAO {
 
 
     public static List<Provoles> getProvoles(){
-        CinemaDAO cinemaDAO = new CinemaDAO();
         List<Provoles> provoles= new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from provoles";
+            String sql = "SELECT * from provoles order by PROVOLI_DATE ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -269,7 +291,6 @@ public class CinemaDAO {
                 provoli.setDate(rs.getDate("PROVOLI_DATE").toLocalDate());
                 provoli.setStartTime(rs.getTime("PROVOLI_START_TIME").toLocalTime());
                 provoli.setEndTime(rs.getTime("PROVOLI_END_TIME").toLocalTime());
-                //provoli.setNum_of_seats(cinemaDAO.getReservationsForProvoli(provoli.getId()));
 
                 provoles.add(provoli);
             }
@@ -280,6 +301,28 @@ public class CinemaDAO {
 
         }
         return provoles;
+    }
+
+
+    public List<LocalDate> getDatesForMovie(int movieId){
+        List<LocalDate> dateList = new ArrayList<>();
+        try{
+            Connection connection = DatabaseConnector.connect();
+            String sql = "SELECT PROVOLI_DATE from provoles where MOVIES_NAME = ? order by PROVOLI_DATE ";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,movieId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                LocalDate localDate = rs.getDate("PROVOLI_DATE").toLocalDate();
+                dateList.add(localDate);
+            }
+            rs.close();
+            ps.close();
+            connection.close();
+        }catch(SQLException e){
+
+        }
+        return dateList;
     }
 
 
