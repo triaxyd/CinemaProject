@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var inputsInsert = document.querySelectorAll('#insertMovie input');
     var inputsAssign = document.querySelectorAll('#assignMovie input');
+    var selectAssign = document.querySelectorAll('#assignMovie select')
     var inputsDeleteProvoli = document.querySelectorAll('#deleteProvoli input');
 
 
@@ -30,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function(){
     assignMovieButton.addEventListener('click',function(){
         inputsAssign.forEach(input =>{
             input.style.border="none";
+        })
+        selectAssign.forEach(select => {
+            select.style.border ="none";
         })
     });
 
@@ -86,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
 
+    /*
     function checkAssignForm(){
         var bSubmit = true;
         inputsAssign.forEach( input => {
@@ -110,6 +115,40 @@ document.addEventListener("DOMContentLoaded", function(){
             formAssign.submit();
         }
     }
+
+     */
+    function checkAssignForm() {
+        var bSubmit = true;
+
+        var movieId = document.getElementById('movie-id');
+        var cinemaId = document.getElementById('cinema-id');
+
+        var assignInputs = [movieId, cinemaId];
+
+        assignInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.border = 'none';
+            });
+
+            if(input.value.trim()===''){
+                input.style.border = "2px solid red";
+                bSubmit = false;
+            }else{
+                input.style.border = "none";
+            }
+            if (!(input.id==='submitAssign')){
+                if(!(/^[0-9]+$/.test(input.value))){
+                    input.style.border = "2px solid red";
+                    bSubmit = false;
+                }
+            }
+        });
+
+        if (bSubmit) {
+            formAssign.submit();
+        }
+    }
+
 
 
     function checkDeleteProvoliForm(){

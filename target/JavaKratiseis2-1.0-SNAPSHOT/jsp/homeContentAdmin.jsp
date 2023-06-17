@@ -136,6 +136,14 @@
             <form id="assignMovie" name="assignMovie" class="form" action="${pageContext.request.contextPath}/AssignMovieToCinema" method="post">
                 <input type="text" name="movie-id" id="movie-id" placeholder="Movie ID" maxlength="10">
                 <input type="text" name="cinema-id" id="cinema-id" placeholder="Cinema ID" maxlength="2">
+                <input type="date" name="provoli-date" id="provoli-date" min="<%= java.time.LocalDate.now() %>" value="<%= java.time.LocalDate.now() %>">
+                <select name="provoli-time" id="provoli-time">
+                    <option value="18:00">18:00</option>
+                    <option value="19:00">19:00</option>
+                    <option value="20:00">20:00</option>
+                    <option value="20:30">20:30</option>
+                    <option value="21:00">21:00</option>
+                </select>
                 <input type="submit" id="submitAssign" value="ASSIGN">
             </form>
         </div>
