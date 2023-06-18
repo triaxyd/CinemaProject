@@ -39,7 +39,9 @@ input[type="button"]{
 
 .provoli-id,
 .selected-movie,
-.selected-cinema{
+.selected-cinema,
+.selected-date,
+.selected-time{
     padding: 1rem;
     text-align: center;
 }

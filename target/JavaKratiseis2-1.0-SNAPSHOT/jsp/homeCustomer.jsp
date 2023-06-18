@@ -113,12 +113,9 @@
 
 <section id="provoles">
     <h2>Provoles</h2>
-    <form class="make-reservation" id="make-reservation" action="#" method="post">
-        <input type="hidden" id="movieId" name="movieId" value="">
-        <input type="hidden" id="cinemaId" name="cinemaId" value="">
-        <input type="hidden" id="date" name="date" value="">
-        <input type="hidden" id="time" name="time" value="">
+    <form class="submit-provoli" id="submit-provoli" action="#" method="post">
         <input type="hidden" id="provoliId" name="provoliId" value="">
+        <input type="hidden" id="customerId" name="customerId" value="<%=user.getId()%>">
 
         <div class="display-provoles-container">
             <div class="provoli-box">
@@ -137,11 +134,8 @@
                                 <div class="provoli-time"><%= p.getStartTime() %></div>
                                 <div class="provoli-cinema">at Cinema <%= p.getCinemaId()%></div>
                                 <button class="select-provoli-button"
-                                        data-movie-id="<%= p.getMovieId() %>"
-                                        data-cinema-id="<%= p.getCinemaId() %>"
-                                        data-date="<%= p.getDate() %>"
-                                        data-time="<%= p.getStartTime() %>"
-                                        data-provoli-id="<%= p.getId() %>">Select</button>
+                                    data-provoli-id="<%= p.getId() %>">Select
+                                </button>
                             </div>
                     <% } %>
                 <% } %>
@@ -159,6 +153,8 @@
             <thead>
             <tr>
                 <th>Movie</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Cinema</th>
                 <th>Seats</th>
             </tr>
@@ -170,6 +166,8 @@
                     <% count++;%>
                     <tr>
                         <td><%= r.getProvoles_movies_name() %></td>
+                        <td><%= r.getDate()%></td>
+                        <td><%= r.getTime()%></td>
                         <td><%= r.getProvoles_cinemas_id() %></td>
                         <td><%= r.getNum_of_seats() %></td>
                     </tr>
@@ -177,6 +175,8 @@
             <% } %>
             <% if(count==0) { %>
                 <tr>
+                    <td>---</td>
+                    <td>---</td>
                     <td>---</td>
                     <td>---</td>
                     <td>---</td>
@@ -190,7 +190,9 @@
 
 <section id="contact">
     <h2>Contact</h2>
-
+        <div class="contact-container">
+            <div class="contact-name">@Triantafyllos Xydis-triantafyllosxyd@gmail.com</div>
+        </div>
 </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
