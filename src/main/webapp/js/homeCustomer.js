@@ -16,57 +16,71 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 $(document).ready(function() {
-    $('.provoli-movie-name').click(function() {
-        var movieId = '';
-        var cinemaId = '';
-        $('.selected-movie').hide();
-        $('.selected-cinema').hide();
 
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.provoles-cinemas-box').removeClass('show');
-            $('.provoli-cinema-id').removeClass('selected');
-        } else {
-            $('.selected-movie').show();
-            $('.selected-cinema').show();
-            movieId = $(this).attr('id').replace('provoli-movie-', '');
-            var cinemasBox = $('#provoli-cinemas-' + movieId);
-            $('.provoles-cinemas-box').removeClass('show');
-            $('.provoli-cinema-id').removeClass('selected');
-            cinemasBox.addClass('show');
-            $('.provoli-movie-name').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        $('#movieId').val(movieId);
-        $('#cinemaId').val(cinemaId);
-        updateSelectedMovie();
-        updateSelectedCinema();
+    const movieSelect = document.getElementById('provoli-movie-select');
+    const movieIdInput = document.getElementById('movieId');
+    const cinemaIdInput = document.getElementById('cinemaId');
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+
+    var dateBoxItems = document.querySelectorAll('.date-box-item');
+
+    movieSelect.addEventListener('change', function() {
+        const selectedMovieId = movieSelect.value;
+        movieIdInput.value = selectedMovieId;
+        dateInput.value = '';
+
+        dateBoxItems.forEach(function(dateBoxItem) {
+            dateBoxItem.style.background = '#baa';
+        });
+        updateCinemaAndTime(selectedMovieId, '');
     });
 
-    $('.provoli-cinema-id').not('.provoli-cinema-id-not-available').click(function() {
-        var cinemaId = $(this).attr('id').replace('provoli-cinema-', '').replace('Cinema ', '');
-        $('#cinemaId').val(cinemaId);
-        $('.provoli-cinema-id').removeClass('selected');
-        $(this).addClass('selected');
-        updateSelectedCinema();
+    dateBoxItems.forEach(function(dateBoxItem) {
+        dateBoxItem.addEventListener('click', function() {
+            if (movieIdInput.value) {
+                dateBoxItems.forEach(function(dateBoxItem) {
+                    dateBoxItem.style.background = '#baa';
+                });
+                this.style.background = '#422';
+                var dateBoxId = this.id;
+                var date = dateBoxId.replace('date-box-', '');
+                dateInput.value = date;
+                updateCinemaAndTime(movieIdInput.value, date);
+            }
+        });
     });
 
-    function updateSelectedMovie() {
-        var movieId = $('#movieId').val();
-        var movieTitle = $('#provoli-movie-' + movieId).text().trim();
-        $('.selected-movie').text("Selected Movie: " + movieTitle);
+    function updateCinemaAndTime(movieId, date) {
+        // Clear previous content
+        $('.cinema-and-time-box').empty();
+
+        // Filter provoles based on selected movie and date
+        var filteredProvoles = provolesList.filter(function(provoles) {
+            return provoles.movieId === movieId && provoles.date === date;
+        });
+
+        // Append new content based on filteredProvoles
+        filteredProvoles.forEach(function(provoles) {
+            var cinema = provoles.cinema;
+            var time = provoles.time;
+
+            var content = '<div class="cinema-time-item">' +
+                '<div class="cinema">' + cinema + '</div>' +
+                '<div class="time">' + time + '</div>' +
+                '</div>';
+            $('.cinema-and-time-box').append(content);
+        });
     }
 
-    function updateSelectedCinema() {
-        var cinemaId = $('#cinemaId').val();
-        $('.selected-cinema').text("Selected Cinema: " + cinemaId);
-    }
 
     $('.reservation-button input[type="button"]').click(function() {
         var selectedMovieId = $('#movieId').val();
+        var selectedDate = $('#date').val();
         var selectedCinemaId = $('#cinemaId').val();
+        var selectedTime = $('#time').val();
 
-        if (selectedMovieId !== '' && selectedCinemaId !== '') {
+        if (selectedMovieId !== '' && selectedCinemaId !== '' && selectedDate!=='' && selectedTime!=='') {
             var encodedMovieId = encodeURIComponent(selectedMovieId);
             var encodedCinemaId = encodeURIComponent(selectedCinemaId);
 
@@ -74,7 +88,30 @@ $(document).ready(function() {
             window.location.href = url;
         }
     });
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -11,6 +11,7 @@
 <%@ page import="com.triaxyd.cinema.*" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalTime" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -111,31 +112,43 @@
 </section>
 
 <section id="provoles">
-    <input type="hidden" id="movieId" name="movieId" value="">
-    <input type="hidden" id="cinemaId" name="cinemaId" value="">
     <h2>Provoles</h2>
-    <div class="display-provoles-movies-container">
-        <div class="provoli-movie-box">
-            <select class="provoli-movie-select" id="provoli-movie-select">
-                <% for (Movies movie : moviesList) { %>
-                <option value="<%=movie.getMovieID()%>"><%=movie.getMovieTitle()%></option>
+    <form class="make-reservation" id="make-reservation" action="#" method="post">
+        <input type="hidden" id="movieId" name="movieId" value="">
+        <input type="hidden" id="cinemaId" name="cinemaId" value="">
+        <input type="hidden" id="date" name="date" value="">
+        <input type="hidden" id="time" name="time" value="">
+        <input type="hidden" id="provoliId" name="provoliId" value="">
+
+        <div class="display-provoles-container">
+            <div class="provoli-box">
+                <div class="provoli-scroll-box">
+                    <%
+                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    for (Provoles p : provolesList) {
+                        LocalDate currentDate = LocalDate.now();
+                        LocalTime currentTime = LocalTime.now();
+
+                        if (p.getDate().isAfter(currentDate) || (p.getDate().isEqual(currentDate) && p.getStartTime().isAfter(currentTime))) {
+                    %>
+                            <div class="provoli-item">
+                                <div class="provoli-movie"><%= p.getMovieName() %></div>
+                                <div class="provoli-date"><%= p.getDate().format(dateFormatter) %></div>
+                                <div class="provoli-time"><%= p.getStartTime() %></div>
+                                <div class="provoli-cinema">at Cinema <%= p.getCinemaId()%></div>
+                                <button class="select-provoli-button"
+                                        data-movie-id="<%= p.getMovieId() %>"
+                                        data-cinema-id="<%= p.getCinemaId() %>"
+                                        data-date="<%= p.getDate() %>"
+                                        data-time="<%= p.getStartTime() %>"
+                                        data-provoli-id="<%= p.getId() %>">Select</button>
+                            </div>
+                    <% } %>
                 <% } %>
-            </select>
+                </div>
+            </div>
         </div>
-    </div>
-
-
-
-
-
-
-    <div class="reservation-form">
-        <div class="selected-movie"></div>
-        <div class="selected-cinema"></div>
-    </div>
-    <div class="reservation-button">
-        <input type="button" value="RESERVE SEATS">
-    </div>
+    </form>
 </section>
 
 
