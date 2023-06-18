@@ -173,6 +173,15 @@ public class CinemaDAO {
         return null;
     }
 
+    public Provoles getProvoli(int movieId,int cinemaId,LocalDate date,LocalTime time){
+        for(Provoles p : getProvoles()){
+            if(movieId==p.getMovieId() && cinemaId==p.getCinemaId() && date.equals(p.getDate()) && time.equals(p.getStartTime())){
+                return p;
+            }
+        }
+        return null;
+    }
+
 
 
 

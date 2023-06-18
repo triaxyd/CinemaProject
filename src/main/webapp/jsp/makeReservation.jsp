@@ -4,6 +4,9 @@
 <%@ page import="com.triaxyd.cinema.CinemaDAO" %>
 <%@ page import="com.triaxyd.cinema.Cinemas" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.LocalTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -14,10 +17,10 @@
     }
     Users user = ((Users)session.getAttribute("user"));
     if(!user.getRole().equals("Customer")){
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/accessDenied.jsp");
-        rd.forward(request,response);
         session.removeAttribute("user");
         session.invalidate();
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/accessDenied.jsp");
+        rd.forward(request,response);
         return;
     }
 
@@ -33,12 +36,14 @@
     List<Provoles> provolesList = CinemaDAO.getProvoles();
     List<Cinemas> cinemasList = CinemaDAO.getCinemas();
 
-    String movieId = request.getParameter("movieId");
-    String movieName = cinemaDAO.getMovie(Integer.parseInt(movieId)).getMovieTitle();
-    String cinemaId = request.getParameter("cinemaId");
+    String provoliId = request.getParameter("provoliId");
+    String customerId = request.getParameter("customerId");
 
-    Provoles provoli = cinemaDAO.getProvoli(movieId,cinemaId);
+    if(!customerId.equals(String.valueOf(user.getId()))){
+        return;
+    }
 
+    Provoles provoli = cinemaDAO.getProvoli(Integer.parseInt(provoliId));
 %>
 <html>
 <head>
@@ -56,14 +61,18 @@
 
 <div class="provoli-info">
     <div class="provoli-id">PROVOLI ID - <%=provoli.getId()%></div>
-    <div class="selected-movie">MOVIE - <%=movieName%></div>
-    <div class="selected-cinema">CINEMA - <%=cinemaId%></div>
+    <div class="selected-movie">MOVIE - <%=provoli.getMovieName()%></div>
+    <div class="selected-date">DATE - <%=provoli.getDate()%></div>
+    <div class="selected-time">TIME - <%=provoli.getStartTime()%></div>
+    <div class="selected-cinema">CINEMA - <%=provoli.getCinemaId()%></div>
 </div>
 <div class="provoli-kratisi">
     <div class="remaining-seats">AVAILABLE SEATS: <div id="seats"> <%=provoli.getNum_of_seats()%> </div> </div>
     <form id="make-reservation" name="make-reservation" method="post" action="${pageContext.request.contextPath}/MakeReservation">
-        <input type="hidden" id="movieId" name="movieId" value=<%=movieId%>>
-        <input type="hidden" id="cinemaId" name="cinemaId" value=<%=cinemaId%>>
+        <input type="hidden" id="movieId" name="movieId" value=<%=provoli.getMovieId()%>>
+        <input type="hidden" id="cinemaId" name="cinemaId" value=<%=provoli.getCinemaId()%>>
+        <input type="hidden" id="date" name="date" value=<%=provoli.getDate()%>>
+        <input type="hidden" id="time" name="time" value=<%=provoli.getStartTime()%>>
         <input type="hidden" id="customerId" name="customerId" value=<%=user.getId()%>>
         <input type="hidden" id="numOfSeats" name="numOfSeats" value="1">
         <div class="select-seats">

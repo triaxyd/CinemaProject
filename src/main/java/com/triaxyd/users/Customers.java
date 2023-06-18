@@ -51,7 +51,6 @@ public class Customers extends Users {
             message = "Please select " + provoli.getNum_of_seats() + " or less seats";
         }else{
             Reservations reservation = new Reservations(provoli.getMovieId(),provoli.getCinemaId(),this.id,num_of_seats,provoli.getDate(),provoli.getStartTime());
-
             try{
                 Connection connection = DatabaseConnector.connect();
                 String sql = "INSERT INTO reservations VALUES (?,?,?,?,?,?,?)";
@@ -69,7 +68,7 @@ public class Customers extends Users {
 
                 provoli.setRemainingSeats(num_of_seats);
 
-                String sqlProvoli = "UPDATE Provoles SET NUM_OF_SEATS = ? WHERE MOVIES_ID = ? AND MOVIES_NAME = ? AND CINEMAS_ID = ? AND CONTENT_ADMIN_ID = ? AND PROVOLES_DATE = ? AND PROVOLES_TIME = ?";
+                String sqlProvoli = "UPDATE Provoles SET NUM_OF_SEATS = ? WHERE MOVIES_ID = ? AND MOVIES_NAME = ? AND CINEMAS_ID = ? AND CONTENT_ADMIN_ID = ? AND PROVOLI_DATE = ? AND PROVOLI_START_TIME = ?";
                 PreparedStatement psProvoli = connection.prepareStatement(sqlProvoli);
                 psProvoli.setInt(1,provoli.getNum_of_seats());
                 psProvoli.setInt(2,provoli.getMovieId());
@@ -82,7 +81,7 @@ public class Customers extends Users {
                 psProvoli.executeUpdate();
 
             }catch(SQLException e){
-
+                message = "Something went wrong";
             }
 
             message = "Reservation for " + provoli.getMovieName() + " at " + provoli.getCinemaId() + " for " + num_of_seats;

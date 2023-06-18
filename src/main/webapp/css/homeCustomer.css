@@ -142,6 +142,7 @@ section h2 {
 #contact {
     background-color: #100404;
     padding: 2rem;
+    padding-bottom:0;
 }
 
 .container {
@@ -271,6 +272,8 @@ background-color: #988;
 .provoli-scroll-box {
 display: flex;
 flex-direction: column;
+padding: 0 10rem;
+background: #201010;
 }
 
 .provoli-item {
@@ -287,9 +290,7 @@ margin-right: 20px;
 overflow-y: auto;
 }
 
-.provoli-scroll-box {
-padding: 0 10rem;
-}
+
 
 .provoli-item {
 background-color: #eee;
@@ -305,13 +306,14 @@ margin-bottom: 5px;
 
 .provoli-date,
 .provoli-time,
-.provoli-cinema{
+.provoli-cinema,
+.provoli-reservations{
 color: #865;
 padding: 0.5rem;
 }
 
 .select-provoli-button {
-background-color: #baa;
+background-color: #dbb;
 color: #fff;
 border: none;
 padding: 0.5rem 1rem;
@@ -325,8 +327,7 @@ margin-left: 0.5rem;
 
 
 
-
-.make-reservation{
+.submit-provoli{
 padding: 10rem;
 border: 1px solid;
 }
@@ -384,6 +385,26 @@ background-color: #ddd;
 thead, tbody {
 border-radius: 10px;
 background: #baa;
+}
+
+
+
+.contact-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #100404;
+    padding: 1rem;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.contact-name {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
 }
 
 
