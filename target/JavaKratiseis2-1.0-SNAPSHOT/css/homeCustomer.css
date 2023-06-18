@@ -121,7 +121,7 @@ section h2 {
 
 
 #movies {
-    background-color: #150303;
+    background-color: #201515;
     padding: 2rem;
     color:#fee;
 }
@@ -135,7 +135,7 @@ section h2 {
 }
 
 #you {
-    background-color: #150303;
+    background-color: #201515;
     padding: 2rem;
 }
 
@@ -163,231 +163,227 @@ section h2 {
 }
 
 .movie-box{
-    display:flex;
-    overflow-x:hidden ;
+    display: flex;
+    overflow-x: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    box-shadow: 0 1.5rem 3rem -0.75rem hsla(0,0%,0%,0.90);
+    box-shadow: 0 5rem 5rem -0.75rem hsla(0,0%,0%,0.90);
     border-radius: 0.5rem;
-    /*
-    height: 60%;
-     */
 }
 
 .movie-box .movie-info{
-    flex: 1 0 100%;
-    scroll-snap-align: start;
-    object-fit: cover;
-    box-shadow: 0 1.5rem 3rem -0.75rem hsla(0,0%,0%,0.25);
+flex: 1 0 100%;
+scroll-snap-align: start;
+object-fit: cover;
+box-shadow: 0 1.5rem 3rem -0.75rem hsla(0,0%,0%,0.25);
 }
 
 .movie-navigation{
-    display:flex;
-    column-gap: 1rem;
-    position : absolute;
-    bottom: 1.25rem;
-    left:50%;
-    transform: translateX(-50%);
-    z-index: 1;
+display:flex;
+column-gap: 1rem;
+position : absolute;
+bottom: 1.25rem;
+left:50%;
+transform: translateX(-50%);
+z-index: 1;
 }
 
 .movie-navigation a {
-    width:0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    background-color: #fff;
-    color: #fff;
-    opacity: 0.65;
-    transition: opacity ease 250ms;
+width:0.6rem;
+height: 0.6rem;
+border-radius: 50%;
+background-color: #fff;
+color: #fff;
+opacity: 0.65;
+transition: opacity ease 250ms;
 }
 
 .movie-navigation a:hover{
-    opacity: 1;
+opacity: 1;
 }
 
 
 
 .display-movies-container ul {
-    list-style-type: none;
-    padding: 2rem;
-    margin: 0;
+list-style-type: none;
+padding: 2rem;
+margin: 0;
 
 }
 
 .display-movies-container li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 2rem;
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+padding: 2rem;
 }
 
 .display-movies-container .movie-name {
-    font-size: 24px;
-    color: #ffffff;
+font-size: 24px;
+color: #ffffff;
 }
 
 .display-movies-container .movie-info {
-    flex-direction: column;
-    color: #B88;
-    margin-left: 20px;
-    background: #201010;
+flex-direction: column;
+color: #B88;
+margin-left: 20px;
+background: #201010;
 }
 
 .display-movies-container .movie-info span {
-    margin-bottom: 5px;
-    padding: 2rem;
-    display:block;
+margin-bottom: 5px;
+padding: 2rem;
+display:block;
 }
 
 .display-movies-container .movie-info.active {
-    display: flex;
+display: flex;
 }
 
 
-.display-provoles-movies-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
+
+
+.display-provoles-container {
+max-height: 50vh;
+overflow-y: scroll;
+align-self: center;
+border: 1px solid #baa;
+border-radius: 1rem;
+}
+
+.display-provoles-container::-webkit-scrollbar {
+width: 0.5rem;
+}
+
+.display-provoles-container::-webkit-scrollbar-track {
+background: transparent;
+}
+
+.display-provoles-container::-webkit-scrollbar-thumb {
+background-color: #baa;
+border-radius: 1rem;
+}
+
+.display-provoles-container::-webkit-scrollbar-thumb:hover {
+background-color: #988;
+}
+
+.provoli-scroll-box {
+display: flex;
+flex-direction: column;
+}
+
+.provoli-item {
+margin-bottom: 1rem;
+border: 1px solid #ccc;
+padding: 1rem;
 }
 
 .provoli-movie-box {
-    width: 300px;
-    padding: 2rem;
-    border-radius: 5px;
-    text-align: center;
+margin-right: 20px;
 }
 
-select.provoli-movie-select {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 1rem;
-    background: #baa;
-    border-radius: 10px;
-}
-select.provoli-movie-select option{
-    background-color: #f1f1f1;
-    color: #333;
+.provoli-box {
+overflow-y: auto;
 }
 
-.provoli-movie-name:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
-    cursor: pointer;
+.provoli-scroll-box {
+padding: 0 10rem;
 }
 
-.date-box {
-    display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
+.provoli-item {
+background-color: #eee;
+border-radius: 1rem;
+padding: 1rem;
+margin-bottom: 1rem;
 }
 
-.date-box:hover {
-    background-color: #f2f2f2;
+.provoli-movie {
+font-size: 1.5rem;
+margin-bottom: 5px;
+}
+
+.provoli-date,
+.provoli-time,
+.provoli-cinema{
+color: #865;
+padding: 0.5rem;
+}
+
+.select-provoli-button {
+background-color: #baa;
+color: #fff;
+border: none;
+padding: 0.5rem 1rem;
+border-radius: 1rem;
+cursor: pointer;
+align-self: center;
+margin-left: 0.5rem;
 }
 
 
-.provoli-movie-name.selected{
-    background: rgba(255, 255, 255, 0.2);
-}
 
-.provoles-cinemas-box {
-    display: none;
-    gap: 10px;
-    align-items: flex-start;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    padding-left: 1rem;
-}
 
-.provoles-cinemas-box.show {
-    display: flex;
-}
 
-.provoli-cinema-id {
-    background-color: #caa;
-    color: #000;
-    padding: 0.5rem;
-    cursor: pointer;
-}
 
-.provoli-cinema-id.selected{
-    background: rgba(255, 255, 255, 0.2);
+.make-reservation{
+padding: 10rem;
+border: 1px solid;
 }
-
-.provoli-cinema-id:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
-}
-
-.provoli-cinema-id-not-available {
-    background-color: #222;
-    color: #777;
-    padding: 0.5rem;
-    cursor: not-allowed;
-}
-
 
 .reservation-button{
-    left: 50%;
-    padding: 2rem;
-    text-align: center;
+left: 50%;
+padding: 2rem;
+text-align: center;
 }
 
 .reservation-button input[type="button"]{
-    color: #fff;
-    padding: 1rem;
-    border: none;
-    background: #301010;
-    border-radius: 10px;
-    cursor: pointer;
+color: #fff;
+padding: 1rem;
+border: none;
+background: #301010;
+border-radius: 10px;
+cursor: pointer;
 }
 
 .reservation-button input[type="button"]:hover{
-    background: #201010;
+background: #201010;
 
 }
 
 
 .selected-movie,
 .selected-cinema{
-    text-align:center;
-    color:#aba9a9;
+text-align:center;
+color:#aba9a9;
 }
 
 
-/*
-
- */
 
 
 #reservation-table {
-    margin: 0 auto;
-    width: 75%;
-    padding: 1rem;
-    border-radius: 10px;
-    background: #503030;
-    box-shadow: 2rem 2rem 2rem -1rem hsla(0,0%,0%,0.25);
+margin: 0 auto;
+width: 75%;
+padding: 1rem;
+border-radius: 10px;
+background: #503030;
+box-shadow: 2rem 2rem 2rem -1rem hsla(0,0%,0%,0.25);
 }
 
 #reservation-table th,
 #reservation-table td {
-    padding: 1rem;
-    text-align: center;
-    border: 1px solid;
+padding: 1rem;
+text-align: center;
+border: 1px solid;
 }
 
 #reservation-table th {
-    background-color: #ddd;
+background-color: #ddd;
 }
 
 thead, tbody {
-    border-radius: 10px;
-    background: #baa;
+border-radius: 10px;
+background: #baa;
 }
 
 
