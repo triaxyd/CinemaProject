@@ -26,6 +26,7 @@ public class UsersSignUpServlet extends HttpServlet {
         if (userDAO.checkUserExists(username)) {
             //User already exists
             message = "User " + username +" already exists";
+            response.sendRedirect(request.getContextPath()+"/jsp/signUp.jsp"+"?message="+message);
         } else {
             //user not found
             String name = request.getParameter("name");
@@ -41,17 +42,7 @@ public class UsersSignUpServlet extends HttpServlet {
             userDAO.createRole(username,name,role);
 
             message = "user with username " + username + " created";
-
-
-
-        }
-        request.setAttribute("message",message);
-        request.setAttribute("hiddenusername",username);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        try{
-            dispatcher.forward(request,response);
-        }catch(ServletException e){
-
+            response.sendRedirect(request.getContextPath()+"/index.jsp"+"?message="+message);
         }
     }
 

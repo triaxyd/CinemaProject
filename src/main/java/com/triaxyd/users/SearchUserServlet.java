@@ -9,10 +9,6 @@ import java.net.URLEncoder;
 
 @WebServlet(name = "SearchUser", value = "/SearchUser")
 public class SearchUserServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,24 +24,28 @@ public class SearchUserServlet extends HttpServlet {
             }
             String username = request.getParameter("username-search");
             Users foundUser = ((Admins)user).searchUser(username);
-            if(foundUser!=null){
-                request.setAttribute("searched-user",foundUser);
-            }else{
-                request.setAttribute("user-not-found-message", username +" not found");
-            }
+
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.setHeader("Pragma", "no-cache");
             response.setDateHeader("Expires", 0);
-
-
-            request.getRequestDispatcher(destPage).forward(request, response);
+            if(foundUser==null){
+                String encodedMessage = URLEncoder.encode("User not found", "UTF-8");
+                String redirectURL = request.getContextPath()+destPage + "?not-found=" + encodedMessage;
+                response.sendRedirect(redirectURL);
+                return;
+            }else{
+                response.sendRedirect(request.getContextPath() + destPage + "?username=" + URLEncoder.encode(foundUser.getUsername(), "UTF-8")
+                        + "&name=" + URLEncoder.encode(foundUser.getName(), "UTF-8")
+                        + "&email=" + URLEncoder.encode(foundUser.getEmail(), "UTF-8")
+                        + "&role=" + URLEncoder.encode(foundUser.getRole(), "UTF-8")
+                        + "&creation=" + URLEncoder.encode(String.valueOf(foundUser.getCreationDate()), "UTF-8")
+                        + "&id=" + URLEncoder.encode(String.valueOf(foundUser.getId()), "UTF-8"));
+                return;
+            }
         }catch (NullPointerException e) {
             destPage = "/index.jsp";
             response.sendRedirect(request.getContextPath() + destPage);
         }
-
-
-
 
     }
 }

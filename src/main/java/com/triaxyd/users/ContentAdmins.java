@@ -3,6 +3,7 @@ package com.triaxyd.users;
 import com.triaxyd.cinema.CinemaDAO;
 import com.triaxyd.cinema.Movies;
 import com.triaxyd.cinema.Provoles;
+import com.triaxyd.cinema.Reservations;
 import com.triaxyd.database.DatabaseConnector;
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class ContentAdmins extends Users {
     private String name;
@@ -129,6 +131,13 @@ public class ContentAdmins extends Users {
         try{
             Provoles provoli = cinemaDAO.getProvoli(provoliId);
             if(provoli==null) return "PROVOLI WITH ID " + provoliId + " NOT FOUND";
+
+            List<Reservations> reservationsList = CinemaDAO.getReservations();
+            for (Reservations r : reservationsList){
+                if(provoli.getStartTime()==r.getTime() && provoli.getDate()==r.getDate() && provoli.getMovieId()==r.getProvoles_movies_id() && provoli.getCinemaId()==r.getProvoles_cinemas_id()){
+                    return "PROVOLI IS RESERVED";
+                }
+            }
 
             if(!(provoli.getContentAdminId()==content_admin_id)) return "UNAUTHORIZED TO DELETE MOVIE";
 

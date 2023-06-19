@@ -62,6 +62,7 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
 
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.setHeader("Pragma", "no-cache");
+
             response.setDateHeader("Last-Modified", (new Date()).getTime());
             String encodedMessage = URLEncoder.encode(message, "UTF-8");
             String redirectURL = request.getContextPath()+destPage + "?actionmade=" + encodedMessage;

@@ -50,9 +50,7 @@ public class UsersLoginServlet extends HttpServlet {
         }else{
             //user was not found
             String message = "Wrong username/password";
-            request.setAttribute("message",message);
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-            dispatcher.forward(request,response);
+            response.sendRedirect(request.getContextPath() + destPage +"?message=" +message);
         }
     }
 }
