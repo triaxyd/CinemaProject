@@ -1,5 +1,6 @@
 <%@ page import="com.triaxyd.users.Users" %>
 <%@ page import="com.triaxyd.users.UserDAO" %>
+<%@ page import="com.triaxyd.cinema.CinemaDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,8 @@
         session.invalidate();
         return;
     }
+
+    /*
     String userName = user.getUsername();
     int userId = user.getId();
     String sessionID = null;
@@ -32,6 +35,7 @@
             if (cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
         }
     }
+     */
 
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
@@ -86,44 +90,49 @@
     </form>
 
     <div id="result-container-search">
-        <% Users foundUser = (Users)request.getAttribute("searched-user"); %>
-        <% if(foundUser!=null) { %>
+        <%
+            String username = request.getParameter("username");
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String role = request.getParameter("role");
+            String creation = request.getParameter("creation");
+            String id = request.getParameter("id");
+            String not_found = request.getParameter("not-found");
+        %>
+        <% if (username != null) { %>
             <h2>User Information</h2>
-            <p>Username: <%= foundUser.getUsername() %></p>
-            <p>Name: <%=foundUser.getName()%></p>
-            <p>Email: <%= foundUser.getEmail() %></p>
-            <p>Role: <%= foundUser.getRole() %></p>
-            <p>Registered at: <%=foundUser.getCreationDate()%></p>
-            <p>ID: <%=foundUser.getId()%></p>
-            <% request.removeAttribute("searched-user"); %>
-        <% } else { %>
-            <% String userNotFoundMessage = (String) request.getAttribute("user-not-found-message"); %>
-            <% if (userNotFoundMessage != null) { %>
-                <p><%= userNotFoundMessage %></p>
-            <% } %>
-            <% request.removeAttribute("user-not-found-message"); %>
-        <% } %>
+            <p>Username: <%= username %></p>
+            <p>Name: <%= name %></p>
+            <p>Email: <%= email %></p>
+            <p>Role: <%=role%></p>
+            <p>Registered at: <%= creation %></p>
+            <p>ID: <%= id %></p>
+        <%} else if (not_found!=null) { %>
+            <h2>User Information</h2>
+            <p>User not found</p>
+        <%} %>
+
     </div>
 
     <% String resultdelete = request.getParameter("resultdelete"); %>
-    <% String resultadd = request.getParameter("resultadd"); %>
 
     <% if (resultdelete != null) { %>
     <div id="result-container-delete">
         <h2>Deleted User</h2>
         ${param.resultdelete}
+        <%request.removeAttribute("resultdelete"); %>
     </div>
     <% } %>
 
+
+    <% String resultadd = request.getParameter("resultadd"); %>
     <% if (resultadd != null) { %>
-    <div id="result-container-add">
-        <h2>Added User</h2>
-        ${param.resultadd}
-    </div>
+        <div id="result-container-add">
+            <h2>Added User</h2>
+            ${param.resultadd}
+            <%request.removeAttribute("resultadd");%>
+        </div>
     <% } %>
-
-
-
 </div>
 
 <script src="<%= request.getContextPath() %>/js/homeAdmin.js"></script>

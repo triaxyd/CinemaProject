@@ -191,7 +191,7 @@
 <section id="contact">
     <h2>Contact</h2>
         <div class="contact-container">
-            <div class="contact-name">@Triantafyllos Xydis-triantafyllosxyd@gmail.com</div>
+            <div class="contact-name">@Triantafyllos Xydis   triantafyllosxyd@gmail.com</div>
         </div>
 </section>
 

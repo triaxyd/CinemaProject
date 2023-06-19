@@ -154,6 +154,18 @@ hr{
     background-color: #301010
 }
 
+.provoli-message {
+    font-size: 1.3rem;
+    padding: 1rem;
+    text-transform: uppercase;
+}
+
+.provoli-message-text{
+    font-size: 1rem;
+    padding:0.5rem;
+    text-transform: uppercase;
+}
+
 
 .show-form {
     display: none;

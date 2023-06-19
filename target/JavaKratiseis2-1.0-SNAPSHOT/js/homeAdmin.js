@@ -5,6 +5,7 @@ window.history.replaceState({}, document.title, originalUrl);
 function openForm(formId) {
     const result_container_search = document.getElementById('result-container-search');
     const result_container_delete = document.getElementById('result-container-delete');
+    const result_container_add = document.getElementById('result-container-add');
 
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {

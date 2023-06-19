@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     function checkSignUpForm(){
-        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
         var nameInput = document.getElementById('name');
         var usernameInput =  document.getElementById('username');

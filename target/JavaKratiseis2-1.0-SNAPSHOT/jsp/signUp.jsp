@@ -1,3 +1,4 @@
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,8 +10,14 @@
 </head>
 
 <body>
+<div class="background-image"></div>
 <div class="container">
-    <h2>Sign Up</h2>
+    <%String message = request.getParameter("message"); %>
+    <%if (message!=null){ %>
+        <div class="message"><%=message%></div>
+        <%request.removeAttribute("message"); %>
+    <%}%>
+    <h2>Register</h2>
     <form id="signup-form" class="login-form" action="${pageContext.request.contextPath}/UsersSignUp" method="POST">
         <input type="text" placeholder="Name" name="name" id="name" maxlength="45">
         <input type="text" placeholder="Username" name="username" id="username" maxlength="32">
