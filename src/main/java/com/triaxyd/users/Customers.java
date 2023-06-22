@@ -25,10 +25,8 @@ public class Customers extends Users {
 
     private String name;
     private int id;
-    //private List<Reservations> reservationsUser;
 
     public Customers() {
-        //reservationsUser = new ArrayList<>();
         this.setRole("Customer");
     }
 
@@ -44,10 +42,10 @@ public class Customers extends Users {
         CinemaDAO cinemaDAO = new CinemaDAO();
         Provoles provoli = cinemaDAO.getProvoli(provoliId);
         if (provoli.getNum_of_seats()==0){
-            //full theater
+            //full theatre
             message = provoli.getMovieName() + "at " + provoli.getCinemaId() +" is full";
         }else if(provoli.getNum_of_seats() < num_of_seats) {
-            //cant make reservation the theater is full
+            //cant make reservation more seats than available
             message = "Please select " + provoli.getNum_of_seats() + " or less seats";
         }else{
             Reservations reservation = new Reservations(provoli.getMovieId(),provoli.getCinemaId(),this.id,num_of_seats,provoli.getDate(),provoli.getStartTime());
@@ -80,19 +78,16 @@ public class Customers extends Users {
 
                 psProvoli.executeUpdate();
 
-            }catch(SQLException e){
-                message = "Something went wrong";
-            }
+                message = "Reservation completed";
 
-            message = "Reservation for " + provoli.getMovieName() + " at " + provoli.getCinemaId() + " for " + num_of_seats;
+            }catch(SQLException e){
+                message = "You already have a reservation for this provoli";
+            }
         }
         return message;
     }
 
-    public void viewReservations() {
-
-        String message;
-    }
+    //public void viewReservations() {}
 
 }
 

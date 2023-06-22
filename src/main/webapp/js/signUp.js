@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function checkSignUpForm(){
         const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const validPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
         var nameInput = document.getElementById('name');
         var usernameInput =  document.getElementById('username');
@@ -23,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         else if(passwordInput.value.length<8){
             errorElement.textContent = 'Password must be at least 8 characters';
+        }
+        if(!(validPassword.test(passwordInput.value))){
+            errorElement.textContent = 'Password must contain at least 1 special character and number';
         }
         else {
             // Clear the error message

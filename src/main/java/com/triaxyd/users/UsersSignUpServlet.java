@@ -34,10 +34,8 @@ public class UsersSignUpServlet extends HttpServlet {
             String password = request.getParameter("password");
             Date createTime = Date.valueOf(LocalDate.now());
             String role = "Customer";
-            String salt = BCrypt.gensalt(12);
-            String hashedPassword = BCrypt.hashpw(password, salt);
 
-            userDAO.createUser(username, email, hashedPassword, createTime, role, salt);
+            userDAO.createUser(username, email, password, createTime, role);
 
             userDAO.createRole(username,name,role);
 

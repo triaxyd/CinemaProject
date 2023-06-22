@@ -29,23 +29,22 @@ public class AssignMovieToCinemaServlet extends HttpServlet {
                 return;
             }
             int movieId =0;
+            int cinemaId = 0;
+            LocalDate provoliDate=null;
+            LocalTime provoliTime = null;
             String movieIdStr = request.getParameter("movie-id");
             try{
                 movieId = Integer.parseInt(movieIdStr);
+                cinemaId = Integer.parseInt(request.getParameter("cinema-id"));
+                provoliDate = LocalDate.parse(request.getParameter("provoli-date"));
+                provoliTime = LocalTime.parse(request.getParameter("provoli-time"));
             }catch(NumberFormatException e){
                 String redirectURL = request.getContextPath()+destPage + "?actionmade=MOVIE NOT FOUND";
                 response.sendRedirect(redirectURL);
                 return;
             }
-
-            String cinemaIdStr = request.getParameter("cinema-id");
-            int cinemaId = Integer.parseInt(cinemaIdStr);
-            String provoliDateStr = request.getParameter("provoli-date");
-            LocalDate provoliDate = LocalDate.parse(provoliDateStr);
-            String provoliTimeStr = request.getParameter("provoli-time");
-            LocalTime provoliTime = LocalTime.parse(provoliTimeStr);
-
             Users user = (ContentAdmins)session.getAttribute("user");
+
             Provoles provoli = ((ContentAdmins) user).assignMovieToCinema(movieId,cinemaId,provoliDate,provoliTime);
 
             String message;

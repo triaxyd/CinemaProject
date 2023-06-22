@@ -12,10 +12,6 @@ import java.time.LocalDate;
 
 @WebServlet(name = "AddUser", value = "/AddUser")
 public class AddUserServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,25 +31,8 @@ public class AddUserServlet extends HttpServlet {
             String password = request.getParameter("password-add");
             Date create_time = Date.valueOf(LocalDate.now());
             String role = request.getParameter("role-add");
-            String salt;
-            String hashedPassword;
 
-
-            UserDAO userDAO = new UserDAO();
-            String result;
-            Users userFound = userDAO.getUser(username);
-            if(userFound==null){
-                //user doesnt exist
-                salt = BCrypt.gensalt(12);
-                hashedPassword = BCrypt.hashpw(password, salt);
-                userDAO.createUser(username,email,hashedPassword,create_time,role,salt);
-                userDAO.createRole(username,name,role);
-
-                result = "user with username " + username + " created";
-            }else{
-                //user exists
-                result = "User " + username + " is already registered";
-            }
+            String result = ((Admins)user).addUser(username,name,email,password,create_time,role);
 
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.setHeader("Pragma", "no-cache");

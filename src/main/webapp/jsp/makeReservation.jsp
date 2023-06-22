@@ -60,9 +60,10 @@
 <body>
 
 <div class="provoli-info">
+    <%DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); %>
     <div class="provoli-id">PROVOLI ID - <%=provoli.getId()%></div>
     <div class="selected-movie">MOVIE - <%=provoli.getMovieName()%></div>
-    <div class="selected-date">DATE - <%=provoli.getDate()%></div>
+    <div class="selected-date">DATE - <%=provoli.getDate().format(dateFormatter)%></div>
     <div class="selected-time">TIME - <%=provoli.getStartTime()%></div>
     <div class="selected-cinema">CINEMA - <%=provoli.getCinemaId()%></div>
 </div>

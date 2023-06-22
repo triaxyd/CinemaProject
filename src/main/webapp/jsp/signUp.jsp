@@ -22,7 +22,7 @@
         <input type="text" placeholder="Name" name="name" id="name" maxlength="45">
         <input type="text" placeholder="Username" name="username" id="username" maxlength="32">
         <input type="email" placeholder="Email" name="email" id="email" maxlength="32">
-        <input type="password" placeholder="Password" name="password" id="password" maxlength="25">
+        <input type="password" placeholder="Password" name="password" id="password" maxlength="32">
         <div id="error-message"></div>
         <button type="submit">Sign Up</button>
     </form>

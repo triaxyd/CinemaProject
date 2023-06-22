@@ -104,8 +104,11 @@ public class UserDAO {
 
 
 
-    public boolean createUser(String username, String email, String hashedPassword, Date createTime, String role, String salt) {
+    public boolean createUser(String username, String email, String password, Date createTime, String role) {
         try {
+            String salt = BCrypt.gensalt(12);
+            String hashedPassword = BCrypt.hashpw(password, salt);
+
             Connection connection = DatabaseConnector.connect();
             String sql = "INSERT INTO user VALUES (?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

@@ -2,7 +2,7 @@ package com.triaxyd.cinema;
 
 public final class Cinemas{
     private String cinemaName;
-    private String cinemaSeats;
+    private int cinemaSeats;
     private int cinemaId;
     private String cinemaIs3d;
 
@@ -10,7 +10,7 @@ public final class Cinemas{
 
     }
 
-    public Cinemas(int cinemaId, String cinemaName, String cinemaSeats, String cinemaIs3d){
+    public Cinemas(int cinemaId, String cinemaName, int cinemaSeats, String cinemaIs3d){
         this.cinemaName = cinemaName;
         this.cinemaSeats = cinemaSeats;
         this.cinemaId = cinemaId;
@@ -19,14 +19,14 @@ public final class Cinemas{
 
     public void setCinemaId(int cinemaId){this.cinemaId=cinemaId;}
     public void setCinemaName(String cinemaName){this.cinemaName=cinemaName;}
-    public void setCinemaSeats(String cinemaSeats){this.cinemaSeats=cinemaSeats;}
+    public void setCinemaSeats(int cinemaSeats){this.cinemaSeats=cinemaSeats;}
     public void setCinemaIs3d(String cinemaIs3d){this.cinemaIs3d=cinemaIs3d;}
 
     public String getCinemaName(){
         return cinemaName;
     }
 
-    public String getCinemaSeats(){
+    public int getCinemaSeats(){
         return cinemaSeats;
     }
     public int getCinemaId(){

@@ -8,6 +8,7 @@
 <%@ page import="com.triaxyd.cinema.Provoles" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.LocalTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,6 +55,7 @@
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
+
 %>
 <input class="logout-button" type="button" value="LOGOUT" onclick="location.href='${pageContext.request.contextPath}/LogOut';">
 <div class="user-info">
@@ -120,43 +122,28 @@
                     <th>Date</th>
                     <th>Starts</th>
                     <th>Ends</th>
+                    <th>Seats Booked</th>
                 </tr>
                 </thead>
                 <tbody>
-                <%if(oldProvoles.isEmpty()){ %>
-                    <div class="provoli-message-text">No Old Provoles</div>
-                <% }else{ %>
-                    <div class="provoli-message">Old Provoles</div>
-                    <% for (Provoles provoli : oldProvoles ) { %>
-                        <tr>
-                            <td><%= provoli.getId() %></td>
-                            <td><%= provoli.getMovieId() %></td>
-                            <td><%= provoli.getMovieName() %></td>
-                            <td><%= provoli.getCinemaId() %></td>
-                            <td><%= provoli.getContentAdminId() %></td>
-                            <td><%= provoli.getDate()%></td>
-                            <td><%= provoli.getStartTime()%></td>
-                            <td><%= provoli.getEndTime()%></td>
-                        </tr>
-                    <% } %>
-                <% } %>
-                <%if(newProvoles.isEmpty()){ %>
-                    <div class="provoli-message-text">No upcoming Provoles</div>
-                <%}else{%>
-                    <div class="provoli-message">Scheduled Provoles</div>
-                    <% for (Provoles provoli : newProvoles ) { %>
+                <%DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); %>
+                <% for (Provoles provoli : provolesList ) { %>
                     <tr>
                         <td><%= provoli.getId() %></td>
                         <td><%= provoli.getMovieId() %></td>
                         <td><%= provoli.getMovieName() %></td>
                         <td><%= provoli.getCinemaId() %></td>
                         <td><%= provoli.getContentAdminId() %></td>
-                        <td><%= provoli.getDate()%></td>
+                        <td><%= provoli.getDate().format(dateFormatter)%></td>
                         <td><%= provoli.getStartTime()%></td>
                         <td><%= provoli.getEndTime()%></td>
+                        <%
+                            CinemaDAO cinemaDAO = new CinemaDAO();
+                            int seats = cinemaDAO.getCinema(provoli.getCinemaId()).getCinemaSeats();
+                        %>
+                        <td><%= seats - provoli.getNum_of_seats()%></td>
                     </tr>
-                    <% } %>
-                <%}%>
+                <%} %>
                 </tbody>
             </table>
         </div>
@@ -191,7 +178,7 @@
                     <option value="18:00">18:00</option>
                     <option value="18:30">18:30</option>
                     <option value="19:00">19:00</option>
-                    <option value="19.30">19.30</option>
+                    <option value="19:30">19.30</option>
                     <option value="20:00">20:00</option>
                     <option value="20:30">20:30</option>
                     <option value="21:00">21:00</option>

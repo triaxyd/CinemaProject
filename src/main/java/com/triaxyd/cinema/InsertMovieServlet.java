@@ -31,7 +31,7 @@ public class InsertMovieServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+destPage);
                 return;
             }
-            String title = request.getParameter("title").toUpperCase();
+            String title = request.getParameter("title").toUpperCase().trim();
             String content = request.getParameter("content");
             String sLength = request.getParameter("length");
             String type = request.getParameter("type");
@@ -40,7 +40,7 @@ public class InsertMovieServlet extends HttpServlet {
             String content_admin_ID = request.getParameter("content_admin_id");
 
             CinemaDAO cinemaDAO = new CinemaDAO();
-            int id = cinemaDAO.generateID(title,content_admin_ID);
+            int id = cinemaDAO.generateID(title);
 
             int content_admin_id = Integer.parseInt(content_admin_ID);
             int length = Integer.parseInt(sLength);

@@ -17,8 +17,8 @@ import java.util.List;
 public class CinemaDAO {
 
 
-    public int generateID(String x, String y) {
-        String combination = (x.toUpperCase().trim() + "" + y.toUpperCase()).trim();
+    public int generateID(String x) {
+        String combination = (x.toUpperCase().trim());
         byte[] hashBytes = getSHA256Hash(combination);
         return bytesToInt(hashBytes);
     }
@@ -85,7 +85,7 @@ public class CinemaDAO {
     }
 
 
-
+    /*
     public boolean checkProvoliExists(int movieId,int cinemaId){
         String movieName = null;
         CinemaDAO cinemaDAO = new CinemaDAO();
@@ -109,6 +109,8 @@ public class CinemaDAO {
 
         return false;
     }
+
+     */
 
     public boolean checkProvoliExists(int movieId,int cinemaId,LocalDate date, LocalTime time){
         String movieName = null;
@@ -162,6 +164,8 @@ public class CinemaDAO {
         }
         return null;
     }
+
+    /*
     public Provoles getProvoli(int movieId,int cinemaId){
         for(Provoles p : getProvoles()){
             if(movieId==p.getMovieId()){
@@ -172,6 +176,8 @@ public class CinemaDAO {
         }
         return null;
     }
+
+     */
 
     public Provoles getProvoli(int movieId,int cinemaId,LocalDate date,LocalTime time){
         for(Provoles p : getProvoles()){
@@ -189,7 +195,7 @@ public class CinemaDAO {
         List<Movies> movies = new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from movies order by NAME";
+            String sql = "SELECT * FROM movies ORDER BY NAME";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -218,14 +224,14 @@ public class CinemaDAO {
         List<Cinemas> cinemas= new ArrayList<Cinemas>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from cinemas";
+            String sql = "SELECT * FROM cinemas";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Cinemas cinema = new Cinemas();
                 cinema.setCinemaId(rs.getInt("ID"));
                 cinema.setCinemaName(rs.getString("NAME"));
-                cinema.setCinemaSeats(rs.getString("SEATS"));
+                cinema.setCinemaSeats(rs.getInt("SEATS"));
                 cinema.setCinemaIs3d(rs.getString("3D"));
 
                 cinemas.add(cinema);
@@ -245,7 +251,7 @@ public class CinemaDAO {
         List<Reservations> reservations = new ArrayList<>();
         try {
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from reservations";
+            String sql = "SELECT * FROM reservations ORDER BY PROVOLES_DATE ASC , PROVOLES_TIME ASC";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -269,24 +275,14 @@ public class CinemaDAO {
         return reservations;
     }
 
-    public int getReservationsForProvoli(int provoliId){
-        CinemaDAO cinemaDAO = new CinemaDAO();
-        int sumReservations = 0;
-        for (Reservations r : getReservations()){
-            Provoles pr = cinemaDAO.getProvoli(r.getProvoles_movies_id(),r.getProvoles_cinemas_id());
-            if(provoliId==pr.getId()) {
-                sumReservations += r.getNum_of_seats();
-            }
-        }
-        return sumReservations;
-    }
+
 
 
     public static List<Provoles> getProvoles(){
         List<Provoles> provoles= new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT * from provoles order by PROVOLI_DATE ";
+            String sql = "SELECT * FROM PROVOLES ORDER BY PROVOLI_DATE ASC , PROVOLI_START_TIME ASC ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -313,11 +309,12 @@ public class CinemaDAO {
     }
 
 
+    /*
     public List<LocalDate> getDatesForMovie(int movieId){
         List<LocalDate> dateList = new ArrayList<>();
         try{
             Connection connection = DatabaseConnector.connect();
-            String sql = "SELECT PROVOLI_DATE from provoles where MOVIES_NAME = ? order by PROVOLI_DATE ";
+            String sql = "SELECT PROVOLI_DATE from provoles where MOVIES_NAME = ? ORDER BY PROVOLI_DATE AND PROVOLI_START_TIME  ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,movieId);
             ResultSet rs = ps.executeQuery();
@@ -334,6 +331,34 @@ public class CinemaDAO {
         return dateList;
     }
 
+     */
+
+
+
+    public List<Reservations> getReservationsForUser(int customerId) {
+        List<Reservations> reservationsList = new ArrayList<>();
+
+        for(Reservations r : getReservations()){
+            if(r.getCustomers_id()==customerId){
+                reservationsList.add(r);
+            }
+        }
+        return reservationsList;
+    }
+
+
+    public List<Reservations> getReservationsForProvoli(int provoliId){
+        List<Reservations> reservationsList = new ArrayList<>();
+        Provoles provoli = getProvoli(provoliId);
+        for(Reservations r : getReservations()){
+            if(r.getProvoles_movies_id()==provoli.getMovieId() && r.getProvoles_cinemas_id()==provoli.getCinemaId()
+                && r.getDate().equals(provoli.getDate()) && r.getTime().equals(provoli.getStartTime())){
+                reservationsList.add(r);
+            }
+        }
+
+        return reservationsList;
+    }
 
 
 

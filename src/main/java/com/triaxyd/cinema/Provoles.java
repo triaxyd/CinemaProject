@@ -46,7 +46,7 @@ public class Provoles {
     public int setTotalSeats(){
         CinemaDAO cinemaDAO = new CinemaDAO();
         Cinemas cinema = cinemaDAO.getCinema(cinemaId);
-        num_of_seats = Integer.parseInt(cinema.getCinemaSeats());
+        num_of_seats = cinema.getCinemaSeats();
         return num_of_seats;
     }
 

@@ -6,7 +6,6 @@ import com.triaxyd.cinema.Provoles;
 import com.triaxyd.cinema.Reservations;
 import com.triaxyd.database.DatabaseConnector;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,8 +23,6 @@ public class ContentAdmins extends Users {
     public void setId(int id){this.id=id;}
     public String getName(){return name;}
     public int getId(){return this.id;}
-    public void login(){}
-    public void logout(){}
 
 
     public Movies insertMovie(int id,String title,String content,int length,String type,String summary,String director,int content_admin_id){
@@ -78,7 +75,9 @@ public class ContentAdmins extends Users {
             if(p.getDate().equals(date) && p.getCinemaId()==cinemaId){
                 LocalTime existingStartTime = p.getStartTime();
                 LocalTime existingEndTime = p.getEndTime();
-                if (startTime.isBefore(existingEndTime) && existingStartTime.isBefore(endTime)) {
+                if ((startTime.isAfter(existingStartTime) && startTime.isBefore(existingEndTime)) ||
+                        (endTime.isAfter(existingStartTime) && endTime.isBefore(existingEndTime)) ||
+                        (endTime.isBefore(existingStartTime) && endTime.isAfter(existingEndTime))) {
                     return null;
                 }
             }
@@ -139,7 +138,7 @@ public class ContentAdmins extends Users {
                 }
             }
 
-            if(!(provoli.getContentAdminId()==content_admin_id)) return "UNAUTHORIZED TO DELETE MOVIE";
+            if(!(provoli.getContentAdminId()==content_admin_id)) return "UNAUTHORIZED TO DELETE PROVOLI";
 
 
             try{
@@ -152,13 +151,12 @@ public class ContentAdmins extends Users {
 
                 return "PROVOLI FOR -"+ provoli.getMovieName() + "- DELETED";
             } catch (SQLException e) {
-                e.printStackTrace();
+                return "PROVOLI COULD NOT BE DELETED";
             }
 
         }catch(NumberFormatException e){
             return "WRONG INPUT";
         }
-        return "";
     }
 
 

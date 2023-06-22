@@ -20,7 +20,7 @@ public class DeleteUserServlet extends HttpServlet {
         String destPage;
         try{
             HttpSession session = request.getSession(false);
-            Users user = (Users) session.getAttribute("user");
+            Users user = (Users)session.getAttribute("user");
             destPage = "/jsp/homeAdmin.jsp";
             if(user==null){
                 destPage = "/index.jsp";
@@ -39,6 +39,7 @@ public class DeleteUserServlet extends HttpServlet {
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.setHeader("Pragma", "no-cache");
             response.setDateHeader("Last-Modified", (new Date()).getTime());
+
             String encodedMessage = URLEncoder.encode(resultDelete, "UTF-8");
             String redirectURL = request.getContextPath()+destPage + "?resultdelete=" + encodedMessage;
             response.sendRedirect(redirectURL);
