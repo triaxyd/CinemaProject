@@ -25,8 +25,8 @@
     <%}%>
     <h2>Login</h2>
     <form class="login-form" action="${pageContext.request.contextPath}/UsersLogin" method="POST" id="login-form">
-        <input type="text" placeholder="Username" name="username" id="username" maxlength="25">
-        <input type="password" placeholder="Password" name="password" id="password" maxlength="25">
+        <input type="text" placeholder="Username" name="username" id="username" maxlength="32">
+        <input type="password" placeholder="Password" name="password" id="password" maxlength="32">
         <div id="error-message"></div>
         <button type="submit">Login</button>
     </form>
@@ -34,7 +34,6 @@
         Don't have an account? <a href="jsp/signUp.jsp">Register</a>
     </div>
 </div>
-<script>window.history.forward();</script>
 <script src="<%= request.getContextPath() %>/js/indexJs.js"></script>
 </body>
 

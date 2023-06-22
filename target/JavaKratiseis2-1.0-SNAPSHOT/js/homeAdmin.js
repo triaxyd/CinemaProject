@@ -3,17 +3,32 @@ window.history.replaceState({}, document.title, originalUrl);
 
 
 function openForm(formId) {
-    const result_container_search = document.getElementById('result-container-search');
-    const result_container_delete = document.getElementById('result-container-delete');
-    const result_container_add = document.getElementById('result-container-add');
-
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
         form.classList.add('hidden');
     });
 
+
     const selectedForm = document.getElementById(formId);
     selectedForm.classList.remove('hidden');
 
     selectedForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const form = document.getElementById('add-user');
+    form.addEventListener('submit', checkForm); // Remove the parentheses after checkForm
+
+    function checkForm(event) {
+        event.preventDefault();
+        const passwordInput = document.getElementById('password-add');
+        const password = passwordInput.value;
+        const validPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+        if (!validPassword.test(password)) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = 'Password must contain at least 1 special character and number';
+            return;
+        }
+        form.submit();
+    }
 }
+

@@ -7,8 +7,10 @@ body {
     background: rgba(20,05,05,0.9);
 }
 
-h1{
+.welcome-admin{
     color:#cbb;
+    font-size: 2rem;
+    padding:1.5rem;
 }
 
 .container {
@@ -107,6 +109,24 @@ button[type="submit"] {
 #result-container-search{
     padding: 1em;
     color: #fff;
+}
+
+
+.error-message{
+    color:#A05050;
+    text-align: center;
+    padding:0.5rem;
+}
+
+
+.type-of-info{
+    font-size: 1.5rem;
+    color: #703030;
+    padding:1rem;
+
+}
+.option-of-info{
+    padding:1rem;
 }
 
 

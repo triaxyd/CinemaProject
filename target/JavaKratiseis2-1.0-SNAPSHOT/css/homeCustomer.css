@@ -407,6 +407,19 @@ background: #baa;
     margin-bottom: 0.2rem;
 }
 
+.container {
+    text-align: center;
+}
+
+.message {
+    display: inline-block;
+    text-align: center;
+    font-size: 1.5rem;
+    box-shadow: 0rem 0.1rem 0.75rem rgb(100, 20, 20);
+    font-family: math;
+    margin: 0 auto;
+}
+
 
 
 

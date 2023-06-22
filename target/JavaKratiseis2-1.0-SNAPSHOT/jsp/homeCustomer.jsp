@@ -34,6 +34,7 @@
         session.invalidate();
         return;
     }
+
     String userName = user.getUsername();
     String userRole = null;
     String userId = null;
@@ -51,11 +52,10 @@
     List<Movies> moviesList = CinemaDAO.getMovies();
     List<Provoles> provolesList = CinemaDAO.getProvoles();
     List<Cinemas> cinemasList = CinemaDAO.getCinemas();
-    List<Reservations> reservationsList = CinemaDAO.getReservations();
-    CinemaDAO cinemaDAO = new CinemaDAO();
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
+    List<Reservations> reservationsList = CinemaDAO.getReservations();
 %>
 
 
@@ -70,10 +70,9 @@
             <li><a href="#movies">Movies</a></li>
             <li><a href="#provoles">Provoles</a></li>
             <li><a href="#you">You</a></li>
-            <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
-    <div class="welcome">WELCOME TO CIN3MAS, <%=userName%></div>
+    <div class="welcome">WELCOME TO CIN3MAS, <%=user.getUsername()%></div>
     <nav class="logout">
         <ul>
             <li>
@@ -85,6 +84,15 @@
 
 <section id="movies">
     <h2>Movies</h2>
+    <%
+        String message = request.getParameter("message");
+        if(message!=null){
+    %>
+        <div class="container">
+            <div class="message"><%=message.toUpperCase()%></div>
+        </div>
+    <%}%>
+
     <div class="display-movies-container">
         <div class="movie-box">
         <% int m =0; %>
@@ -160,26 +168,14 @@
             </tr>
             </thead>
             <tbody>
-            <% int count = 0; %>
-            <% for (Reservations r : reservationsList) { %>
-                <% if (r.getCustomers_id() == user.getId()) { %>
-                    <% count++;%>
-                    <tr>
-                        <td><%= r.getProvoles_movies_name() %></td>
-                        <td><%= r.getDate()%></td>
-                        <td><%= r.getTime()%></td>
-                        <td><%= r.getProvoles_cinemas_id() %></td>
-                        <td><%= r.getNum_of_seats() %></td>
-                    </tr>
-                <% } %>
-            <% } %>
-            <% if(count==0) { %>
+            <%CinemaDAO cinemaDAO = new CinemaDAO(); %>
+            <% for (Reservations r : cinemaDAO.getReservationsForUser(user.getId())) { %>
                 <tr>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
+                    <td><%= r.getProvoles_movies_name() %></td>
+                    <td><%= r.getDate().format(dateFormatter)%></td>
+                    <td><%= r.getTime() %></td>
+                    <td><%= r.getProvoles_cinemas_id() %></td>
+                    <td><%= r.getNum_of_seats() %></td>
                 </tr>
             <% } %>
             </tbody>
@@ -188,12 +184,10 @@
 </section>
 
 
-<section id="contact">
-    <h2>Contact</h2>
-        <div class="contact-container">
-            <div class="contact-name">@Triantafyllos Xydis   triantafyllosxyd@gmail.com</div>
-        </div>
-</section>
+
+<div class="contact-container">
+    <div class="contact-name">@Triantafyllos Xydis   triantafyllosxyd@gmail.com</div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="<%= request.getContextPath() %>/js/homeCustomer.js"></script>

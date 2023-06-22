@@ -1,6 +1,8 @@
 <%@ page import="com.triaxyd.users.Users" %>
 <%@ page import="com.triaxyd.users.UserDAO" %>
 <%@ page import="com.triaxyd.cinema.CinemaDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.triaxyd.cinema.Reservations" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -40,8 +42,9 @@
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
+    List<Reservations> reservationsList = CinemaDAO.getReservations();
 %>
-
+<div class="welcome-admin">ADMIN PAGE - <%=user.getName()%></div>
 <div class="sidebar">
     <ul>
         <li><a href="#" onclick="openForm('search-user')">Search User</a></li>
@@ -52,7 +55,6 @@
 </div>
 
 <div class="content">
-    <h1>Admin Page</h1>
 
     <form id="search-user" class="hidden" method="post" action="${pageContext.request.contextPath}/SearchUser" >
         <h2>Search User</h2>
@@ -66,20 +68,21 @@
     <form id="add-user" class="hidden" method="post" action="${pageContext.request.contextPath}/AddUser">
         <h2>Add a New User</h2>
         <label for="name-add">Name:</label>
-        <input type="text" id="name-add" name="name-add" required>
+        <input type="text" maxlength="45" id="name-add" name="name-add" required>
         <label for="username-add">Username:</label>
-        <input type="text" id="username-add" name="username-add" required>
+        <input type="text" maxlength="32" id="username-add" name="username-add" required>
         <label for="email-add">Email:</label>
-        <input type="text" id="email-add" name="email-add" required>
+        <input type="text" maxlength="32" id="email-add" name="email-add" required>
         <label for="password-add">Password: </label>
-        <input type="password" id="password-add" name="password-add" required>
+        <input type="password" maxlength="32" id="password-add" name="password-add" required>
         <label for="role-add">Role:</label>
         <select id="role-add" name="role-add" required>
             <option value="Customer" selected>Customer</option>
             <option value="ContentAdmin">ContentAdmin</option>
             <option value="Admin">Admin</option>
         </select>
-        <button type="submit">Add User</button>
+        <div class="error-message" id="error-message"></div>
+        <button type="submit" id="submit-button" name="submit-button">Add User</button>
     </form>
 
     <form id="delete-user" class="hidden" method="post" action="${pageContext.request.contextPath}/DeleteUser">
@@ -100,38 +103,46 @@
             String not_found = request.getParameter("not-found");
         %>
         <% if (username != null) { %>
-            <h2>User Information</h2>
-            <p>Username: <%= username %></p>
-            <p>Name: <%= name %></p>
-            <p>Email: <%= email %></p>
-            <p>Role: <%=role%></p>
-            <p>Registered at: <%= creation %></p>
-            <p>ID: <%= id %></p>
+            <div class="type-of-info">User Information</div>
+            <div class="option-of-info">Username: <%= username %></div>
+            <div class="option-of-info">Name: <%= name %></div>
+            <div class="option-of-info">Email: <%= email %></div>
+            <div class="option-of-info">Role: <%= role %></div>
+            <div class="option-of-info">Registered at: <%= creation %></div>
+            <div class="option-of-info">ID: <%= id %></div>
+            <%
+                UserDAO userDAO = new UserDAO();
+                CinemaDAO cinemaDAO = new CinemaDAO();
+                int count=0;
+                for(Reservations r : cinemaDAO.getReservationsForUser(userDAO.getUser(username).getId())){
+                    count++;
+                }
+            %>
+            <div class="option-of-info">Resevations: <%=count%> </div>
         <%} else if (not_found!=null) { %>
-            <h2>User Information</h2>
-            <p>User not found</p>
+            <div class="type-of-info">User Information</div>
+            <div class="option-of-info">User not found</div>
         <%} %>
 
     </div>
+
+    <% String resultadd = request.getParameter("resultadd"); %>
+    <% if (resultadd != null) { %>
+    <div id="result-container-add">
+        <div class="type-of-info">Added User</div>
+        <div class="option-of-info">${param.resultadd}</div>
+        <%request.removeAttribute("resultadd");%>
+    </div>
+    <% } %>
 
     <% String resultdelete = request.getParameter("resultdelete"); %>
 
     <% if (resultdelete != null) { %>
     <div id="result-container-delete">
-        <h2>Deleted User</h2>
-        ${param.resultdelete}
+        <div class="type-of-info">Deleted User</div>
+        <div class="option-of-info">${param.resultdelete}</div>
         <%request.removeAttribute("resultdelete"); %>
     </div>
-    <% } %>
-
-
-    <% String resultadd = request.getParameter("resultadd"); %>
-    <% if (resultadd != null) { %>
-        <div id="result-container-add">
-            <h2>Added User</h2>
-            ${param.resultadd}
-            <%request.removeAttribute("resultadd");%>
-        </div>
     <% } %>
 </div>
 
