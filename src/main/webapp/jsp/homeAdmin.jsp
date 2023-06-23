@@ -3,6 +3,8 @@
 <%@ page import="com.triaxyd.cinema.CinemaDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.triaxyd.cinema.Reservations" %>
+<%@ page import="com.triaxyd.cinema.Movies" %>
+<%@ page import="com.triaxyd.cinema.Provoles" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -112,13 +114,27 @@
             <div class="option-of-info">ID: <%= id %></div>
             <%
                 UserDAO userDAO = new UserDAO();
+                Users searchedUser = userDAO.getUser(username);
                 CinemaDAO cinemaDAO = new CinemaDAO();
-                int count=0;
-                for(Reservations r : cinemaDAO.getReservationsForUser(userDAO.getUser(username).getId())){
-                    count++;
-                }
+                if(searchedUser.getRole().equals("Customer")){
+                    int count=0;
+                    for(Reservations r : cinemaDAO.getReservationsForUser(userDAO.getUser(username).getId())){
+                        count++;
+                    }
             %>
-            <div class="option-of-info">Resevations: <%=count%> </div>
+                    <div class="option-of-info">Resevations: <%=count%> </div>
+                <%} else if (searchedUser.getRole().equals("ContentAdmin")) {
+                        int countMovies = 0;
+                        int countProvoles = 0;
+                        for(Movies m : cinemaDAO.getMoviesForContentAdmin(searchedUser)){
+                            countMovies++;
+                        }
+                        for(Provoles p : cinemaDAO.getProvolesForContentAdmin(searchedUser)){
+                            countProvoles++;
+                        }
+                %>  <div class="option-of-info">Movies Added: <%=countMovies%> </div>
+                    <div class="option-of-info">Provoles Added: <%=countProvoles%> </div>
+                <%}%>
         <%} else if (not_found!=null) { %>
             <div class="type-of-info">User Information</div>
             <div class="option-of-info">User not found</div>

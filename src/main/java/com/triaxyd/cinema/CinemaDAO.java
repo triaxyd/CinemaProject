@@ -1,6 +1,7 @@
 package com.triaxyd.cinema;
 
 import com.triaxyd.database.DatabaseConnector;
+import com.triaxyd.users.Users;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -360,8 +361,29 @@ public class CinemaDAO {
         return reservationsList;
     }
 
+    public List<Movies> getMoviesForContentAdmin(Users contentAdmin){
+        List<Movies> moviesList = new ArrayList<>();
+        for (Movies m : getMovies()){
+            if(m.getMovieContentAdminID()==contentAdmin.getId()){
+                moviesList.add(m);
+            }
+        }
 
+        return moviesList;
+    }
 
+    public List<Provoles> getProvolesForContentAdmin(Users contentAdmin){
+        List<Provoles> provolesList = new ArrayList<>();
+        for(Provoles p : getProvoles()){
+            if(p.getContentAdminId()==contentAdmin.getId()){
+                provolesList.add(p);
+            }
+        }
+        return provolesList;
+    }
 
 
 }
+
+
+

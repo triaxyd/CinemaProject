@@ -1,5 +1,7 @@
 package com.triaxyd.users;
 
+import com.triaxyd.cinema.Movies;
+import com.triaxyd.cinema.Provoles;
 import com.triaxyd.cinema.Reservations;
 import com.triaxyd.cinema.CinemaDAO;
 
@@ -48,13 +50,23 @@ public class Admins extends Users {
         if (user==null) return "User " + " not found";
 
         CinemaDAO cinemaDAO = new CinemaDAO();
-        List<Reservations> reservations = cinemaDAO.getReservationsForUser(user.getId());
-
-        for(Reservations r: reservations){
-            return "User has reservations";
+        if(user.getRole().equals("Customer")){
+            List<Reservations> reservations = cinemaDAO.getReservationsForUser(user.getId());
+            for(Reservations r: reservations){
+                return "Customer " + username + " has reservations";
+            }
+        } else if (user.getRole().equals("ContentAdmin")) {
+            List<Movies> movies = cinemaDAO.getMoviesForContentAdmin(user);
+            for(Movies m: movies){
+                return "Content Admin with ID:" +user.getId()+" has created Movies";
+            }
+            List<Provoles> provoles = cinemaDAO.getProvolesForContentAdmin(user);
+            for(Provoles p : provoles){
+                return "Content Admin with ID:"+user.getId()+ " has created Provoles";
+            }
         }
-
         if(user.getRole().equals("Admin")) return "Cannot delete ADMIN";
+
         if(userDAO.deleteUser(user)){
             return username + " deleted";
         }else{

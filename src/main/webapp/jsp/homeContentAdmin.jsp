@@ -122,6 +122,7 @@
                     <th>Date</th>
                     <th>Starts</th>
                     <th>Ends</th>
+                    <th>Capacity</th>
                     <th>Seats Booked</th>
                 </tr>
                 </thead>
@@ -139,6 +140,9 @@
                         <td><%= provoli.getEndTime()%></td>
                         <%
                             CinemaDAO cinemaDAO = new CinemaDAO();
+                        %>
+                        <td><%=cinemaDAO.getCinema(provoli.getCinemaId()).getCinemaSeats()%></td>
+                        <%
                             int seats = cinemaDAO.getCinema(provoli.getCinemaId()).getCinemaSeats();
                         %>
                         <td><%= seats - provoli.getNum_of_seats()%></td>
