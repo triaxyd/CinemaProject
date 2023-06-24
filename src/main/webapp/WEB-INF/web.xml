@@ -27,6 +27,22 @@
         <servlet-name>DeleteProvoli</servlet-name>
         <url-pattern>/DeleteProvoli</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddUser</servlet-name>
+        <url-pattern>/AddUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/DeleteUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchUser</servlet-name>
+        <url-pattern>/SearchUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MakeReservation</servlet-name>
+        <url-pattern>/MakeReservation</url-pattern>
+    </servlet-mapping>
 
 
     <listener>
