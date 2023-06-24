@@ -3,6 +3,14 @@ var originalUrl = window.location.href.split('?')[0];
 window.history.replaceState({}, document.title, originalUrl);
 
 
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+
 
 document.addEventListener("DOMContentLoaded", function(){
 

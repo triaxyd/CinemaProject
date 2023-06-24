@@ -46,7 +46,7 @@
     response.setDateHeader("Expires", 0);
     List<Reservations> reservationsList = CinemaDAO.getReservations();
 %>
-<div class="welcome-admin">ADMIN PAGE - <%=user.getName()%></div>
+<div class="welcome-admin"><%=user.getName()%></div>
 <div class="sidebar">
     <ul>
         <li><a href="#" onclick="openForm('search-user')">Search User</a></li>

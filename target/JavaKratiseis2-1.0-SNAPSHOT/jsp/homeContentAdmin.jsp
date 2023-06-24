@@ -57,13 +57,17 @@
     response.setDateHeader("Expires", 0);
 
 %>
-<input class="logout-button" type="button" value="LOGOUT" onclick="location.href='${pageContext.request.contextPath}/LogOut';">
-<div class="user-info">
-    <div class="welcome-id">ID: <%=userId%></div>
-    <div class="welcome-username">USERNAME: <%=userName%></div>
+<div class="top-bar" onclick="scrollToTop()">
+    <div class="user-info" >
+        <div class="welcome-id">ID: <%=userId%></div>
+        <div class="welcome-username">USERNAME: <%=userName%></div>
+    </div>
+    <input class="logout-button" type="button" value="LOGOUT" onclick="location.href='${pageContext.request.contextPath}/LogOut';">
 </div>
-<div class="action-message">${param.actionmade}</div>
+
+
 <div class="container">
+    <div class="action-message">${param.actionmade}</div>
     <div class="button-container">
         <button id="insert" class="button">INSERT NEW MOVIE</button>
         <button id="assign" class="button">ASSIGN MOVIE TO CINEMA</button>
