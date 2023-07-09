@@ -1,0 +1,105 @@
+:root {
+    --background-image-url: url('../images/deadpool.jpg');
+    --background-brightness: 0.7;
+}
+
+body {
+    background-color: rgb(210,200,200);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.background-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    background-image: var(--background-image-url);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(var(--background-brightness)) blur(0.5rem);
+    transition: transform 0.3s ease-in-out;
+}
+
+.background-wrapper:hover .background-image {
+    transform: scale(1.5);
+}
+
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 1rem;
+    box-shadow: 0 0 5rem rgba(0, 0, 0, 1);
+    text-align: center;
+    width: 30%;
+    color: #543C8C;
+}
+
+
+
+
+h2 {
+    margin-top: 0;
+    font-size: 2rem;
+}
+
+.message{
+    color: #A05050;
+    padding: 1em;
+    margin-bottom: 15px;
+}
+
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #543C8C;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register-link {
+    margin-top: 15px;
+    color: #543C8C;
+}
+
+.register-link a {
+    color: #543C8C;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+#error-message {
+    color: #A05050;
+    font-size: 14px;
+    margin: 5px;
+
+}
+
